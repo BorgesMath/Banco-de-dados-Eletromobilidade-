@@ -34,6 +34,7 @@ from .pipeline import CHAVE_TEMPO, CHAVE_UF, enriquecer, paineis, periodos_por_a
 from .qualidade import AJUSTE_ESCALA, assinatura, escala_suspeita, meses_repetidos, todas_multiplas_de_10
 from .texto import normalizar
 from .tipos import classificar_tipo
+from .ufs import resolver_uf
 
 log = logging.getLogger(__name__)
 
@@ -41,13 +42,17 @@ CLASSES_DETALHE = CLASSES_ELETRIFICADAS_MODELO + ("hibrido_leve",)
 _CHAVE_DETALHE = ["uf", "municipio", "marca_modelo", "ano_fabricacao", "classe", "regra"]
 _CHAVE_TOTAIS = ["uf", "municipio", "classe"]
 _CHAVE_MODELOS = ["marca_modelo_norm", "classe", "regra"]
+_VALORES_MODELOS = ["qtd_veiculos", "qtd_sem_uf"]
+# sobe quando o formato dos agregados muda, para o cache antigo não ser reaproveitado
+_VERSAO_CACHE = 2
 
 
-def _somar(partes: list[pd.DataFrame], chave: list[str]) -> pd.DataFrame:
+def _somar(partes: list[pd.DataFrame], chave: list[str], valores: list[str] | None = None) -> pd.DataFrame:
+    valores = valores or ["qtd_veiculos"]
     if not partes:
-        return pd.DataFrame(columns=chave + ["qtd_veiculos"])
+        return pd.DataFrame(columns=chave + valores)
     return (pd.concat(partes, ignore_index=True)
-            .groupby(chave, dropna=False, observed=True)["qtd_veiculos"].sum().reset_index())
+            .groupby(chave, dropna=False, observed=True)[valores].sum().reset_index())
 
 
 def agregar_arquivo(caminho: str | Path, classificador: ClassificadorModelos | None = None,
@@ -64,20 +69,26 @@ def agregar_arquivo(caminho: str | Path, classificador: ClassificadorModelos | N
         sel = bloco[bloco["classe"].isin(CLASSES_DETALHE)]
         detalhe.append(sel.groupby(_CHAVE_DETALHE, dropna=False, observed=True)["qtd_veiculos"].sum().reset_index())
         totais.append(bloco.groupby(_CHAVE_TOTAIS, dropna=False, observed=True)["qtd_veiculos"].sum().reset_index())
-        modelos.append(bloco.groupby(_CHAVE_MODELOS, dropna=False, observed=True)["qtd_veiculos"].sum().reset_index())
+        # a frota sem UF válida, à parte, para comparar modelo a modelo só nas UFs válidas
+        uf_valida = bloco["uf"].map({uf: resolver_uf(uf) is not None for uf in bloco["uf"].unique()})
+        bloco["qtd_sem_uf"] = bloco["qtd_veiculos"].where(~uf_valida.astype(bool), 0)
+        modelos.append(bloco.groupby(_CHAVE_MODELOS, dropna=False, observed=True)[_VALORES_MODELOS].sum()
+                       .reset_index())
         log.debug("%s: %d linhas lidas", Path(caminho).name, linhas)
     log.info("%s: %d linhas", Path(caminho).name, linhas)
     agregado = {
         "detalhe": _somar(detalhe, _CHAVE_DETALHE),
         "totais": _somar(totais, _CHAVE_TOTAIS),
-        "modelos": _somar(modelos, _CHAVE_MODELOS),
+        "modelos": _somar(modelos, _CHAVE_MODELOS, _VALORES_MODELOS),
     }
     ajuste = None
     if escala_suspeita(multiplas_de_10, positivos):
         ajuste = AJUSTE_ESCALA
         log.warning("%s: %s.", Path(caminho).name, ajuste)
         for tabela in agregado.values():
-            tabela["qtd_veiculos"] = tabela["qtd_veiculos"] // 10
+            for coluna in ("qtd_veiculos", "qtd_sem_uf"):
+                if coluna in tabela:
+                    tabela[coluna] = tabela[coluna] // 10
     return {**agregado, "ajuste": ajuste, "linhas": linhas}
 
 
@@ -91,7 +102,8 @@ def agregar_com_cache(caminho: Path, classificador: ClassificadorModelos, cache:
     """``agregar_arquivo`` com cache em Parquet, indexado por arquivo (nome e tamanho) e regras."""
     if cache is None:
         return agregar_arquivo(caminho, classificador, tamanho_bloco)
-    chave = f"{caminho.stem}__{caminho.stat().st_size}__{assinatura_regras(classificador.regras)}"
+    chave = (f"{caminho.stem}__{caminho.stat().st_size}__{assinatura_regras(classificador.regras)}"
+             f"__v{_VERSAO_CACHE}")
     arquivos = {nome: Path(cache) / f"{chave}__{nome}.parquet" for nome in ("detalhe", "totais", "modelos")}
     meta = Path(cache) / f"{chave}__meta.json"
     if meta.exists() and all(a.exists() for a in arquivos.values()):

@@ -21,6 +21,8 @@ Toda armadilha de nome conhecida, e toda regra nova, entra como caso em
 | `test_municipios.py` | Código IBGE, grafias conferidas contra o IBGE, dimensão de município |
 | `test_populacao.py` | Estimativa usada em cada ano, distrito de Ibitiúva, soma de UF e Brasil |
 | `test_publicacao.py` | `publicar`, o `LEIAME.md` e o `DICIONARIO.md` |
+| `test_abve.py` | Decodificação das respostas do Power BI, chave do painel, conferência das fatias contra o total |
+| `test_validacao.py` | Casamento de modelo com a ABVE, crescimento só nas UFs válidas, 2021 pela série, PBE e grupo sem UF |
 
 **Os testes `test_resultados_*`** (em `test_municipios.py`, `test_populacao.py`
 e `test_tipos.py`) leem as tabelas versionadas em `resultados/`: todo município

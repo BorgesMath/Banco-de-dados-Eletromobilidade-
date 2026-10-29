@@ -47,19 +47,14 @@ população junto com frota. Detalhe em `src/eletromobilidade/dados/README.md`, 
 município pelo mesmo código. Ela tem
 5.570 polígonos: falta Boa Esperança do Norte, mais novo que a malha.
 
-## 2. Ampliar a série da base por modelo
+## 2. Ampliar a série da base por modelo — feito (dezembros)
 
-**Por que.** Hoje são dois meses, dez/2020 e set/2026. Não há série temporal por
-marca, modelo ou ano de fabricação — a página 3 do relatório é uma fotografia, e
-a conciliação tem só dois pontos. Com doze meses já se vê a entrada dos modelos
-chineses no tempo, que é a pergunta mais feita sobre o assunto.
-
-**Custo.** Cada mês são ~22 milhões de linhas, 137 MB compactado, cerca de 1,5
-min de processamento, e o cache mensal em `data/interim/` já evita releitura. O
-gargalo é download, não CPU.
-
-**Sugestão.** Dezembro de cada ano desde 2020, mais os meses de 2026. Seis a
-oito meses dão série anual sem o custo de 75.
+**Feito em 29/10/2026**, por decisão do usuário: dezembro de 2020 a 2025 mais
+set/2026, 7 meses. Dá série anual por marca, modelo e ano de fabricação, a
+conciliação com 7 pontos e a validação contra a ABVE ano a ano. Cada mês são ~22
+milhões de linhas e ~130 MB, e cerca de 1,5 min de processamento sem cache. A
+série mensal (todos os meses) continua possível e custaria ~9 GB e ~2 h; não foi
+feita.
 
 ## 3. Tipo de veículo — feito
 
@@ -251,23 +246,28 @@ micro-híbridos. A frota fica 1,5% abaixo: elétrico −0,8%, plug-in −2,2%, h
    HYBRID` de 2018-19, os Mercedes-AMG "EP", os Panamera abreviados (`4EHST`,
    `4EHEX`, `4SEHS`, `TSE-H`, `TSEHS`), o `CAYENNE CPH BE` e os Volvo XC60/XC90
    `INSC EXPRES`; o `CAYENNE S HYBR` de 2011 passou a híbrido. São 4.162 plug-ins
-   leves a mais no crescimento comparável, contra os ~3,2 mil estimados: o
-   excedente é a Volvo, cujo Inscription Express foi inferido T8 sem conferência
-   na base da ABVE, e que pode ter passado do total dela (era −966). Ficaram como
-   combustão o XC40 `INSC EXPRES` (pode ser B5, híbrido leve) e os Cayenne `E CO`,
-   `E OF`, `ET`, `ES` (39 veículos, abreviação ambígua).
+   leves a mais no crescimento comparável, contra os ~3,2 mil estimados; o
+   excedente é a Volvo. A validação modelo a modelo confirmou a inferência: a ABVE
+   conta XC60 e XC90 `INSC EXPRES` como PHEV, e a Volvo fecha a −0,2% (era −2,6%).
+   A ABVE conta **também o XC40 `INSC EXPRES` como PHEV** (59 vendidos), que
+   ficou como combustão aqui: incluí-lo na regra é o próximo ajuste. Os Cayenne
+   `E CO`, `E OF`, `ET`, `ES` (39 veículos) seguem como combustão.
 2. *Fronteira entre híbrido e híbrido leve.* O Tiggo 7 Pro "H"/"HA" é HEV Flex
    para a ABVE (6.253 vendidos desde 2022) e híbrido leve aqui; os Audi "HIBRIDO"
    (3.722) estão no sentido contrário, e a ABVE marca vários como MHEV 48 V.
-3. *Tabela de validação.* A base da ABVE por modelo confere a classificação
-   inteira, não só os casos acima; versioná-la daria um teste externo.
-4. *O grupo sem UF*: publicá-lo como recorte próprio no painel Brasil, ou ao
-   menos separá-lo em `resultados/LEIAME.md`.
-5. *Dizer em `resultados/` qual base vale para cada pergunta.* A divisão
-   plug-in × híbrido convencional vale pela base por modelo, e a série mensal pela
-   base por combustível (ver a segunda ressalva abaixo). Hoje isso está só no
-   README e neste roteiro; o `LEIAME.md` e o `DICIONARIO.md` gerados por
-   `publicar` deveriam dizer o mesmo junto das colunas `frota_hibrido_plug_in`.
+3. ~~*Tabela de validação*~~ — **feito em 29/10/2026.** `eletromobilidade abve`
+   baixa a base da ABVE pela API pública do painel para `data/raw/abve/` (fora do
+   git, por ser dado de terceiro), e `processar` publica a comparação em
+   `validacao_abve_{tecnologia,uf,marca,modelo}`, por ano e acumulada. Modelo a
+   modelo, 848 de 857 textos da ABVE casam com a base (99,9% das vendas), e nos
+   eletrificados 98,6% das vendas têm a mesma classe nas duas fontes. A
+   diferença no total cai com o tempo: −7,9% em 2022, −0,8% em 2025, −0,3% em
+   jan–set/2026.
+4. ~~*O grupo sem UF*~~ — **feito em 29/10/2026**: `modelo_sem_uf`, por mês e
+   classe, e `qtd_sem_uf` em `modelos_classificados`.
+5. ~~*Dizer em `resultados/` qual base vale para cada pergunta*~~ — **feito em
+   29/10/2026**: seções "Qual base usar" e "Validação" do `LEIAME.md`, geradas
+   por `publicar`, e `validacao_pbe` com a cobertura do Inmetro por mês e classe.
 
 ---
 

@@ -21,6 +21,8 @@ tabelas de referência que o pacote lê estão em [`dados/`](dados/README.md).
 | `municipios.py` | Código IBGE do município e dimensão de município |
 | `populacao.py` | Estimativas de população do IBGE por município e mês |
 | `conciliacao.py` | Comparação entre as duas bases |
+| `abve.py` | Cliente da API pública do BI Frotas da ABVE: vendas por período, UF, modelo e tecnologia |
+| `validacao.py` | Base por modelo contra a ABVE (tecnologia, UF, marca, modelo), contra o PBE e o grupo sem UF |
 | `publicacao.py` | Cópia para `resultados/` e geração do `LEIAME.md` e do `DICIONARIO.md` |
 | `texto.py`, `ufs.py` | Normalização de texto e tabela de UFs |
 
@@ -34,10 +36,16 @@ eletromobilidade links --ano 2026
 eletromobilidade baixar --tabela marca_modelo --anos 2026 --meses 9
 eletromobilidade baixar --tabela combustivel --anos 2025 2026
 
-# 3. gerar as bases (lê tudo em data/raw, grava em data/processed)
+# 3. vendas da ABVE, para a validação (até o último mês da base por modelo)
+eletromobilidade abve
+
+# 4. gerar as bases e a validação (lê tudo em data/raw, grava em data/processed)
 eletromobilidade -v processar
 
-# 4. publicar painéis, conciliação e auditorias em resultados/ (versionado)
+# refazer só a validação, sem reprocessar (depois de baixar a ABVE de novo)
+eletromobilidade validar
+
+# 5. publicar painéis, conciliação, validação e auditorias em resultados/ (versionado)
 eletromobilidade publicar
 
 # extrair a tabela PBE Veicular do Inmetro de um PDF de ciclo (só quando sai ciclo novo)
@@ -52,7 +60,9 @@ eletromobilidade populacao
 
 Opções de `processar`: `--desde` (padrão `2020-01`; `--desde ''` usa todos os
 arquivos baixados), `--ate`, `--tabela-combustiveis` e `--regras-modelos` (CSVs
-alternativos às tabelas de `dados/`), `--sem-csv`, `--cache` e `--sem-cache`.
+alternativos às tabelas de `dados/`), `--sem-csv`, `--cache`, `--sem-cache` e
+`--abve` (pasta das vendas da ABVE; sem elas, a validação contra a ABVE não é
+gerada, e as do PBE e do grupo sem UF são).
 
 `processar` monta a base por combustível se houver arquivos de combustível, a
 base por modelo se houver arquivos de marca/modelo e a conciliação para os meses
@@ -143,8 +153,8 @@ O arquivo de marca/modelo é lido em blocos de 1 milhão de linhas; um mês comp
 (~22 milhões de linhas, ~130 MB) leva cerca de 1,5 min. Os agregados mensais da
 base por modelo ficam em cache (`data/interim/marca_modelo/`, opção `--cache`):
 ao acrescentar meses, só os novos são lidos, e mudar as regras de
-`dados/modelos.csv` invalida o cache automaticamente. Uma rodada completa de
-`processar` (76 meses de combustível e 2 de marca/modelo) leva perto de 10 min.
+`dados/modelos.csv` invalida o cache automaticamente. Sem cache, cada mês de
+marca/modelo soma cerca de 1,5 min à rodada de `processar`.
 
 ## Saídas (`data/processed/`)
 
@@ -165,6 +175,11 @@ Parquet. `publicar` copia para `resultados/` as que vão para o repositório.
 | `modelos_classificados` | mês × modelo | Auditoria: classe, regra aplicada, total, `revisar`, marca, PBE, tipo |
 | `modelos_dimensao` | modelo | Dimensão de modelo: grafia do RENAVAM, marca canônica, origem |
 | `conciliacao_{municipio,uf,brasil}` | mês × recorte | Comparação entre as duas bases |
+| `modelo_sem_uf` | mês × classe | O grupo sem UF da base por modelo |
+| `validacao_abve_tecnologia` | período × classe | Vendas da ABVE × crescimento da frota de leves nas UFs válidas |
+| `validacao_abve_{uf,marca}` | período × UF ou marca × classe | Idem, por recorte |
+| `validacao_abve_modelo` | período × modelo | Idem, com a classe da ABVE, a da base e a do PBE |
+| `validacao_pbe` | mês × classe | Cobertura do PBE Veicular e as duas divergências |
 | `qualidade_{combustivel,modelo}` | arquivo mensal | Linhas, frota total, ajustes aplicados e se o mês entrou na série |
 | `municipios_dimensao` | município (código IBGE) | Nome oficial, UF, região e as grafias com que a SENATRAN publicou o município |
 
@@ -193,6 +208,22 @@ Leitura:
   registra a maior parte dos plug-ins como GASOLINA/ELETRICO e conta o híbrido
   leve como híbrido. A soma `hibridos`, e ela mais `hibrido_leve_modelo`, é o
   que se compara.
+
+## Validação contra a ABVE
+
+`eletromobilidade abve` consulta o BI Frotas da ABVE pela mesma API do Power BI
+que o navegador usa, com a chave pública do painel, e grava em `data/raw/abve/`
+as vendas por ano, UF, fabricante, modelo e tecnologia (de 2022 em diante) e a
+série mensal por tecnologia (que cobre 2021). A API corta respostas grandes e
+não pagina, então cada ano é consultado UF a UF e conferido contra o total
+nacional; fatia que não fecha interrompe a coleta.
+
+A comparação é de fluxo contra estoque: vendas de um ano contra o crescimento da
+frota de dezembro a dezembro, só nos leves e nas UFs válidas. O texto do modelo
+da ABVE é o do RENAVAM sem o prefixo `I/` e com espaço no lugar da barra, então o
+casamento modelo a modelo é exato; quando não casa, tenta-se sem o sufixo de
+tecnologia que a ABVE às vezes acrescenta (`... HEV`). A marca da ABVE é a do
+modelo casado, ou o fabricante dela.
 
 Teste das regras num mês antigo (dez/2019, regras calibradas em 2026): frota
 total idêntica; elétricos 4.462 pelo modelo contra 4.367 pelo combustível

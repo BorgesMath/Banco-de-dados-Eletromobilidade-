@@ -6,6 +6,7 @@ regenera a partir da SENATRAN.
 | Pasta | O que tem | Quem escreve |
 |---|---|---|
 | `raw/{tabela}/{ano}/` | Arquivos da SENATRAN como baixados, com o nome original (`combustivel/` ~1 MB por mês, `marca_modelo/` ~130 MB por mês) | `eletromobilidade baixar`, ou cópia manual |
+| `raw/abve/` | Vendas da ABVE (`vendas_abve.parquet`, `serie_abve.parquet`). Dado de terceiro: só a comparação vai para `resultados/` | `eletromobilidade abve` |
 | `raw/ckan_renavam.json` | Última listagem de recursos do CKAN, usada quando a API cai | `baixar` e `links` |
 | `interim/marca_modelo/` | Cache dos agregados mensais da base por modelo | `processar` |
 | `processed/` | Todas as tabelas, em Parquet e CSV | `processar` |

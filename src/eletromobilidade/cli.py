@@ -6,6 +6,8 @@ Exemplos::
     eletromobilidade baixar --tabela marca_modelo --anos 2026 --meses 9
     eletromobilidade baixar --tabela combustivel --anos 2025 2026
     eletromobilidade processar --entrada data/raw --saida data/processed
+    eletromobilidade abve
+    eletromobilidade validar
     eletromobilidade publicar
     eletromobilidade pbev tabela-pbev-2026.pdf --ciclo 2026
     eletromobilidade municipios
@@ -20,7 +22,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from . import coleta, pipeline
+from . import abve, coleta, pipeline
 from .base_modelo import CLASSES_DETALHE, processar_arquivos_modelo
 from .classificacao import carregar_tabela
 from .conciliacao import conciliar_bases
@@ -30,8 +32,10 @@ from .modelos import carregar_regras, marcas_suspeitas
 from .municipios import baixar_municipios_ibge, dimensao_municipio, gravar_municipios, sem_codigo
 from .populacao import baixar_estimativas, gravar_populacao
 from .publicacao import publicar
+from .validacao import validar
 
 RAW = Path("data/raw")
+ABVE = RAW / "abve"
 PROCESSED = Path("data/processed")
 CACHE = Path("data/interim/marca_modelo")
 RESULTADOS = Path("resultados")
@@ -90,6 +94,7 @@ def _processar(args) -> None:
         tabelas |= conciliar_bases(tabelas)
     municipais = [tabelas[n] for n in ("combustivel_municipio", "modelo_municipio") if n in tabelas]
     tabelas["municipios_dimensao"] = dimensao_municipio(municipais)
+    tabelas |= validar(tabelas, abve.carregar(args.abve))
 
     for caminho in pipeline.salvar(tabelas, args.saida, csv=not args.sem_csv):
         print(caminho)
@@ -132,6 +137,27 @@ def _processar(args) -> None:
         if not suspeitas.empty:
             logging.info("Grafias de marca que parecem variante de outra (avalie incluir em "
                          "dados/marcas.csv):\n%s", suspeitas.head(20).to_string(index=False))
+
+
+def _abve(args) -> None:
+    if args.ate:
+        ate = tuple(int(x) for x in args.ate.split("-"))
+    else:
+        # o último mês da base por modelo: as vendas se comparam com o crescimento até ele
+        meses = [inferir_periodo(c) for c in pipeline.localizar_arquivos(RAW, "marca_modelo")]
+        if not meses:
+            raise SystemExit("Sem arquivos de marca/modelo em data/raw; informe --ate AAAA-MM.")
+        ate = max(meses)
+    for caminho in abve.baixar(args.destino, ate):
+        print(caminho)
+
+
+def _validar(args) -> None:
+    nomes = ("modelo_eletrificados", "modelos_classificados", "modelos_dimensao")
+    tabelas = {n: pd.read_parquet(args.entrada / f"{n}.parquet") for n in nomes
+               if (args.entrada / f"{n}.parquet").exists()}
+    for caminho in pipeline.salvar(validar(tabelas, abve.carregar(args.abve)), args.entrada):
+        print(caminho)
 
 
 def _pbev(args) -> None:
@@ -188,7 +214,20 @@ def main(argv: list[str] | None = None) -> None:
     p.add_argument("--cache", type=Path, default=CACHE,
                    help="agregados mensais da base por modelo (padrão: data/interim/marca_modelo)")
     p.add_argument("--sem-cache", action="store_true", help="relê todos os arquivos de marca/modelo")
+    p.add_argument("--abve", type=Path, default=ABVE,
+                   help="vendas da ABVE baixadas por 'abve' (padrão: data/raw/abve); sem elas, não há validação "
+                        "contra a ABVE")
     p.set_defaults(func=_processar)
+
+    p = sub.add_parser("abve", help="baixa as vendas de eletrificados do BI Frotas da ABVE para data/raw/abve")
+    p.add_argument("--ate", help="último mês de vendas, AAAA-MM (padrão: o último mês da base por modelo)")
+    p.add_argument("--destino", type=Path, default=ABVE)
+    p.set_defaults(func=_abve)
+
+    p = sub.add_parser("validar", help="refaz as tabelas de validação a partir de data/processed, sem reprocessar")
+    p.add_argument("--entrada", type=Path, default=PROCESSED)
+    p.add_argument("--abve", type=Path, default=ABVE)
+    p.set_defaults(func=_validar)
 
     p = sub.add_parser("pbev", help="extrai a tabela PBE Veicular do Inmetro de um PDF para dados/pbev.csv")
     p.add_argument("pdf", type=Path, help="PDF do ciclo, baixado de gov.br/inmetro")

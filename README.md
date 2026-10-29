@@ -10,11 +10,11 @@ produto são as tabelas de [`resultados/`](resultados/LEIAME.md).
 | Fonte | O que entra | Como é usada |
 |---|---|---|
 | SENATRAN, frota por UF, município e **combustível** (`D_`, mensal, [gov.br](https://www.gov.br/transportes/pt-br/assuntos/transito/conteudo-Senatran/frota-de-veiculos-2026)) | Contagem por rótulo de combustível do RENAVAM | Base por combustível: a série mensal, jun/2020 a set/2026 |
-| SENATRAN, frota por UF, município, **marca/modelo** e ano de fabricação (`I_`, [CKAN](https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907)) | Texto "Marca Modelo", sem combustível | Base por modelo: tecnologia inferida do nome; dez/2020 e set/2026 |
+| SENATRAN, frota por UF, município, **marca/modelo** e ano de fabricação (`I_`, [CKAN](https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907)) | Texto "Marca Modelo", sem combustível | Base por modelo: tecnologia inferida do nome; dezembro de 2020 a 2025 e set/2026 |
 | IBGE, [API de localidades](https://servicodados.ibge.gov.br/api/docs/localidades) | Código e nome oficial dos 5.571 municípios | Identidade do município |
 | IBGE, Estimativas de População ([SIDRA 6579](https://sidra.ibge.gov.br/tabela/6579)) | População de 1º de julho, por município | Eletrificados por mil habitantes |
 | Inmetro, PBE Veicular (PDF do ciclo) | Propulsão declarada pelo fabricante, versão por versão | Auditoria da classificação por modelo e tipo de veículo leve |
-| ABVE, [BI Frotas](https://abve.org.br/bi-frotas/) | Vendas por modelo e tecnologia | Validação externa, feita uma vez ([`docs/ROTEIRO.md`](docs/ROTEIRO.md), item 8) |
+| ABVE, [BI Frotas](https://abve.org.br/bi-frotas/) | Emplacamentos de eletrificados leves por mês, UF, modelo e tecnologia, pela API pública do painel | Validação externa da base por modelo, por ano, UF, marca e modelo. Só a comparação é publicada |
 
 Os arquivos da SENATRAN não vão para o repositório; as tabelas do IBGE e do
 Inmetro entram como instantâneos versionados em
@@ -23,10 +23,10 @@ Inmetro entram como instantâneos versionados em
 ## Arquitetura
 
 ```
-data/raw/         arquivos da SENATRAN, como baixados        (fora do git)
-   │  eletromobilidade baixar
+data/raw/         arquivos da SENATRAN e vendas da ABVE      (fora do git)
+   │  eletromobilidade baixar | abve
    ▼
-src/eletromobilidade/   coleta, leitura, classificação, conciliação
+src/eletromobilidade/   coleta, leitura, classificação, conciliação, validação
    │  eletromobilidade processar       └─ dados/  tabelas de referência e regras
    ▼
 data/processed/   todas as tabelas, Parquet e CSV            (fora do git)
@@ -50,11 +50,13 @@ agrega, sem reclassificar.
 
 ## Premissas
 
-**Duas bases independentes, conciliadas.** A base por combustível usa o campo
-combustível do RENAVAM: é a contagem oficial e tem série mensal. A base por
-modelo infere a tecnologia do nome do modelo, porque o arquivo de marca/modelo
-não traz combustível: dá marca, modelo, ano de fabricação e tipo de veículo. A
-conciliação compara as duas mês a mês e recorte a recorte.
+**Duas bases independentes, conciliadas e validadas.** A base por combustível
+usa o campo combustível do RENAVAM: é a contagem oficial e tem série mensal. A
+base por modelo infere a tecnologia do nome do modelo, porque o arquivo de
+marca/modelo não traz combustível: dá marca, modelo, ano de fabricação e tipo de
+veículo. A base por modelo é conferida por três lados: contra a base por
+combustível (conciliação), contra o PBE Veicular do Inmetro e contra as vendas
+da ABVE.
 
 **Frota é estoque registrado, não emplacamento.** A variação mensal é saldo, não
 venda. A baixa quase não aparece: os eletrificados leves fabricados até 2018 eram
@@ -72,8 +74,9 @@ uma linha de CSV com nota, cada armadilha é um caso de teste, e o que não casa
 vai para fila de revisão, não para palpite.
 
 **A série começa em jan/2020.** O arquivo por combustível falta de jan a
-mai/2020, então ela começa de fato em jun/2020. A base por modelo tem só dez/2020
-e set/2026, por decisão: ampliar seria a parte cara e inferencial.
+mai/2020, então ela começa de fato em jun/2020. A base por modelo tem os
+dezembros de 2020 a 2025 e set/2026: série anual, que é o que a validação contra
+vendas pede. A série mensal por modelo custaria ~9 GB e ~2 h por rodada.
 
 ## Resultados
 
@@ -104,15 +107,36 @@ habitantes.
 As duas bases concordam no elétrico e no total de híbridos; divergem na divisão
 entre plug-in e híbrido convencional.
 
-**Validação contra as vendas da ABVE.** O crescimento da frota de leves
-eletrificados nas UFs válidas, de dez/2020 a set/2026, pela base por modelo, é
-913.861; a ABVE vendeu 927.581 no mesmo período, sem micro-híbridos: −1,5%
-(elétrico −0,8%, plug-in −2,2%, híbrido −1,3%). Por marca, BYD, GWM, Toyota,
-Omoda Jaecoo e Geely batem a ±0,2%.
+**Validação contra as vendas da ABVE** (crescimento da frota de leves nas UFs
+válidas, pela base por modelo, contra emplacamentos sem micro-híbridos):
+
+| Período | Frota | ABVE | Diferença |
+|---|---:|---:|---:|
+| 2021 | 33.492 | 34.990 | −4,3% |
+| 2022 | 39.610 | 43.005 | −7,9% |
+| 2023 | 80.734 | 82.742 | −2,4% |
+| 2024 | 157.698 | 161.321 | −2,2% |
+| 2025 | 222.048 | 223.896 | −0,8% |
+| jan–set/2026 | 380.279 | 381.609 | −0,3% |
+| **2021 a set/2026** | **913.861** | **927.563** | **−1,5%** |
+
+No acumulado, elétrico −0,8%, plug-in −2,2%, híbrido −1,3%. Por marca, BYD,
+GWM, Toyota, Geely, Volvo, Omoda e Jaecoo batem a ±0,2%. Modelo a modelo, 848 de
+857 textos de modelo da ABVE casam com a base (99,9% das vendas), e nos
+eletrificados 98,6% das vendas têm a mesma classe nas duas fontes. O que diverge
+é a fronteira com o micro-híbrido 48 V (Mercedes, BMW, Land Rover, Audi
+"HIBRIDO", Caoa Chery "H"), que não mexe na frota eletrificada.
 
 O que isso decide: **o rótulo HIBRIDO PLUG-IN do campo combustível pega só 22%
 dos plug-ins vendidos**; o resto entra como híbrido. A divisão PHEV × HEV vale
 pela base por modelo, não pelo campo combustível.
+
+**Contra o PBE Veicular do Inmetro** (set/2026): 78,8% da frota eletrificada da
+base por modelo casa com uma versão do PBE, e só 19 modelos (6.879 veículos) têm
+classe eletrificada que o PBE não registra.
+
+Detalhe por ano, UF, marca e modelo: `resultados/validacao_*`, com o resumo no
+[`LEIAME.md`](resultados/LEIAME.md#validação).
 
 **Composição por tipo** (base por modelo, set/2026): 92,8% da frota eletrificada
 é leve e 6,8% é moto. Entre os elétricos a bateria a moto é 16,9%, e era 66,8% em
@@ -153,8 +177,10 @@ python -m venv .venv && source .venv/bin/activate
 pip install -e ".[dev]"
 
 eletromobilidade baixar --tabela combustivel --anos 2025 2026
+eletromobilidade baixar --tabela marca_modelo --anos 2020 2021 2022 2023 2024 2025 --meses 12
 eletromobilidade baixar --tabela marca_modelo --anos 2026 --meses 9
-eletromobilidade -v processar      # data/raw -> data/processed
+eletromobilidade abve              # vendas da ABVE até o último mês da base por modelo
+eletromobilidade -v processar      # data/raw -> data/processed, com a validação
 eletromobilidade publicar          # data/processed -> resultados/
 pytest
 ```

@@ -38,6 +38,12 @@ PUBLICADAS = {
     "conciliacao_brasil": ("csv", "Comparação combustível x modelo, Brasil, nos meses presentes nas duas bases."),
     "conciliacao_uf": ("csv", "Idem, por UF."),
     "conciliacao_municipio": ("parquet", "Idem, por município."),
+    "modelo_sem_uf": ("csv", "Base por modelo: o grupo sem UF ('Sem Informação') por mês e classe, que o painel do Brasil inclui e o de UF não. Nos eletrificados, tem perfil de estoque ainda não emplacado."),
+    "validacao_abve_tecnologia": ("csv", "Validação externa: vendas da ABVE x crescimento da frota da base por modelo, por período e classe (leves, UFs válidas). 2021 vem da série histórica da ABVE; de 2022 em diante, da base de vendas. A classe 'eletrificada' soma elétrico, plug-in e híbrido."),
+    "validacao_abve_uf": ("csv", "Idem, por UF (de 2022 em diante)."),
+    "validacao_abve_marca": ("csv", "Idem, por marca."),
+    "validacao_abve_modelo": ("parquet", "Idem, modelo a modelo: classe pela ABVE, classe pela base, classes do PBE Veicular e vendas x crescimento. É o teste externo da classificação."),
+    "validacao_pbe": ("csv", "Validação contra o PBE Veicular do Inmetro, por mês e classe: modelos e frota que casam com o PBE e as duas divergências."),
     "qualidade_combustivel": ("csv", "Arquivos mensais da base por combustível: linhas, total, ajustes e inclusão na série."),
     "qualidade_modelo": ("csv", "Idem para a base por modelo."),
 }
@@ -89,6 +95,77 @@ def _commit_atual() -> str:
         return "desconhecido"
 
 
+def _n(valor) -> str:
+    return f"{int(valor):,}".replace(",", ".")
+
+
+def _pct(valor, sinal: bool = True) -> str:
+    return f"{valor:{'+' if sinal else ''}.1%}".replace(".", ",").replace("-", "−")
+
+
+_ROTULOS = {"eletrificada": "Eletrificados", "eletrico": "Elétricos", "hibrido_plug_in": "Plug-in",
+            "hibrido": "Híbridos", "hibrido_leve": "Híbridos leves (fora da frota eletrificada)"}
+
+
+def validacao_leiame(tabelas: dict[str, pd.DataFrame]) -> list[str]:
+    """Resumo das validações e qual base usar para cada pergunta."""
+    linhas = ["", "## Qual base usar", "",
+              "- **Totais, série mensal, UF e município:** `combustivel_*`, contagem do campo combustível do "
+              "RENAVAM.",
+              "- **Plug-in x híbrido convencional, marca, modelo, ano de fabricação e tipo de veículo:** "
+              "`modelo_*`, tecnologia inferida do nome do modelo e validada abaixo. O rótulo HIBRIDO PLUG-IN do "
+              "campo combustível registra só uma parte dos plug-ins; o resto está como híbrido.",
+              "- **Comparar com vendas:** só UFs válidas. O grupo sem UF (`modelo_sem_uf`) entra no Brasil e, "
+              "nos eletrificados, é estoque ainda não emplacado."]
+    t = tabelas.get("validacao_abve_tecnologia")
+    if t is None or t.empty:
+        return linhas
+    linhas += ["", "## Validação", "",
+               "Contra as vendas da ABVE (crescimento da frota de leves nas UFs válidas x emplacamentos; ver "
+               "`validacao_abve_*`):", "",
+               "| Período | " + " | ".join(_ROTULOS.values()) + " |",
+               "|---|" + "---:|" * len(_ROTULOS)]
+    grupos = sorted(t.groupby(["inicio", "fim", "periodo", "fonte_vendas"]),
+                    key=lambda g: (g[0][3] == "acumulado", g[0][0]))
+    for periodo, p in grupos:
+        por_classe = p.set_index("classe")
+        celulas = []
+        for classe in _ROTULOS:
+            if classe in por_classe.index and por_classe.loc[classe, "vendas_abve"] > 0:
+                r = por_classe.loc[classe]
+                celulas.append(f"{_n(r['crescimento_frota'])} / {_n(r['vendas_abve'])} ({_pct(r['razao'] - 1)})")
+            else:
+                celulas.append("—")
+        rotulo = periodo[2] + (" (acumulado)" if periodo[3] == "acumulado" else "")
+        linhas.append(f"| {rotulo} | " + " | ".join(celulas) + " |")
+    linhas.append("")
+    linhas.append("Cada célula: crescimento da frota / vendas da ABVE (diferença).")
+    m = tabelas.get("validacao_abve_modelo")
+    if m is not None and not m.empty:
+        a = m[(m["fonte_vendas"] == "acumulado") & (m["vendas_abve"] > 0)]
+        casados = a[a["casou"]]
+        eletrificados = casados[casados["classe_abve"].isin(("eletrico", "hibrido_plug_in", "hibrido"))]
+        mesma = eletrificados["mesma_classe"].fillna(False).astype(bool)
+        linhas.append("")
+        linhas.append(f"Modelo a modelo ({a['periodo'].iloc[0]}): {_n(len(casados))} de {_n(len(a))} textos de "
+                      f"modelo da ABVE casam com a base, "
+                      f"{_pct(casados['vendas_abve'].sum() / a['vendas_abve'].sum(), False)} das vendas; nos "
+                      f"eletrificados, "
+                      f"{_pct(eletrificados.loc[mesma, 'vendas_abve'].sum() / eletrificados['vendas_abve'].sum(), False)}"
+                      " das vendas têm a mesma classe nas duas fontes.")
+    p = tabelas.get("validacao_pbe")
+    if p is not None and not p.empty:
+        ultimo = p[(p["ano"] == p["ano"].max()) & (p["mes"] == p[p["ano"] == p["ano"].max()]["mes"].max())]
+        eletr = ultimo[ultimo["classe"].isin(("eletrico", "hibrido_plug_in", "hibrido"))]
+        linhas.append("")
+        linhas.append(f"Contra o PBE Veicular do Inmetro ({_mes(int(ultimo['ano'].iloc[0]), int(ultimo['mes'].iloc[0]))}): "
+                      f"{_pct(eletr['frota_casada_pbe'].sum() / eletr['frota'].sum(), False)} da frota eletrificada casa "
+                      f"com o PBE; {_n(eletr['modelos_sem_versao_no_pbe'].sum())} modelos e "
+                      f"{_n(eletr['frota_sem_versao_no_pbe'].sum())} veículos com classe que o PBE não registra "
+                      "(ver `validacao_pbe`).")
+    return linhas
+
+
 def leiame(tabelas: dict[str, pd.DataFrame], gerado_em: pd.Timestamp) -> str:
     linhas = [
         "# Resultados",
@@ -136,6 +213,7 @@ def leiame(tabelas: dict[str, pd.DataFrame], gerado_em: pd.Timestamp) -> str:
             ajustes = q[q["ajuste"].fillna("") != ""]
             for r in ajustes.itertuples():
                 linhas.append(f"- Ajuste em {r.arquivo} ({_mes(r.ano, r.mes)}): {r.ajuste}.")
+    linhas += validacao_leiame(tabelas)
     linhas += ["", "## Arquivos", "", "| Arquivo | Linhas | Conteúdo |", "|---|---:|---|"]
     for nome, (formato, descricao) in PUBLICADAS.items():
         if nome in tabelas:
@@ -184,6 +262,10 @@ Auditoria da classificação contra a tabela PBE Veicular do Inmetro
 (propulsão e porte declarados por versão de veículo leve):
 `src/eletromobilidade/dados/pbev.csv`, extraída do PDF do ciclo publicado em
 [Veículos Automotivos (PBE veicular)](https://www.gov.br/inmetro/pt-br/assuntos/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular).
+Validação externa (`validacao_abve_*`): emplacamentos de eletrificados leves do
+[BI Frotas da ABVE](https://abve.org.br/bi-frotas/), consultados pela API pública do
+painel (`eletromobilidade abve`). A base bruta da ABVE não é publicada aqui, só a
+comparação.
 """
 
 CLASSES = {
@@ -220,6 +302,8 @@ _COLUNAS = {
     "eletrificado": "Verdadeiro para eletrico, hibrido_plug_in, hibrido e celula_combustivel.",
     "origem_classificacao": "'tabela' (rótulo listado em combustiveis.csv) ou 'regra' (inferido; revisar).",
     "qtd_veiculos": "Número de veículos registrados.",
+    "qtd_sem_uf": "Parte de qtd_veiculos registrada sem UF válida ('Sem Informação'). Nos eletrificados, tem "
+                  "perfil de estoque ainda não emplacado.",
     "arquivo_origem": "Arquivo da SENATRAN de onde o dado veio.",
     "marca_modelo": "Texto 'Marca Modelo' do RENAVAM, como publicado (prefixo I/ = importado).",
     "marca_modelo_norm": "Marca Modelo normalizado (sem acentos, caixa alta).",
@@ -264,6 +348,37 @@ _COLUNAS = {
     "incluido": "Se o mês entrou na série (falso para mês idêntico ao anterior e para mês ausente).",
     "sem_informacao": "frota_sem_informacao / frota_total no mês (fração entre 0 e 1): parte da frota "
                       "sem rótulo de combustível aproveitável, que é o piso de incerteza das participações.",
+    "periodo": "Período de vendas comparado, do primeiro ao último mês (MM/AAAA a MM/AAAA).",
+    "inicio": "Primeiro mês de vendas do período. A frota se compara a partir do mês anterior.",
+    "fim": "Último mês de vendas do período, que é também o instantâneo final da frota.",
+    "fonte_vendas": "'vendas' (base de vendas da ABVE, por modelo e UF), 'serie' (série histórica da ABVE, só "
+                    "Brasil e tecnologia) ou 'acumulado' (todos os períodos somados).",
+    "vendas_abve": "Emplacamentos contados pela ABVE no período.",
+    "crescimento_frota": "Frota da base por modelo no fim do período menos a do mês anterior ao início, nos leves "
+                         "e nas UFs válidas. Compara-se com vendas porque a baixa de eletrificados quase não "
+                         "aparece no RENAVAM.",
+    "diferenca": "crescimento_frota − vendas_abve.",
+    "razao": "crescimento_frota / vendas_abve (nula sem vendas).",
+    "modelo_abve": "Texto do modelo como a ABVE grafa: o do RENAVAM sem o prefixo I/ e com espaço no lugar "
+                   "da barra. É a chave da comparação.",
+    "classe_abve": "Classe que a tecnologia da ABVE indica (BEV elétrico, PHEV plug-in, HEV e HEV FLEX híbrido, "
+                   "MHEV híbrido leve); a de mais vendas, se o modelo tiver mais de uma.",
+    "classes_abve": "Todas as classes com que a ABVE vendeu o modelo no período, separadas por barra vertical.",
+    "classe_db": "Classe que a base por modelo dá ao texto (dados/modelos.csv), no último mês.",
+    "mesma_classe": "Se classe_abve e classe_db coincidem. Nulo quando o modelo não casou ou não teve venda.",
+    "casou": "Se o texto da ABVE foi encontrado na base por modelo.",
+    "modelos": "Número de modelos distintos.",
+    "frota": "Frota da classe no mês.",
+    "frota_casada_pbe": "Frota de modelos que casaram com uma linha do PBE Veicular.",
+    "cobertura_pbe": "frota_casada_pbe / frota (fração entre 0 e 1).",
+    "modelos_sem_versao_no_pbe": "Modelos com classe eletrificada que o PBE não registra para eles.",
+    "frota_sem_versao_no_pbe": "Frota desses modelos (falso positivo provável).",
+    "modelos_pbe_so_eletrificado": "Modelos classificados como combustão cujas versões no PBE são todas "
+                                   "eletrificadas.",
+    "frota_pbe_so_eletrificado": "Frota desses modelos (regra faltando ou geração antiga).",
+    "frota_sem_uf": "Frota da classe registrada sem UF válida.",
+    "frota_brasil": "Frota da classe no Brasil, com o grupo sem UF.",
+    "parte_sem_uf": "frota_sem_uf / frota_brasil (fração entre 0 e 1).",
 }
 
 _INDICADORES = {"total": "frota total", "eletrico": "elétricos", "hibrido_plug_in": "híbridos plug-in",
