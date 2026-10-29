@@ -32,6 +32,10 @@ Auditoria da classificação contra a tabela PBE Veicular do Inmetro
 (propulsão e porte declarados por versão de veículo leve):
 `src/eletromobilidade/dados/pbev.csv`, extraída do PDF do ciclo publicado em
 [Veículos Automotivos (PBE veicular)](https://www.gov.br/inmetro/pt-br/assuntos/avaliacao-da-conformidade/programa-brasileiro-de-etiquetagem/tabelas-de-eficiencia-energetica/veiculos-automotivos-pbe-veicular).
+Validação externa (`validacao_abve_*`): emplacamentos de eletrificados leves do
+[BI Frotas da ABVE](https://abve.org.br/bi-frotas/), consultados pela API pública do
+painel (`eletromobilidade abve`). A base bruta da ABVE não é publicada aqui, só a
+comparação.
 
 ## Classes de tecnologia
 
@@ -310,6 +314,7 @@ Auditoria: cada modelo, classe, regra aplicada, total, marca, marcação 'revisa
 | `classe` | texto | Classe de tecnologia atribuída (ver a tabela de classes). |
 | `regra` | inteiro | Número da linha de modelos.csv que definiu a classe (0 = nenhuma regra; classe padrão combustao). |
 | `qtd_veiculos` | inteiro | Número de veículos registrados. |
+| `qtd_sem_uf` | inteiro | Parte de qtd_veiculos registrada sem UF válida ('Sem Informação'). Nos eletrificados, tem perfil de estoque ainda não emplacado. |
 | `revisar` | lógico | Verdadeiro para modelo de marca com linha eletrificada que não casou com nenhuma regra. |
 | `padrao` | texto | Expressão regular da regra aplicada. |
 | `pbe_classes` | texto | Classes que a linha do modelo tem na tabela PBE Veicular do Inmetro, separadas por barra vertical. Vazio quando o modelo não casou com o PBE (moto, ônibus, caminhão e modelo fora de linha). |
@@ -461,6 +466,113 @@ Idem, por município.
 | `eletrificada_diferenca` | inteiro | Frota eletrificada: diferença modelo − combustível. |
 | `eletrificada_razao` | decimal | Frota eletrificada: razão modelo / combustível (nula se combustível = 0). |
 | `hibrido_leve_modelo` | inteiro | Híbridos leves na base por modelo (sem equivalente na base por combustível). |
+
+### `modelo_sem_uf.csv`
+
+Base por modelo: o grupo sem UF ('Sem Informação') por mês e classe, que o painel do Brasil inclui e o de UF não. Nos eletrificados, tem perfil de estoque ainda não emplacado.
+
+| Coluna | Tipo | Descrição |
+|---|---|---|
+| `ano` | inteiro | Ano do mês de referência do arquivo mensal. |
+| `mes` | inteiro | Mês de referência (1 a 12). |
+| `data_referencia` | data | Primeiro dia do mês de referência (para eixos de tempo). |
+| `classe` | texto | Classe de tecnologia atribuída (ver a tabela de classes). |
+| `frota_sem_uf` | inteiro | Frota da classe registrada sem UF válida. |
+| `frota_brasil` | inteiro | Frota da classe no Brasil, com o grupo sem UF. |
+| `parte_sem_uf` | decimal | frota_sem_uf / frota_brasil (fração entre 0 e 1). |
+
+### `validacao_abve_tecnologia.csv`
+
+Validação externa: vendas da ABVE x crescimento da frota da base por modelo, por período e classe (leves, UFs válidas). 2021 vem da série histórica da ABVE; de 2022 em diante, da base de vendas. A classe 'eletrificada' soma elétrico, plug-in e híbrido.
+
+| Coluna | Tipo | Descrição |
+|---|---|---|
+| `periodo` | texto | Período de vendas comparado, do primeiro ao último mês (MM/AAAA a MM/AAAA). |
+| `inicio` | data | Primeiro mês de vendas do período. A frota se compara a partir do mês anterior. |
+| `fim` | data | Último mês de vendas do período, que é também o instantâneo final da frota. |
+| `fonte_vendas` | texto | 'vendas' (base de vendas da ABVE, por modelo e UF), 'serie' (série histórica da ABVE, só Brasil e tecnologia) ou 'acumulado' (todos os períodos somados). |
+| `classe` | texto | Classe de tecnologia atribuída (ver a tabela de classes). |
+| `vendas_abve` | inteiro | Emplacamentos contados pela ABVE no período. |
+| `crescimento_frota` | inteiro | Frota da base por modelo no fim do período menos a do mês anterior ao início, nos leves e nas UFs válidas. Compara-se com vendas porque a baixa de eletrificados quase não aparece no RENAVAM. |
+| `diferenca` | inteiro | crescimento_frota − vendas_abve. |
+| `razao` | decimal | crescimento_frota / vendas_abve (nula sem vendas). |
+
+### `validacao_abve_uf.csv`
+
+Idem, por UF (de 2022 em diante).
+
+| Coluna | Tipo | Descrição |
+|---|---|---|
+| `periodo` | texto | Período de vendas comparado, do primeiro ao último mês (MM/AAAA a MM/AAAA). |
+| `inicio` | data | Primeiro mês de vendas do período. A frota se compara a partir do mês anterior. |
+| `fim` | data | Último mês de vendas do período, que é também o instantâneo final da frota. |
+| `fonte_vendas` | texto | 'vendas' (base de vendas da ABVE, por modelo e UF), 'serie' (série histórica da ABVE, só Brasil e tecnologia) ou 'acumulado' (todos os períodos somados). |
+| `uf_sigla` | texto | Sigla da UF; nula quando a UF publicada não é válida ('Sem Informação' etc.). |
+| `classe` | texto | Classe de tecnologia atribuída (ver a tabela de classes). |
+| `vendas_abve` | inteiro | Emplacamentos contados pela ABVE no período. |
+| `crescimento_frota` | inteiro | Frota da base por modelo no fim do período menos a do mês anterior ao início, nos leves e nas UFs válidas. Compara-se com vendas porque a baixa de eletrificados quase não aparece no RENAVAM. |
+| `diferenca` | inteiro | crescimento_frota − vendas_abve. |
+| `razao` | decimal | crescimento_frota / vendas_abve (nula sem vendas). |
+
+### `validacao_abve_marca.csv`
+
+Idem, por marca.
+
+| Coluna | Tipo | Descrição |
+|---|---|---|
+| `periodo` | texto | Período de vendas comparado, do primeiro ao último mês (MM/AAAA a MM/AAAA). |
+| `inicio` | data | Primeiro mês de vendas do período. A frota se compara a partir do mês anterior. |
+| `fim` | data | Último mês de vendas do período, que é também o instantâneo final da frota. |
+| `fonte_vendas` | texto | 'vendas' (base de vendas da ABVE, por modelo e UF), 'serie' (série histórica da ABVE, só Brasil e tecnologia) ou 'acumulado' (todos os períodos somados). |
+| `marca` | texto | Marca canônica: grafias da mesma empresa unidas por dados/marcas.csv (GM, CHEVROLET e CHEV viram CHEVROLET). Grafia fora da tabela segue como está. |
+| `classe` | texto | Classe de tecnologia atribuída (ver a tabela de classes). |
+| `vendas_abve` | inteiro | Emplacamentos contados pela ABVE no período. |
+| `crescimento_frota` | inteiro | Frota da base por modelo no fim do período menos a do mês anterior ao início, nos leves e nas UFs válidas. Compara-se com vendas porque a baixa de eletrificados quase não aparece no RENAVAM. |
+| `diferenca` | inteiro | crescimento_frota − vendas_abve. |
+| `razao` | decimal | crescimento_frota / vendas_abve (nula sem vendas). |
+
+### `validacao_abve_modelo.parquet`
+
+Idem, modelo a modelo: classe pela ABVE, classe pela base, classes do PBE Veicular e vendas x crescimento. É o teste externo da classificação.
+
+| Coluna | Tipo | Descrição |
+|---|---|---|
+| `periodo` | texto | Período de vendas comparado, do primeiro ao último mês (MM/AAAA a MM/AAAA). |
+| `inicio` | data | Primeiro mês de vendas do período. A frota se compara a partir do mês anterior. |
+| `fim` | data | Último mês de vendas do período, que é também o instantâneo final da frota. |
+| `fonte_vendas` | texto | 'vendas' (base de vendas da ABVE, por modelo e UF), 'serie' (série histórica da ABVE, só Brasil e tecnologia) ou 'acumulado' (todos os períodos somados). |
+| `modelo_abve` | texto | Texto do modelo como a ABVE grafa: o do RENAVAM sem o prefixo I/ e com espaço no lugar da barra. É a chave da comparação. |
+| `marca_modelo_norm` | texto | Marca Modelo normalizado (sem acentos, caixa alta). |
+| `marca` | texto | Marca canônica: grafias da mesma empresa unidas por dados/marcas.csv (GM, CHEVROLET e CHEV viram CHEVROLET). Grafia fora da tabela segue como está. |
+| `classe_abve` | texto | Classe que a tecnologia da ABVE indica (BEV elétrico, PHEV plug-in, HEV e HEV FLEX híbrido, MHEV híbrido leve); a de mais vendas, se o modelo tiver mais de uma. |
+| `classes_abve` | texto | Todas as classes com que a ABVE vendeu o modelo no período, separadas por barra vertical. |
+| `classe_db` | texto | Classe que a base por modelo dá ao texto (dados/modelos.csv), no último mês. |
+| `mesma_classe` | lógico | Se classe_abve e classe_db coincidem. Nulo quando o modelo não casou ou não teve venda. |
+| `pbe_classes` | texto | Classes que a linha do modelo tem na tabela PBE Veicular do Inmetro, separadas por barra vertical. Vazio quando o modelo não casou com o PBE (moto, ônibus, caminhão e modelo fora de linha). |
+| `casou` | lógico | Se o texto da ABVE foi encontrado na base por modelo. |
+| `vendas_abve` | inteiro | Emplacamentos contados pela ABVE no período. |
+| `crescimento_frota` | inteiro | Frota da base por modelo no fim do período menos a do mês anterior ao início, nos leves e nas UFs válidas. Compara-se com vendas porque a baixa de eletrificados quase não aparece no RENAVAM. |
+| `diferenca` | inteiro | crescimento_frota − vendas_abve. |
+| `razao` | decimal | crescimento_frota / vendas_abve (nula sem vendas). |
+
+### `validacao_pbe.csv`
+
+Validação contra o PBE Veicular do Inmetro, por mês e classe: modelos e frota que casam com o PBE e as duas divergências.
+
+| Coluna | Tipo | Descrição |
+|---|---|---|
+| `ano` | inteiro | Ano do mês de referência do arquivo mensal. |
+| `mes` | inteiro | Mês de referência (1 a 12). |
+| `data_referencia` | data | Primeiro dia do mês de referência (para eixos de tempo). |
+| `classe` | texto | Classe de tecnologia atribuída (ver a tabela de classes). |
+| `modelos` | inteiro | Número de modelos distintos. |
+| `frota` | inteiro | Frota da classe no mês. |
+| `frota_casada_pbe` | inteiro | Frota de modelos que casaram com uma linha do PBE Veicular. |
+| `modelos_sem_versao_no_pbe` | inteiro | Modelos com classe eletrificada que o PBE não registra para eles. |
+| `frota_sem_versao_no_pbe` | inteiro | Frota desses modelos (falso positivo provável). |
+| `modelos_pbe_so_eletrificado` | inteiro | Modelos classificados como combustão cujas versões no PBE são todas eletrificadas. |
+| `frota_pbe_so_eletrificado` | inteiro | Frota desses modelos (regra faltando ou geração antiga). |
+| `cobertura_pbe` | decimal | frota_casada_pbe / frota (fração entre 0 e 1). |
 
 ### `qualidade_combustivel.csv`
 
