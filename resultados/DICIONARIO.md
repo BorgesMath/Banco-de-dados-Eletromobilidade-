@@ -496,6 +496,9 @@ Validação externa: vendas da ABVE x crescimento da frota da base por modelo, p
 | `crescimento_frota` | inteiro | Frota da base por modelo no fim do período menos a do mês anterior ao início, nos leves e nas UFs válidas. Compara-se com vendas porque a baixa de eletrificados quase não aparece no RENAVAM. |
 | `diferenca` | inteiro | crescimento_frota − vendas_abve. |
 | `razao` | decimal | crescimento_frota / vendas_abve (nula sem vendas). |
+| `vendas_abve_rotulo_atual` | inteiro | Vendas da ABVE com todo o histórico no rótulo mais recente de cada modelo. A ABVE muda o rótulo de alguns modelos com o tempo e não reescreve os anos anteriores. |
+| `diferenca_rotulo_atual` | inteiro | crescimento_frota − vendas_abve_rotulo_atual. |
+| `razao_rotulo_atual` | decimal | crescimento_frota / vendas_abve_rotulo_atual (nula sem vendas). |
 
 ### `validacao_abve_uf.csv`
 
@@ -513,6 +516,9 @@ Idem, por UF (de 2022 em diante).
 | `crescimento_frota` | inteiro | Frota da base por modelo no fim do período menos a do mês anterior ao início, nos leves e nas UFs válidas. Compara-se com vendas porque a baixa de eletrificados quase não aparece no RENAVAM. |
 | `diferenca` | inteiro | crescimento_frota − vendas_abve. |
 | `razao` | decimal | crescimento_frota / vendas_abve (nula sem vendas). |
+| `vendas_abve_rotulo_atual` | inteiro | Vendas da ABVE com todo o histórico no rótulo mais recente de cada modelo. A ABVE muda o rótulo de alguns modelos com o tempo e não reescreve os anos anteriores. |
+| `diferenca_rotulo_atual` | inteiro | crescimento_frota − vendas_abve_rotulo_atual. |
+| `razao_rotulo_atual` | decimal | crescimento_frota / vendas_abve_rotulo_atual (nula sem vendas). |
 
 ### `validacao_abve_marca.csv`
 
@@ -530,6 +536,9 @@ Idem, por marca.
 | `crescimento_frota` | inteiro | Frota da base por modelo no fim do período menos a do mês anterior ao início, nos leves e nas UFs válidas. Compara-se com vendas porque a baixa de eletrificados quase não aparece no RENAVAM. |
 | `diferenca` | inteiro | crescimento_frota − vendas_abve. |
 | `razao` | decimal | crescimento_frota / vendas_abve (nula sem vendas). |
+| `vendas_abve_rotulo_atual` | inteiro | Vendas da ABVE com todo o histórico no rótulo mais recente de cada modelo. A ABVE muda o rótulo de alguns modelos com o tempo e não reescreve os anos anteriores. |
+| `diferenca_rotulo_atual` | inteiro | crescimento_frota − vendas_abve_rotulo_atual. |
+| `razao_rotulo_atual` | decimal | crescimento_frota / vendas_abve_rotulo_atual (nula sem vendas). |
 
 ### `validacao_abve_modelo.parquet`
 
@@ -546,8 +555,10 @@ Idem, modelo a modelo: classe pela ABVE, classe pela base, classes do PBE Veicul
 | `marca` | texto | Marca canônica: grafias da mesma empresa unidas por dados/marcas.csv (GM, CHEVROLET e CHEV viram CHEVROLET). Grafia fora da tabela segue como está. |
 | `classe_abve` | texto | Classe que a tecnologia da ABVE indica (BEV elétrico, PHEV plug-in, HEV e HEV FLEX híbrido, MHEV híbrido leve); a de mais vendas, se o modelo tiver mais de uma. |
 | `classes_abve` | texto | Todas as classes com que a ABVE vendeu o modelo no período, separadas por barra vertical. |
+| `classe_abve_atual` | texto | Classe do rótulo mais recente da ABVE para o modelo: a de mais vendas no último período em que vendeu. |
 | `classe_db` | texto | Classe que a base por modelo dá ao texto (dados/modelos.csv), no último mês. |
 | `mesma_classe` | lógico | Se classe_abve e classe_db coincidem. Nulo quando o modelo não casou ou não teve venda. |
+| `mesma_classe_atual` | lógico | Se classe_abve_atual e classe_db coincidem. Nulo quando o modelo não casou ou não teve venda. |
 | `pbe_classes` | texto | Classes que a linha do modelo tem na tabela PBE Veicular do Inmetro, separadas por barra vertical. Vazio quando o modelo não casou com o PBE (moto, ônibus, caminhão e modelo fora de linha). |
 | `casou` | lógico | Se o texto da ABVE foi encontrado na base por modelo. |
 | `vendas_abve` | inteiro | Emplacamentos contados pela ABVE no período. |

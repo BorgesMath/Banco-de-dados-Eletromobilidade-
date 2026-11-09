@@ -17,8 +17,8 @@
 2021;9;2021-09-01;d_frota_por_uf_municipio_combustivel_setembro_2021.xlsx;43707;112919125;;True;0,03327831312897616
 2021;10;2021-10-01;d_frota_por_uf_municipio_combustivel_outubro_2021.xlsx;43812;113227476;;True;0,03334863703929954
 2021;11;2021-11-01;d_frota_por_uf_municipio_combustivel_novembro_2021.xlsx;43962;113532736;contagens divididas por 10 (todas eram múltiplas de 10 no arquivo publicado);True;0,033414424188632254
-2021;12;2021-12-01;d_frota_por_uf_municipio_combustivel_dezembro_2021.xlsx;44295;114057859;;True;0,03355167310303449
-2022;1;2022-01-01;d_frota_por_uf_municipio_combustivel_janeiro_2022.xlsx;44295;114057859;"idêntico a 2021-12; excluído da série";False;
+2021;12;2021-12-01;d_frota_por_uf_municipio_combustivel_dezembro_2021.xlsx;44295;114057859;"idêntico a 2022-01; excluído da série";False;
+2022;1;2022-01-01;d_frota_por_uf_municipio_combustivel_janeiro_2022.xlsx;44295;114057859;;True;0,03355167310303449
 2022;2;2022-02-01;d_frota_por_uf_municipio_combustivel_fevereiro_2022.xlsx;44482;114328588;;True;0,033610867301186294
 2022;3;2022-03-01;d_frota_por_uf_municipio_combustivel_marco_2022.xlsx;44660;114632844;;True;0,03369380768394789
 2022;4;2022-04-01;d_frota_por_uf_municipio_combustivel_abril_2022.xlsx;44822;114931728;"frota_hibrido_plug_in: classe sem registro até 2022-04; antes disso os veículos dela estão em outra classe";True;0,033743919694655594
