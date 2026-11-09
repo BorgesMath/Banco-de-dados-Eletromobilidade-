@@ -1,7 +1,8 @@
 import pandas as pd
 import pytest
 
-from eletromobilidade.validacao import casar_modelos_abve, chave_abve, modelo_sem_uf, validar, validar_pbe
+from eletromobilidade.validacao import (casar_modelos_abve, chave_abve, modelo_sem_uf, rotulo_atual, validar,
+                                        validar_pbe)
 
 
 @pytest.mark.parametrize("texto, chave", [
@@ -20,6 +21,41 @@ def test_casar_modelos_abve_tira_sufixo_de_tecnologia_e_repeticao():
                         "CAOACHERY TIGGO8 PHEV", "MARCA NOVA X"])
     assert casar_modelos_abve(textos, conhecidas).tolist() == [
         "TOYOTA RAV4H SXAWD CNT", "VOLVO XC60 T8 R-DESIGN", "CAOACHERY TIGGO8 PHEV", "MARCA NOVA X"]
+
+
+def test_casar_modelos_abve_acha_o_espaco_que_falta_so_sem_ambiguidade():
+    textos = pd.Series(["BMW X5XDRIVE45E PHEV", "M.BENZ C300"])
+    conhecidas = {"BMW X5 XDRIVE45E", "M.BENZ C 300", "M.BENZ C3 00"}
+    assert casar_modelos_abve(textos, conhecidas).tolist() == ["BMW X5 XDRIVE45E", "M.BENZ C300"]
+
+
+def test_rotulo_atual_e_o_de_mais_vendas_no_ultimo_periodo():
+    vendas = pd.DataFrame({
+        "chave": ["TIGGO", "TIGGO", "X6", "X6", "DOLPHIN"],
+        "inicio": pd.to_datetime(["2024-01-01", "2025-01-01", "2026-01-01", "2026-01-01", "2023-01-01"]),
+        "classe": ["hibrido", "hibrido_leve", "hibrido_plug_in", "hibrido_leve", "eletrico"],
+        "qtd_vendas": [2402, 5, 4, 276, 10]})
+    assert rotulo_atual(vendas).to_dict() == {"DOLPHIN": "eletrico", "TIGGO": "hibrido_leve", "X6": "hibrido_leve"}
+
+
+def test_comparacao_tambem_sai_com_o_historico_no_rotulo_atual():
+    abve = _abve()
+    # o Outlander é PHEV em 2022 e MHEV em 2023: no rótulo atual, os dois anos são híbrido leve
+    abve["vendas"].loc[abve["vendas"]["modelo"].eq("MMC OUTLANDER X E") & (abve["vendas"]["inicio"].dt.year == 2023),
+                       "tecnologia"] = "MHEV 48V"
+    resultado = validar(_tabelas(), abve)
+    t = resultado["validacao_abve_tecnologia"]
+    phev_2022 = t.query("periodo == '01/2022 a 12/2022' and classe == 'hibrido_plug_in'").iloc[0]
+    assert (phev_2022["vendas_abve"], phev_2022["vendas_abve_rotulo_atual"]) == (15, 0)
+    leve_2022 = t.query("periodo == '01/2022 a 12/2022' and classe == 'hibrido_leve'").iloc[0]
+    assert (leve_2022["vendas_abve"], leve_2022["vendas_abve_rotulo_atual"]) == (0, 15)
+    assert leve_2022["diferenca_rotulo_atual"] == -15
+    bev_2022 = t.query("periodo == '01/2022 a 12/2022' and classe == 'eletrico'").iloc[0]
+    assert bev_2022["vendas_abve"] == bev_2022["vendas_abve_rotulo_atual"] == 32
+    m = resultado["validacao_abve_modelo"].query("fonte_vendas == 'acumulado'").set_index("modelo_abve")
+    assert m.loc["MMC OUTLANDER X E", "classe_abve_atual"] == "hibrido_leve"
+    assert not m.loc["MMC OUTLANDER X E", "mesma_classe_atual"]
+    assert m.loc["BYD DOLPHIN", "mesma_classe_atual"]
 
 
 def _mes(ano, mes):

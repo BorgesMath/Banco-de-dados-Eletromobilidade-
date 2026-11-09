@@ -7,9 +7,10 @@ Problemas encontrados nos arquivos do portal e tratados aqui:
   decuplica a frota nacional. Num arquivo real, com milhares de linhas e muitas
   contagens entre 1 e 9, é impossível que todas sejam múltiplas de 10; quando
   isso ocorre, as contagens são divididas por 10.
-* **Mês repetido.** O arquivo de janeiro/2022 é idêntico ao de dezembro/2021.
-  Um mês idêntico ao anterior é excluído da série (o dado daquele mês não foi
-  publicado), em vez de aparecer como estagnação.
+* **Mês repetido.** Um mês idêntico ao anterior é excluído da série (o dado daquele
+  mês não foi publicado), em vez de aparecer como estagnação. A exceção são
+  dezembro/2021 e janeiro/2022, de combustível, com o mesmo conteúdo: ele é o de
+  janeiro, e quem sai é dezembro (ver ``CONTEUDO_DO_MES_SEGUINTE``).
 * **Mês ausente.** Os nomes de arquivo do portal não têm padrão estável, então um
   mês cujo nome não seja reconhecido simplesmente não entra — sem erro. No meio da
   série isso aparece como lacuna; na ponta, não aparecia de forma alguma, porque o
@@ -70,6 +71,21 @@ def meses_repetidos(assinaturas: dict[tuple[int, int], str]) -> dict[tuple[int, 
         else:
             anterior = periodo
     return repetidos
+
+
+# Meses cujo arquivo de combustível traz o conteúdo do mês seguinte. O de dez/2021 é
+# igual ao de jan/2022, e a frota dele é a de janeiro: salta 525 mil sobre novembro
+# e fevereiro cresce só 271 mil, num mês normal de 300 mil; o arquivo de marca/modelo
+# de dez/2021, que é dezembro de verdade, tem 197.557 veículos a menos. Inferido dos
+# totais e das vendas da ABVE, sem documento da SENATRAN.
+CONTEUDO_DO_MES_SEGUINTE = {(2021, 12)}
+
+
+def meses_a_excluir(repetidos: dict[tuple[int, int], tuple[int, int]]) -> dict[tuple[int, int], tuple[int, int]]:
+    """Dos pares de ``meses_repetidos``, qual mês sai: ``{mês excluído: mês que fica}``."""
+    return {(original if original in CONTEUDO_DO_MES_SEGUINTE else periodo):
+            (periodo if original in CONTEUDO_DO_MES_SEGUINTE else original)
+            for periodo, original in repetidos.items()}
 
 
 MES_AUSENTE = "mês sem arquivo na entrada"

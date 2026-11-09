@@ -86,6 +86,68 @@ CASOS = [
     ("I/PORSCHE CAYENNE S HYBR", "hibrido"),
     ("I/VOLVO XC60 INSC EXPRES", "hibrido_plug_in"),
     ("I/VOLVO XC90 INSC EXPRES", "hibrido_plug_in"),
+    ("I/VOLVO XC40 INSC EXPRES", "hibrido_plug_in"),
+    # Audi: o plug-in é o Q5 "P-HIBRIDO"; "HIBRIDO" e "HIB" sem o P são híbrido leve 48 V
+    ("I/AUDI Q5 SB P-HIBRIDO", "hibrido_plug_in"),
+    ("I/AUDI Q7 HIBRIDO", "hibrido_leve"),
+    ("I/AUDI Q8 SB HIBRIDO", "hibrido_leve"),
+    ("I/AUDI RS6 AV HIBRIDO", "hibrido_leve"),
+    ("I/AUDI RS6 AV PERF HIB", "hibrido_leve"),
+    ("I/AUDI RS6 AV GT HIB", "hibrido_leve"),
+    ("I/AUDI RSQ8 SB HIBRIDO", "hibrido_leve"),
+    ("I/AUDI A3 SD HIBRIDO", "hibrido_leve"),
+    ("I/AUDI A3 SB HIBRIDO", "hibrido_leve"),
+    # o que faltava pela comparação com o rótulo atual da ABVE: elétricos
+    ("I/RENAULT KANGOO MAX ZE", "eletrico"),
+    ("I/RENAULT TWIZY INTENSE", "eletrico"),
+    ("I/PORSCHE MACAN ETURBO", "eletrico"),
+    ("I/PORSCHE CAYENNE ES", "eletrico"),
+    ("I/PORSCHE CAYENNE ET OF", "eletrico"),
+    ("I/NEXTEM ORCA FEVER FN1C", "eletrico"),
+    ("I/TANGJUN RD6 LUXURY PRO", "eletrico"),
+    ("I/FARIZON V6E", "eletrico"),
+    ("ARROW/ONE WORK", "eletrico"),
+    ("HITECH/NEWDELIVERY URBAN", "eletrico"),
+    ("I/SUZUKI EVITARA 4STY4WD", "eletrico"),
+    ("I/FOTON EVIEWCONNECT 50S", "eletrico"),
+    ("I/PEUGEOT 208 E-GT", "eletrico"),
+    ("I/CADILLAC LYRIQ LUXURY", "eletrico"),
+    ("I/DONGFENG SERES 3 ELEG", "eletrico"),
+    ("I/M.BENZ 320 VIPK AMB", "eletrico"),
+    # plug-ins e híbridos
+    ("I/FERRARI 296 GTB", "hibrido_plug_in"),
+    ("I/FERRARI SF90 STRADALE", "hibrido_plug_in"),
+    ("I/MCLAREN ARTURA", "hibrido_plug_in"),
+    ("I/LAMBORGHINI URUS SE", "hibrido_plug_in"),
+    ("I/GAC GS9 ULTRA", "hibrido_plug_in"),
+    ("I/PORSCHE CAYENNE CP TSP", "hibrido_plug_in"),
+    ("I/BMW 745LE", "hibrido_plug_in"),
+    ("I/CHRYSLER PACIFICA HYBR", "hibrido_plug_in"),
+    ("I/FCA PACIFICAH PINNACLE", "hibrido_plug_in"),
+    ("I/BYD SONG PLUS GS 450DM", "hibrido_plug_in"),
+    ("I/BYD SONG PRO GS DMFLEX", "hibrido_plug_in"),
+    ("I/CHERY T2 I-DM", "hibrido_plug_in"),
+    ("I/TOYOTA RAV4 XSE PHV", "hibrido_plug_in"),
+    ("I/RENAULT KOLEOS E-TECH", "hibrido"),
+    ("I/TOYOTA SIENNA XSE", "hibrido"),
+    ("I/BENTLEY BENTAYGA HYBRI", "hibrido"),
+    ("I/LEXUS RX450H L LUXURY", "hibrido"),
+    ("I/GAC GS4 PREMIUM", "hibrido"),   # BEV para a ABVE; o PBE registra híbrido
+    # híbridos leves
+    ("FIAT/FASTBACK IMPETUS HY", "hibrido_leve"),
+    ("I/M.BENZ C200 AMG LINE", "hibrido_leve"),
+    ("I/M.BENZ GLC300 4M CO", "hibrido_leve"),
+    ("I/M.BENZ GLE450 D 4M", "hibrido_leve"),
+    ("I/M.BENZ AMG GLE53 4M", "hibrido_leve"),
+    ("I/BMW X6 XDRIVE40I MSP", "hibrido_leve"),
+    ("I/BMW X3 30 XDRIVE", "hibrido_leve"),
+    ("I/LR DEF110D350 HSEXD 7L", "hibrido_leve"),
+    ("LR/DISC SPT D200 SE RD", "hibrido_leve"),
+    ("I/LR RRS D350 HSED", "hibrido_leve"),
+    ("I/JAG FPACE P340 RDYN SE", "hibrido_leve"),
+    ("I/PORSCHE 911 CARRERAGTS", "hibrido_leve"),
+    ("I/FOTON TUNLAND V9", "hibrido_leve"),
+    ("I/CHERY TIGGO7 48V", "hibrido_leve"),
     # armadilhas: "E", "EV" e "HEV" que não indicam eletrificação
     ("VW/8.150E DELIVERY", "combustao"),
     ("VW/POLO 1.6 E-FLEX", "combustao"),
@@ -104,7 +166,18 @@ CASOS = [
     ("I/PORSCHE MACAN T", "combustao"),
     ("I/MMC OUTLANDER 2.2 HPES", "combustao"),
     ("M.BENZ/AX0R 1933S EPG CA", "combustao"),
-    ("I/VOLVO XC40 INSC EXPRES", "combustao"),
+    ("I/AUDI Q5 2.0 TFSI", "combustao"),
+    ("I/AUDI A3 SD 1.4 TFSI", "combustao"),
+    # o mesmo texto cobre geração a combustão: rótulo da ABVE não coerente, ou frota antiga
+    ("I/M.BENZ CLA200", "combustao"),
+    ("I/M.BENZ GLA200 AMG LINE", "combustao"),
+    ("I/LR R.R SPT 3.0 TD HSE", "combustao"),
+    ("I/BMW X6 M COMPETITION", "combustao"),
+    ("CAOACHERY/TIGGO7 SPORT", "combustao"),
+    ("I/NISSAN FRONTIER S MTX4", "combustao"),
+    # "HY" e "PACIFICA" sem mais nada não são híbrido
+    ("I/CITROEN HY INV VAN", "combustao"),
+    ("I/CHRYSLER PACIFICA", "combustao"),
     # "EV" de código de motor ou de edição, e BYD a combustão de antes da linha elétrica
     ("I/BMW 320I EV11", "combustao"),
     ("I/BMW 330I EV51 SECURITY", "combustao"),
@@ -141,7 +214,7 @@ def test_hibrido_leve_nao_conta_como_eletrificado():
 
 
 def test_a_revisar_marca_eletrificada_sem_regra():
-    r = classificar_modelos(pd.Series(["I/GAC GS9 ULTRA", "VW/GOL 1.0", "I/BYD DOLPHIN GS 180EV"]))
+    r = classificar_modelos(pd.Series(["I/GAC E8 2.0 ATK GMC MAX", "VW/GOL 1.0", "I/BYD DOLPHIN GS 180EV"]))
     assert list(a_revisar(r)) == [True, False, False]
 
 

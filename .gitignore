@@ -17,6 +17,9 @@ venv/
 .pytest_cache/
 .ipynb_checkpoints/
 
+# Notas internas (comparações e decisões de trabalho, não publicadas)
+docs/internos/
+
 # Painel: fica fora do repositório até os resultados estarem fechados
 pbi/
 *.pbix

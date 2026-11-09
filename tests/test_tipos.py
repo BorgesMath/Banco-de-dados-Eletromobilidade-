@@ -26,6 +26,16 @@ def _tipo(texto: str, pbe: str = "") -> pd.Series:
     ("I/JAC IEV1200T PLUS", "caminhao"),
     ("I/JAC EJT9.5", "caminhao"),
     ("I/JAC EJV12", "leve"),                    # furgão: o sufixo V é van, T é caminhão
+    ("I/JAC EJT3.5", "leve"),                   # comercial leve para a ABVE; os e-JT maiores são caminhão
+    ("I/FOTON TUNLAND V9", "leve"),
+    ("I/FOTON EWONDER CHASSI", "leve"),
+    ("I/M.BENZ GLA200 PROG", "leve"),
+    ("I/M.BENZ 320 VIPK AMB", "leve"),
+    ("I/MB S580E LONG", "leve"),
+    ("I/FERRARI 296 GTB", "leve"),
+    ("I/LAND ROVER DEF OCTA", "leve"),
+    ("I/TANGJUN RD6 COMFORT", "leve"),
+    ("I/BMW XM", "leve"),
     ("I/VOLVO FM ELECTRIC 6X2T", "caminhao"),
     ("I/VOLVO XC40 6 PLUS", "leve"),
     ("VAMMO/VMOTO COMFORT 4KW", "moto"),

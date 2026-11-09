@@ -171,19 +171,24 @@ def test_qualidade_combustivel_escala_e_mes_repetido(tmp_path, poucas_linhas_bas
     novembro = [(*l[:3], l[3] + 1) for l in LINHAS_JAN]  # mês diferente de outubro
     escrever_xlsx(tmp_path / "combustivel_Novembro_2021.xlsx", [(*l[:3], l[3] * 10) for l in novembro])
     escrever_xlsx(tmp_path / "combustivel_Dezembro_2021.xlsx", LINHAS_JAN[:-1])
-    escrever_xlsx(tmp_path / "combustivel_Janeiro_2022.xlsx", LINHAS_JAN[:-1])  # cópia de dezembro
+    escrever_xlsx(tmp_path / "combustivel_Janeiro_2022.xlsx", LINHAS_JAN[:-1])  # dezembro traz o conteúdo de janeiro
 
     base = pipeline.construir_base_combustivel(
         pipeline.processar_arquivos(pipeline.localizar_arquivos(tmp_path, "combustivel")))
     br = base["combustivel_brasil"].set_index(["ano", "mes"])["frota_total"]
     total = sum(l[3] for l in LINHAS_JAN)
     assert br.to_dict() == {(2021, 10): total, (2021, 11): total + len(LINHAS_JAN),  # escala corrigida
-                            (2021, 12): total - 7}  # jan/2022 excluído
+                            (2022, 1): total - 7}  # dez/2021 excluído
 
     q = base["qualidade_combustivel"].set_index(["ano", "mes"])
     assert "divididas por 10" in q.loc[(2021, 11), "ajuste"]
-    assert q.loc[(2022, 1), "ajuste"].startswith("idêntico a 2021-12")
-    assert not q.loc[(2022, 1), "incluido"] and q.loc[(2021, 11), "incluido"]
+    assert q.loc[(2021, 12), "ajuste"].startswith("idêntico a 2022-01")
+    assert not q.loc[(2021, 12), "incluido"] and q.loc[(2022, 1), "incluido"]
+
+
+def test_meses_a_excluir_sai_o_mes_seguinte_salvo_a_excecao_conhecida():
+    assert qualidade.meses_a_excluir({(2026, 9): (2026, 8)}) == {(2026, 9): (2026, 8)}
+    assert qualidade.meses_a_excluir({(2022, 1): (2021, 12)}) == {(2021, 12): (2022, 1)}
 
 
 def test_meses_ausentes_pega_lacuna_no_meio_e_na_ponta():

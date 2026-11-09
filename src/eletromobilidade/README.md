@@ -140,7 +140,7 @@ Defeitos encontrados nos arquivos publicados e tratados automaticamente
 | Arquivo | Defeito | Tratamento |
 |---|---|---|
 | Combustível, nov/2021 | Todas as contagens multiplicadas por 10 (frota de 1,135 bilhão) | Contagens divididas por 10 (113,5 milhões, coerente com out e dez/2021) |
-| Combustível, jan/2022 | Idêntico ao de dez/2021 | Mês excluído da série |
+| Combustível, dez/2021 | Idêntico ao de jan/2022, com a frota de janeiro (salto de 525 mil sobre novembro, contra 271 mil de janeiro a fevereiro) | Dezembro excluído da série; janeiro fica |
 | Combustível, ago/2019 | Acentos corrompidos ("MunicÃ­pio") e linha extra "Column1…" | Texto reparado na leitura |
 | Combustível, jan/2019 | Nome com "janeito" | Mês reconhecido |
 

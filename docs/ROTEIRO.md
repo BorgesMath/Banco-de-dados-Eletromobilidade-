@@ -1,16 +1,15 @@
 # Roteiro
 
-Estado em 29/10/2026. O pipeline Python está fechado e testado (301 testes), e o
+Estado em 09/11/2026. O pipeline Python está fechado e testado (396 testes), e o
 escopo do repositório vai até `resultados/`. O que falta está abaixo, em ordem de
-valor. A comparação com as vendas da ABVE, feita em 23/10, está no item 8, e as
-pendências que saíram dela vêm antes do resto da lista.
+valor. A comparação com as vendas da ABVE, feita em 23/10, está no item 8, com as
+pendências que saíram dela resolvidas.
 
-As tabelas de `resultados/` estão em dia com o código, regeradas em 21/10 com a
-série completa de combustível (76 arquivos) e os dois meses da base por modelo.
-Reproduziram a execução de 20/10 com diferença zero em todas as colunas que já
-existiam; o que mudou foi a coluna `cod_municipio_ibge`, a dimensão de município,
-as três colunas de população nos painéis da base por combustível e o tipo de
-veículo na base por modelo. Regerá-las exige os arquivos da SENATRAN em `data/raw`, que não são
+As tabelas de `resultados/` estão em dia com o código, regeradas em 09/11 com a
+série completa de combustível (76 arquivos) e os 7 meses da base por modelo.
+Contra a publicação de 29/10, 309 modelos mudaram de classe (item 8) e nenhuma
+quantidade mudou. Na base por combustível, o mês excluído passou a ser dez/2021
+(item 4). Regerá-las exige os arquivos da SENATRAN em `data/raw`, que não são
 versionados: `baixar`, depois `processar` e `publicar`.
 
 ## 1. Código IBGE e população por município — feito
@@ -51,7 +50,8 @@ município pelo mesmo código. Ela tem
 
 **Feito em 29/10/2026**, por decisão do usuário: dezembro de 2020 a 2025 mais
 set/2026, 7 meses. Dá série anual por marca, modelo e ano de fabricação, a
-conciliação com 7 pontos e a validação contra a ABVE ano a ano. Cada mês são ~22
+conciliação com 6 pontos (dez/2021 saiu da base por combustível, item 4) e a
+validação contra a ABVE ano a ano. Cada mês são ~22
 milhões de linhas e ~130 MB, e cerca de 1,5 min de processamento sem cache. A
 série mensal (todos os meses) continua possível e custaria ~9 GB e ~2 h; não foi
 feita.
@@ -66,9 +66,9 @@ item, base por modelo:
 
 | | dez/2020 | set/2026 |
 |---|---:|---:|
-| Leve, na frota eletrificada | 90,7% | 92,8% |
-| Moto, na frota eletrificada | 8,9% | 6,9% |
-| **Moto, entre os elétricos a bateria** | **66,8%** | **16,9%** |
+| Leve, na frota eletrificada | 90,8% | 92,9% |
+| Moto, na frota eletrificada | 8,8% | 6,8% |
+| **Moto, entre os elétricos a bateria** | **64,6%** | **16,9%** |
 
 Ônibus e caminhão somam menos de 0,5%. Plug-in e híbrido convencional são todos
 leves. Leia como composição: a base por modelo acha 18% menos eletrificados que a
@@ -111,17 +111,24 @@ antes das que os pegavam. Em set/2026, na base por modelo:
 São 2.348 elétricos a menos em set/2026, 0,5% dos elétricos da base por modelo,
 e nada mais mudou de classe. **Em dez/2020 o efeito é outro**: 2.345 dos 8.529
 elétricos daquele mês eram esses falsos. O reconhecimento de elétricos nas UFs
-válidas, que parecia de 99%, é de 61%. A base por modelo de 2020 reconhecia
-mal os elétricos, e um erro compensava o outro. O que ela não reconhece em 2020
-não foi investigado.
+válidas, que parecia de 99%, é de 61% (64% com as regras de 09/11/2026). A base
+por modelo de 2020 reconhecia mal os elétricos, e um erro compensava o outro. O
+que ela não reconhece em 2020 não foi investigado.
 
-## 4. Fechar o furo de jan/2022 e esticar a série para trás
+## 4. Fechar o furo de dez/2021 e esticar a série para trás
 
 Dois buracos distintos:
 
-- **jan/2022** está excluído porque o arquivo publicado era idêntico ao de
-  dez/2021 (ver `resultados/LEIAME.md`). Vale checar se a SENATRAN republicou o
-  arquivo desde então; se não, o furo é da fonte e fica documentado como está.
+- **dez/2021** está excluído desde 09/11/2026. Os arquivos de combustível de
+  dez/2021 e de jan/2022 são idênticos, e o conteúdo é o de janeiro: a frota
+  total salta 525 mil sobre novembro e fevereiro cresce só 271 mil, num mês
+  normal de 300 mil; o arquivo de marca/modelo de dez/2021, que é dezembro de
+  verdade, tem 197.557 veículos a menos; e, contra a série mensal da ABVE, o mês
+  dava +72%. Até então o excluído era jan/2022, e dez/2021 trazia a frota de
+  janeiro. É inferido dos totais, sem documento da SENATRAN, e a exceção está em
+  `qualidade.CONTEUDO_DO_MES_SEGUINTE`. Vale checar se a SENATRAN republicou o
+  arquivo de dezembro; se não, o furo é da fonte. A conciliação perdeu o ponto de
+  dez/2021 por isso: a base por modelo tem dezembro, a por combustível não.
 - **A série começa em jun/2020.** O CKAN tem mensal desde 2013, mas até 2015
   parte dos arquivos está em `.rar`, que o pacote não abre. Suportar `.rar`
   (via `rarfile` + `unrar`, ou convertendo à mão) levaria a série a 2016 ou
@@ -198,7 +205,7 @@ Nenhuma cruza com combustível, então nenhuma responde pergunta de
 eletromobilidade por si. `potencia` (`E_`) é a mais promissora: potência cruzada
 com município dá uma proxy de porte da frota. Só depois do resto.
 
-## 8. Comparação com as vendas da ABVE — feita, com pendências
+## 8. Comparação com as vendas da ABVE — feita
 
 **Feita em 23/10/2026**, na apresentação `docs/Comparação com ABVE Data v2.pptx`,
 em que o projeto passa a se chamar db-demob. É a primeira validação da base contra
@@ -207,10 +214,12 @@ uma fonte independente.
 **O número comparável.** Vendas são fluxo e frota é estoque, então se compara o
 crescimento da frota com as vendas do mesmo período, só nos leves e só nas UFs
 válidas (`modelo_tipo_uf`, tipo `leve`). De dez/2020 a set/2026 os eletrificados
-leves cresceram 913.861; a ABVE vendeu 927.581 de jan/2021 a set/2026, sem os
-micro-híbridos. A frota fica 1,5% abaixo: elétrico −0,8%, plug-in −2,2%, híbrido
-−1,3%. O deck de 23/10 traz a versão anterior às regras de plug-in da pendência 1
-(909.699, −1,9%, plug-in −3,4%).
+leves cresceram 913.893; a ABVE vendeu 927.563 de jan/2021 a set/2026, sem os
+micro-híbridos. A frota fica 1,5% abaixo: elétrico −0,2%, plug-in −1,9%, híbrido
+−2,7%. Dos 6.321 híbridos a menos, 6.253 são os Caoa Chery da pendência 2. Com o
+histórico da ABVE no rótulo atual de cada modelo (pendência 6), a diferença cai
+para −0,2%. O deck de 23/10 traz a versão anterior às regras de plug-in da
+pendência 1 (909.699, −1,9%, plug-in −3,4%).
 
 **Três achados que mudam a leitura da base.**
 
@@ -225,7 +234,8 @@ micro-híbridos. A frota fica 1,5% abaixo: elétrico −0,8%, plug-in −2,2%, h
   há documento da SENATRAN que a confirme. Para comparar com vendas, use as UFs
   válidas.
 - *Baixa quase não aparece.* Os eletrificados leves fabricados até 2018, nas UFs
-  válidas, eram 12.298 em dez/2020 e 12.317 em set/2026. Frota e vendas deveriam
+  válidas, eram 12.528 em dez/2020 e 12.563 em set/2026, com as regras de
+  09/11/2026 (12.298 e 12.317 com as de 23/10). Frota e vendas deveriam
   empatar; o que sobra é diferença de medição, não perda de veículos.
 - *Por fabricante, a diferença está em poucos modelos.* O BI Frotas da ABVE
   (abve.org.br/bi-frotas/) tem a base de vendas por fabricante e modelo, com o
@@ -239,7 +249,7 @@ micro-híbridos. A frota fica 1,5% abaixo: elétrico −0,8%, plug-in −2,2%, h
   regras daqui não reconhecem. O "fabricante" da ABVE é na prática a marca: só
   Omoda e Jaecoo aparecem juntas.
 
-**Pendências, a decidir.**
+**Pendências que saíram da comparação.**
 
 1. ~~*Regras de plug-in que faltam*~~ — **feito em 29/10/2026.** Passaram a
    plug-in o Outlander com "E" no fim (`SIGNTR E`, `HPES E`) e o `OUTLANDER
@@ -248,26 +258,57 @@ micro-híbridos. A frota fica 1,5% abaixo: elétrico −0,8%, plug-in −2,2%, h
    `INSC EXPRES`; o `CAYENNE S HYBR` de 2011 passou a híbrido. São 4.162 plug-ins
    leves a mais no crescimento comparável, contra os ~3,2 mil estimados; o
    excedente é a Volvo. A validação modelo a modelo confirmou a inferência: a ABVE
-   conta XC60 e XC90 `INSC EXPRES` como PHEV, e a Volvo fecha a −0,2% (era −2,6%).
-   A ABVE conta **também o XC40 `INSC EXPRES` como PHEV** (59 vendidos), que
-   ficou como combustão aqui: incluí-lo na regra é o próximo ajuste. Os Cayenne
-   `E CO`, `E OF`, `ET`, `ES` (39 veículos) seguem como combustão.
-2. *Fronteira entre híbrido e híbrido leve.* O Tiggo 7 Pro "H"/"HA" é HEV Flex
-   para a ABVE (6.253 vendidos desde 2022) e híbrido leve aqui; os Audi "HIBRIDO"
-   (3.722) estão no sentido contrário, e a ABVE marca vários como MHEV 48 V.
+   conta XC60 e XC90 `INSC EXPRES` como PHEV. O XC40 `INSC EXPRES`, também PHEV
+   para a ABVE, entrou na regra em 09/11/2026 (381 veículos), e a Volvo fecha a
+   −0,03% (era −2,6%). Os Cayenne `E CO`, `E OF`, `ET`, `ES` passaram a elétrico
+   em 09/11/2026: a ABVE os vende como BEV.
+2. ~~*Fronteira entre híbrido e híbrido leve*~~ — **decidido em 09/11/2026.** O
+   Tiggo 7 Pro "H"/"HA" segue híbrido leve, que é o rótulo atual da ABVE: ela o
+   conta como HEV Flex até 2024 e como MHEV 48V desde 2025 (6.253 vendas como HEV
+   Flex desde 2022, com o Tiggo 5X). O plug-in da Audi é o Q5 TFSI
+   e, grafado `P-HIBRIDO`, que já estava certo; os demais Audi "HIBRIDO" e "HIB"
+   seguem a ABVE e passaram a híbrido leve (3.910 no crescimento comparável, dos
+   quais 3.722 eram híbridos e 188 combustão). Três casos em que seguir a ABVE não
+   dá resposta direta:
+   - `Q8 SB HIBRIDO` é PHEV na ABVE em 2024-25 (280) e MHEV 48V em 2026 (81). Vale
+     o rótulo mais recente, porque o RENAVAM grafa o plug-in da marca com `P-`.
+   - `A3 SD`, `A3 SB`, `RS6 AV` e `RSQ8 SB HIBRIDO` (2.381 veículos) não têm venda
+     na ABVE. Entram como híbrido leve por inferência, pela leitura dos demais.
+   - `Q5 2.0 TFSI` e `Q5 2.0 TFSI Q` (3 vendidos como PHEV, 2.419 de crescimento)
+     seguem combustão, e o `E-TRON QUATTRO` (1 vendido como PHEV) segue elétrico.
+     Os rótulos da ABVE nesses textos parecem erro pontual.
 3. ~~*Tabela de validação*~~ — **feito em 29/10/2026.** `eletromobilidade abve`
    baixa a base da ABVE pela API pública do painel para `data/raw/abve/` (fora do
    git, por ser dado de terceiro), e `processar` publica a comparação em
    `validacao_abve_{tecnologia,uf,marca,modelo}`, por ano e acumulada. Modelo a
-   modelo, 848 de 857 textos da ABVE casam com a base (99,9% das vendas), e nos
-   eletrificados 98,6% das vendas têm a mesma classe nas duas fontes. A
-   diferença no total cai com o tempo: −7,9% em 2022, −0,8% em 2025, −0,3% em
-   jan–set/2026.
+   modelo, 848 de 856 textos da ABVE casam com a base (99,99% das vendas), e nos
+   eletrificados 98,9% das vendas têm a mesma classe nas duas fontes (99,8% pelo
+   rótulo atual). A diferença no total cai com o tempo: −7,9% em 2022, −0,8% em
+   2025, −0,05% em jan–set/2026.
 4. ~~*O grupo sem UF*~~ — **feito em 29/10/2026**: `modelo_sem_uf`, por mês e
    classe, e `qtd_sem_uf` em `modelos_classificados`.
 5. ~~*Dizer em `resultados/` qual base vale para cada pergunta*~~ — **feito em
    29/10/2026**: seções "Qual base usar" e "Validação" do `LEIAME.md`, geradas
    por `publicar`, e `validacao_pbe` com a cobertura do Inmetro por mês e classe.
+6. ~~*Chegar mais perto da ABVE*~~ — **feito em 09/11/2026.** A diferença era
+   quase toda de classificação, e por quantidade quase não havia erro: de
+   jan/2022 a set/2026, −11.476 eram rótulo antigo da própria ABVE, que muda o
+   rótulo de alguns modelos com o tempo sem reescrever os anos anteriores, e
+   −3.766 eram regras faltando aqui. As regras passaram a seguir o rótulo atual
+   da ABVE onde vendas e crescimento da frota batem a ±25% (Ferrari, McLaren,
+   Renault Kangoo e Koleos, Nextem, Tangjun, Cayenne e Macan elétricos e os
+   híbridos leves Mercedes, BMW, Land Rover e Fastback "HY"). Onde não batem, o
+   texto cobre geração a combustão e ficou de fora (`TIGGO7 SPORT`: 23 vendas e
+   70 mil de crescimento). A validação sai também com o histórico no rótulo
+   atual (`vendas_abve_rotulo_atual`), o texto `BMW X5XDRIVE45E` passou a casar,
+   e as diferenças entre o HEV e o MHEV daqui e da ABVE, caso a caso, estão em
+   `docs/internos/HEV_MHEV_aqui_x_ABVE.md`, fora do git.
+7. ~~*Aviso no `LEIAME.md`*~~ — **feito em 09/11/2026.** Com as regras
+   calibradas pela ABVE, a comparação com ela deixou de ser validação
+   independente da classificação: o −0,2% no rótulo atual é, em boa parte,
+   construído. O `LEIAME.md` (gerado por `publicacao.validacao_leiame`) e a seção
+   Resultados do README dizem isso, e apontam o PBE do Inmetro como a validação
+   independente.
 
 ---
 
@@ -309,10 +350,10 @@ veículos contra 103 de São Paulo e 98 da média nacional. Por habitante a
 distância é maior: 28,9 por mil no Distrito Federal, 8,7 em Santa Catarina, 8,0
 em São Paulo e 6,2 no Brasil. A população é a estimativa de 2026 do IBGE.
 
-Composição por tipo de veículo, pela base por modelo: 92,8% da frota
+Composição por tipo de veículo, pela base por modelo: 92,9% da frota
 eletrificada é leve e 6,8% é moto. Entre os elétricos a bateria a moto é 16,9%
-— e era dois terços, 66,8%, em dez/2020, com a ressalva de que naquele mês a
-base por modelo só reconhece 61% dos elétricos. Cite a parte, não a contagem:
+— e era quase dois terços, 64,6%, em dez/2020, com a ressalva de que naquele mês
+a base por modelo só reconhece 64% dos elétricos. Cite a parte, não a contagem:
 a base por modelo acha 18% menos eletrificados que a por combustível.
 
 ## Quatro ressalvas que acompanham estes números em qualquer uso
@@ -326,11 +367,14 @@ dez/2020 e set/2026.
 
 **A divisão entre plug-in e híbrido convencional não vale pelo campo
 combustível.** O rótulo HIBRIDO PLUG-IN pega 22% dos plug-ins que a ABVE contou
-como vendidos; o resto entra como híbrido, junto com o híbrido leve. A base por
-modelo reproduz as vendas por tecnologia com diferença de 1% a 3% (item 8). Até
+como vendidos; o resto entra como híbrido, junto com o híbrido leve e com as
+motos híbridas da Yamaha (Ray ZR e Fluo 125 Hybrid, 17 mil em set/2026, quase
+todas de 2026), que a ABVE não conta. A base por modelo reproduz as vendas por
+tecnologia com diferença de 0,2% a 2,7% (item 8). Até
 22/10/2026 este roteiro dizia o contrário: lia a razão de 4,5 entre os plug-ins
 das duas bases como erro do nome do modelo, e a comparação com a ABVE mostrou que
-o erro é do rótulo. Levar isso para `resultados/` é a pendência 5 do item 8.
+o erro é do rótulo. Isso está em `resultados/LEIAME.md`, seções "Qual base usar" e
+"Validação".
 
 **Duas classes não existem no começo da série.** O código de combustível
 plug-in só aparece no RENAVAM em **abr/2022**, e o de célula de combustível em

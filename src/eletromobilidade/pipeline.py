@@ -26,7 +26,7 @@ from .leitura import EXTENSOES_DADOS, identificar_tabela, inferir_periodo, ler_f
 from .municipios import codigos_municipio
 from .populacao import populacao_municipal
 from .qualidade import (CLASSE_TARDIA, MES_AUSENTE, assinatura, classes_tardias, corrigir_escala,
-                        meses_ausentes, meses_repetidos, participacao_sem_informacao)
+                        meses_a_excluir, meses_ausentes, meses_repetidos, participacao_sem_informacao)
 from .texto import normalizar
 from .ufs import resolver_uf
 
@@ -227,7 +227,8 @@ def processar_arquivos(caminhos: list[Path], tabela: dict[str, str] | None = Non
         log.info("Processando %s", caminho.name)
         meses[periodo] = processar_arquivo(caminho, periodo, tabela)
 
-    repetidos = meses_repetidos({p: assinatura(df, ["uf", "municipio", "combustivel"]) for p, df in meses.items()})
+    repetidos = meses_a_excluir(
+        meses_repetidos({p: assinatura(df, ["uf", "municipio", "combustivel"]) for p, df in meses.items()}))
     qualidade = []
     for periodo, df in sorted(meses.items()):
         ajustes = [df.attrs.get("ajuste")]

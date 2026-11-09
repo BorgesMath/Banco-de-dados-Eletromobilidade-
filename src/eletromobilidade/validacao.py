@@ -19,7 +19,11 @@ Produtos:
 * ``validacao_pbe``: mês x classe, cobertura e divergências do PBE Veicular;
 * ``modelo_sem_uf``: mês x classe, o grupo sem UF que o painel do Brasil inclui.
 
-Cada período aparece também acumulado (do primeiro ao último instantâneo).
+Cada período aparece também acumulado (do primeiro ao último instantâneo). A conta
+sai de duas formas: com as vendas como a ABVE as rotulou em cada ano
+(``vendas_abve``) e com todo o histórico no rótulo mais recente de cada modelo
+(``vendas_abve_rotulo_atual``), porque a ABVE muda o rótulo de alguns modelos com o
+tempo e a base dá uma classe só a cada texto.
 """
 
 from __future__ import annotations
@@ -52,21 +56,42 @@ def casar_modelos_abve(modelos: pd.Series, conhecidas: set[str]) -> pd.Series:
     Primeiro o texto como está. Se não casar, duas grafias que a ABVE acrescenta:
     a tecnologia no fim (``TOYOTA RAV4H SXAWD CNT HEV``) e o texto repetido com o
     prefixo de importado (``VOLVO XC60 T8 R-DESIGN PHEV I/VOLVO XC60 T8 R-DESIGN PHEV``);
-    e a barra que às vezes fica (``GEELY/EX5 MAX``).
+    a barra que às vezes fica (``GEELY/EX5 MAX``); e o espaço que às vezes falta
+    (``BMW X5XDRIVE45E PHEV``), este só se o texto sem espaços for de um modelo só.
     Sem casamento, fica o texto normalizado.
     """
+    sem_espacos: dict[str, list[str]] = {}
+    for conhecida in conhecidas:
+        sem_espacos.setdefault(conhecida.replace(" ", ""), []).append(conhecida)
+
     def casar(texto: str) -> str:
         chave = normalizar(texto)
         if chave in conhecidas:
             return chave
         candidata = chave.rsplit(" I/", 1)[-1] if " I/" in chave else chave
         candidata = _ESPACOS.sub(" ", candidata.replace("/", " "))
-        for tentativa in (candidata, _SUFIXO_TECNOLOGIA.sub("", candidata)):
+        tentativas = (candidata, _SUFIXO_TECNOLOGIA.sub("", candidata))
+        for tentativa in tentativas:
             if tentativa in conhecidas:
                 return tentativa
+        for tentativa in tentativas:
+            iguais = sem_espacos.get(tentativa.replace(" ", ""), [])
+            if len(iguais) == 1:
+                return iguais[0]
         return chave
     unicos = {texto: casar(texto) for texto in modelos.dropna().unique()}
     return modelos.map(unicos)
+
+
+def rotulo_atual(vendas: pd.DataFrame) -> pd.Series:
+    """Classe de cada modelo pelo rótulo mais recente da ABVE: a de mais vendas no último período em que vendeu.
+
+    A ABVE muda o rótulo de alguns textos com o tempo e não reescreve o histórico: o
+    ``CAOACHERY TIGGO7 PRO HA`` é HEV Flex até 2024 e MHEV 48V desde 2025.
+    """
+    por_periodo = vendas.groupby(["chave", "inicio", "classe"], observed=True)["qtd_vendas"].sum().reset_index()
+    return (por_periodo.sort_values(["chave", "inicio", "qtd_vendas"], ascending=[True, False, False])
+            .drop_duplicates("chave").set_index("chave")["classe"])
 
 
 def _mes(data: pd.Timestamp) -> tuple[int, int]:
@@ -151,6 +176,23 @@ def _por_periodo(pers: pd.DataFrame, vendas_fn, frota: pd.DataFrame, chave: list
         colunas, na_position="last").reset_index(drop=True)
 
 
+def _com_rotulo_atual(publicada: pd.DataFrame, reescrita: pd.DataFrame, chave: list[str]) -> pd.DataFrame:
+    """Junta à comparação a mesma conta com o histórico da ABVE no rótulo atual de cada modelo."""
+    if publicada.empty:
+        return publicada
+    colunas = ["periodo", "inicio", "fim", "fonte_vendas"] + chave
+    tabela = publicada.merge(reescrita[colunas + ["vendas_abve", "crescimento_frota"]], on=colunas, how="outer",
+                             suffixes=("", "_atual"))
+    tabela["crescimento_frota"] = tabela["crescimento_frota"].fillna(tabela["crescimento_frota_atual"])
+    tabela = _comparar(tabela)
+    atual = tabela["vendas_abve_atual"].fillna(0).astype("int64")
+    tabela = tabela.drop(columns=["vendas_abve_atual", "crescimento_frota_atual"]).assign(
+        vendas_abve_rotulo_atual=atual,
+        diferenca_rotulo_atual=tabela["crescimento_frota"] - atual,
+        razao_rotulo_atual=tabela["crescimento_frota"] / atual.where(atual > 0))
+    return tabela.sort_values(colunas, na_position="last").reset_index(drop=True)
+
+
 def _vendas_classificadas(vendas: pd.DataFrame) -> pd.DataFrame:
     return vendas.assign(classe=vendas["tecnologia"].map(CLASSE_POR_TECNOLOGIA))
 
@@ -200,17 +242,18 @@ def validar_abve(tabelas: dict[str, pd.DataFrame], abve: dict[str, pd.DataFrame]
     marca_por_chave = chaves.drop_duplicates("chave").set_index("chave")["marca"]
     vendas = vendas.assign(chave=casar_modelos_abve(vendas["modelo"], set(marca_por_chave.index)))
     vendas["marca"] = vendas["chave"].map(marca_por_chave).fillna(vendas["fabricante"].map(normalizar))
+    atual = vendas.assign(classe=vendas["chave"].map(rotulo_atual(vendas)))
 
+    def comparar(periodos_: pd.DataFrame, chave: list[str], serie_: pd.DataFrame | None) -> pd.DataFrame:
+        return _com_rotulo_atual(_por_periodo(periodos_, _filtro_vendas(vendas, serie_, chave), frota, chave),
+                                 _por_periodo(periodos_, _filtro_vendas(atual, serie_, chave), frota, chave), chave)
+
+    so_vendas = pers[pers["fonte_vendas"] == "vendas"]
     resultado = {
-        "validacao_abve_tecnologia": _por_periodo(
-            pers, _filtro_vendas(vendas, serie, ["classe"]), frota, ["classe"]),
-        "validacao_abve_uf": _por_periodo(
-            pers[pers["fonte_vendas"] == "vendas"], _filtro_vendas(vendas, None, ["uf_sigla", "classe"]),
-            frota, ["uf_sigla", "classe"]),
-        "validacao_abve_marca": _por_periodo(
-            pers[pers["fonte_vendas"] == "vendas"], _filtro_vendas(vendas, None, ["marca", "classe"]),
-            frota, ["marca", "classe"]),
-        "validacao_abve_modelo": validar_modelos(pers[pers["fonte_vendas"] == "vendas"], vendas, classificados),
+        "validacao_abve_tecnologia": comparar(pers, ["classe"], serie),
+        "validacao_abve_uf": comparar(so_vendas, ["uf_sigla", "classe"], None),
+        "validacao_abve_marca": comparar(so_vendas, ["marca", "classe"], None),
+        "validacao_abve_modelo": validar_modelos(so_vendas, vendas, classificados),
     }
     return {nome: tabela for nome, tabela in resultado.items() if not tabela.empty}
 
@@ -229,6 +272,7 @@ def validar_modelos(pers: pd.DataFrame, vendas: pd.DataFrame, classificados: pd.
                                        marca=("marca", "first"), classe_db=("classe", "first"),
                                        tipo=("tipo", "first"), pbe_classes=("pbe_classes", "first"))
                  .reset_index())
+    rotulos = rotulo_atual(vendas)
     relevantes = set(vendas["chave"]) | set(atributos.loc[atributos["classe_db"].isin(CLASSES_ABVE)
                                                          & (atributos["tipo"] == "leve"), "chave"])
     cls = cls[cls["chave"].isin(relevantes)]
@@ -255,9 +299,13 @@ def validar_modelos(pers: pd.DataFrame, vendas: pd.DataFrame, classificados: pd.
     comparavel = tabela["classe_abve"].notna() & tabela["casou"]
     tabela["mesma_classe"] = pd.array([a == b if c else pd.NA for a, b, c in
                                        zip(tabela["classe_abve"], tabela["classe_db"], comparavel)], dtype="boolean")
+    tabela["classe_abve_atual"] = tabela["chave"].map(rotulos)
+    comparavel = tabela["classe_abve_atual"].notna() & tabela["casou"]
+    tabela["mesma_classe_atual"] = pd.array([a == b if c else pd.NA for a, b, c in zip(
+        tabela["classe_abve_atual"], tabela["classe_db"], comparavel)], dtype="boolean")
     colunas = ["periodo", "inicio", "fim", "fonte_vendas", "modelo_abve", "marca_modelo_norm", "marca",
-               "classe_abve", "classes_abve", "classe_db", "mesma_classe", "pbe_classes", "casou", "vendas_abve",
-               "crescimento_frota", "diferenca", "razao"]
+               "classe_abve", "classes_abve", "classe_abve_atual", "classe_db", "mesma_classe", "mesma_classe_atual",
+               "pbe_classes", "casou", "vendas_abve", "crescimento_frota", "diferenca", "razao"]
     return (tabela.rename(columns={"chave": "modelo_abve"})[colunas]
             .sort_values(["inicio", "fim", "vendas_abve"], ascending=[True, True, False]).reset_index(drop=True))
 

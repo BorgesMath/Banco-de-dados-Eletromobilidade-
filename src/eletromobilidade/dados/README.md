@@ -67,7 +67,7 @@ em `modelos_classificados`.
 | `hibrido_plug_in` | BYD Song/King DM, Haval H6 PHEV/GT, Volvo T8, BMW 330e, Jeep 4xe, Outlander PHEV | sim |
 | `hibrido` | Corolla/Corolla Cross Hybrid, Lexus ES300h, Haval H6 HEV | sim |
 | `celula_combustivel` | Mirai (se aparecer) | sim |
-| `hibrido_leve` | Fiat Pulse/Fastback Hybrid (12 V), Kia Sportage MHEV, Caoa Chery "H"/"HA" | **não** (coluna própria) |
+| `hibrido_leve` | Fiat Pulse/Fastback Hybrid (12 V), Kia Sportage MHEV, Caoa Chery "H"/"HA", Audi Q7/Q8 "HIBRIDO", Mercedes C200/GLC300, Land Rover diesel D200/D350 | **não** (coluna própria) |
 | `combustao` | demais | não |
 | `nao_motorizado` | reboques (`R/`) e semirreboques (`SR/`) | não |
 
@@ -84,10 +84,18 @@ cobertas por testes em `tests/test_modelos.py`:
   Panamera `4EHST`/`TSEHS`, Volvo `INSC EXPRES`.
 
 Algumas classes vêm de conhecimento de mercado e não do texto, e a nota da regra
-diz isso: Stellantis e Caoa Chery "Hybrid" como híbrido leve, Audi "HIBRIDO" como
-híbrido (pode ser 48 V), Jaecoo 7 como plug-in, BYD sem "DM" como elétrico,
-Shineray PT/SE como elétricos, GAC GS4 como híbrido, Volvo XC60/XC90
-Inscription Express como plug-in.
+diz isso: Stellantis e Caoa Chery "Hybrid" como híbrido leve, Audi "HIBRIDO" sem
+"P-" como híbrido leve (A3, RS6 e RSQ8 por inferência, sem venda na ABVE), Jaecoo
+7 como plug-in, BYD sem "DM" como elétrico, Shineray PT/SE como elétricos, GAC GS4
+como híbrido, Volvo XC40/XC60/XC90 Inscription Express como plug-in.
+
+Outras vêm do rótulo atual da base de vendas da ABVE, adotado onde as vendas e o
+crescimento da frota do mesmo texto batem a ±25%: Ferrari, McLaren e Lamborghini
+plug-in, Renault Kangoo Max ZE, Nextem, Tangjun e Cayenne "ES"/"ET" elétricos, e os
+híbridos leves 48 V de Mercedes, BMW e Land Rover, em lista fechada texto a texto.
+Onde não batem, o texto cobre geração a combustão e fica de fora, e a nota da
+regra diz quais (`M.BENZ GLA200 AMG LINE`, `BMW X6 M COMPETITION`, `LR R.R SPT 3.0
+TD`).
 
 A coluna `revisar` marca modelos de marcas com linha (quase) toda eletrificada
 (BYD, GWM, GAC, Omoda/Jaecoo, Zeekr…) que não casaram com nenhuma regra; a CLI
@@ -191,10 +199,10 @@ acusação falsa.
 As duas direções do aviso se leem de formas opostas (números de set/2026):
 
 - **`sem_versao_no_pbe`**: a regra deu classe eletrificada que o PBE não
-  registra para o modelo. Falso positivo provável e a fila mais acionável: 19
-  modelos e 6.879 veículos. Foi assim que apareceu `I/BMW 320I EV11`.
+  registra para o modelo. Falso positivo provável e a fila mais acionável: 18
+  modelos e 6.867 veículos. Foi assim que apareceu `I/BMW 320I EV11`.
 - **`pbe_so_eletrificado`**: a regra disse combustão e toda versão do modelo no
-  PBE é eletrificada. 489 modelos e 414 mil veículos, mas a maioria é geração
+  PBE é eletrificada. 424 modelos e 386 mil veículos, mas a maioria é geração
   antiga: `I/MMC OUTLANDER 2.0` é o Outlander a combustão de antes do PHEV.
   Confira o ano de fabricação antes de criar regra.
 

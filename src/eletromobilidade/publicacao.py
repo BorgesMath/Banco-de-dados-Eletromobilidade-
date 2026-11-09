@@ -107,6 +107,25 @@ _ROTULOS = {"eletrificada": "Eletrificados", "eletrico": "Elétricos", "hibrido_
             "hibrido": "Híbridos", "hibrido_leve": "Híbridos leves (fora da frota eletrificada)"}
 
 
+def _tabela_validacao(t: pd.DataFrame, vendas: str = "vendas_abve", razao: str = "razao") -> list[str]:
+    """Tabela do LEIAME: período x classe, com crescimento da frota / vendas (diferença)."""
+    linhas = ["| Período | " + " | ".join(_ROTULOS.values()) + " |", "|---|" + "---:|" * len(_ROTULOS)]
+    grupos = sorted(t.groupby(["inicio", "fim", "periodo", "fonte_vendas"]),
+                    key=lambda g: (g[0][3] == "acumulado", g[0][0]))
+    for periodo, p in grupos:
+        por_classe = p.set_index("classe")
+        celulas = []
+        for classe in _ROTULOS:
+            if classe in por_classe.index and por_classe.loc[classe, vendas] > 0:
+                r = por_classe.loc[classe]
+                celulas.append(f"{_n(r['crescimento_frota'])} / {_n(r[vendas])} ({_pct(r[razao] - 1)})")
+            else:
+                celulas.append("—")
+        rotulo = periodo[2] + (" (acumulado)" if periodo[3] == "acumulado" else "")
+        linhas.append(f"| {rotulo} | " + " | ".join(celulas) + " |")
+    return linhas
+
+
 def validacao_leiame(tabelas: dict[str, pd.DataFrame]) -> list[str]:
     """Resumo das validações e qual base usar para cada pergunta."""
     linhas = ["", "## Qual base usar", "",
@@ -122,24 +141,21 @@ def validacao_leiame(tabelas: dict[str, pd.DataFrame]) -> list[str]:
         return linhas
     linhas += ["", "## Validação", "",
                "Contra as vendas da ABVE (crescimento da frota de leves nas UFs válidas x emplacamentos; ver "
-               "`validacao_abve_*`):", "",
-               "| Período | " + " | ".join(_ROTULOS.values()) + " |",
-               "|---|" + "---:|" * len(_ROTULOS)]
-    grupos = sorted(t.groupby(["inicio", "fim", "periodo", "fonte_vendas"]),
-                    key=lambda g: (g[0][3] == "acumulado", g[0][0]))
-    for periodo, p in grupos:
-        por_classe = p.set_index("classe")
-        celulas = []
-        for classe in _ROTULOS:
-            if classe in por_classe.index and por_classe.loc[classe, "vendas_abve"] > 0:
-                r = por_classe.loc[classe]
-                celulas.append(f"{_n(r['crescimento_frota'])} / {_n(r['vendas_abve'])} ({_pct(r['razao'] - 1)})")
-            else:
-                celulas.append("—")
-        rotulo = periodo[2] + (" (acumulado)" if periodo[3] == "acumulado" else "")
-        linhas.append(f"| {rotulo} | " + " | ".join(celulas) + " |")
+               "`validacao_abve_*`):", ""]
+    linhas += _tabela_validacao(t)
     linhas.append("")
     linhas.append("Cada célula: crescimento da frota / vendas da ABVE (diferença).")
+    if "vendas_abve_rotulo_atual" in t:
+        linhas += ["", "A ABVE muda o rótulo de alguns modelos com o tempo e não reescreve o histórico: o Tiggo 7 Pro "
+                   "\"HA\" é HEV Flex até 2024 e MHEV 48V desde 2025. A base dá uma classe só a cada texto, então a "
+                   "mesma conta sai também com todo o histórico no rótulo mais recente de cada modelo (2021 não muda: "
+                   "a série histórica não tem modelo):", ""]
+        linhas += _tabela_validacao(t, "vendas_abve_rotulo_atual", "razao_rotulo_atual")
+        linhas += ["", "**Esta comparação não é validação independente da classificação.** As regras da base por "
+                   "modelo seguem o rótulo atual da ABVE onde as vendas e o crescimento da frota do mesmo texto "
+                   "batem, então a diferença pequena no rótulo atual é, em boa parte, construída. Ela segue servindo "
+                   "para achar regra faltando e erro de contagem. A validação independente é a do PBE Veicular do "
+                   "Inmetro, abaixo."]
     m = tabelas.get("validacao_abve_modelo")
     if m is not None and not m.empty:
         a = m[(m["fonte_vendas"] == "acumulado") & (m["vendas_abve"] > 0)]
@@ -153,6 +169,11 @@ def validacao_leiame(tabelas: dict[str, pd.DataFrame]) -> list[str]:
                       f"eletrificados, "
                       f"{_pct(eletrificados.loc[mesma, 'vendas_abve'].sum() / eletrificados['vendas_abve'].sum(), False)}"
                       " das vendas têm a mesma classe nas duas fontes.")
+        if "mesma_classe_atual" in a:
+            atuais = casados[casados["classe_abve_atual"].isin(("eletrico", "hibrido_plug_in", "hibrido"))]
+            igual = atuais["mesma_classe_atual"].fillna(False).astype(bool)
+            linhas[-1] += (f" Pelo rótulo atual de cada modelo, "
+                           f"{_pct(atuais.loc[igual, 'vendas_abve'].sum() / atuais['vendas_abve'].sum(), False)}.")
     p = tabelas.get("validacao_pbe")
     if p is not None and not p.empty:
         ultimo = p[(p["ano"] == p["ano"].max()) & (p["mes"] == p[p["ano"] == p["ano"].max()]["mes"].max())]
@@ -359,6 +380,14 @@ _COLUNAS = {
                          "aparece no RENAVAM.",
     "diferenca": "crescimento_frota − vendas_abve.",
     "razao": "crescimento_frota / vendas_abve (nula sem vendas).",
+    "vendas_abve_rotulo_atual": "Vendas da ABVE com todo o histórico no rótulo mais recente de cada modelo. A ABVE "
+                                "muda o rótulo de alguns modelos com o tempo e não reescreve os anos anteriores.",
+    "diferenca_rotulo_atual": "crescimento_frota − vendas_abve_rotulo_atual.",
+    "razao_rotulo_atual": "crescimento_frota / vendas_abve_rotulo_atual (nula sem vendas).",
+    "classe_abve_atual": "Classe do rótulo mais recente da ABVE para o modelo: a de mais vendas no último período em "
+                         "que vendeu.",
+    "mesma_classe_atual": "Se classe_abve_atual e classe_db coincidem. Nulo quando o modelo não casou ou não teve "
+                          "venda.",
     "modelo_abve": "Texto do modelo como a ABVE grafa: o do RENAVAM sem o prefixo I/ e com espaço no lugar "
                    "da barra. É a chave da comparação.",
     "classe_abve": "Classe que a tecnologia da ABVE indica (BEV elétrico, PHEV plug-in, HEV e HEV FLEX híbrido, "
