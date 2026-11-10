@@ -1,14 +1,13 @@
 # Roteiro
 
-Estado em 09/11/2026. O pipeline Python está fechado e testado (396 testes), e o
+Estado em 10/11/2026. O pipeline Python está fechado e testado (396 testes), e o
 escopo do repositório vai até `resultados/`. O que falta está abaixo, em ordem de
 valor. A comparação com as vendas da ABVE, feita em 23/10, está no item 8, com as
 pendências que saíram dela resolvidas.
 
-As tabelas de `resultados/` estão em dia com o código, regeradas em 09/11 com a
-série completa de combustível (76 arquivos) e os 7 meses da base por modelo.
-Contra a publicação de 29/10, 309 modelos mudaram de classe (item 8) e nenhuma
-quantidade mudou. Na base por combustível, o mês excluído passou a ser dez/2021
+As tabelas de `resultados/` estão em dia com o código, regeradas em 10/11 com a
+série completa nas duas bases: 76 meses de combustível e 76 de marca/modelo
+(item 2). Os 7 meses que já existiam na base por modelo não mudaram. Na base por combustível, o mês excluído passou a ser dez/2021
 (item 4). Regerá-las exige os arquivos da SENATRAN em `data/raw`, que não são
 versionados: `baixar`, depois `processar` e `publicar`.
 
@@ -46,15 +45,21 @@ população junto com frota. Detalhe em `src/eletromobilidade/dados/README.md`, 
 município pelo mesmo código. Ela tem
 5.570 polígonos: falta Boa Esperança do Norte, mais novo que a malha.
 
-## 2. Ampliar a série da base por modelo — feito (dezembros)
+## 2. Ampliar a série da base por modelo — feito (série mensal)
 
 **Feito em 29/10/2026**, por decisão do usuário: dezembro de 2020 a 2025 mais
 set/2026, 7 meses. Dá série anual por marca, modelo e ano de fabricação, a
 conciliação com 6 pontos (dez/2021 saiu da base por combustível, item 4) e a
 validação contra a ABVE ano a ano. Cada mês são ~22
-milhões de linhas e ~130 MB, e cerca de 1,5 min de processamento sem cache. A
-série mensal (todos os meses) continua possível e custaria ~9 GB e ~2 h; não foi
-feita.
+milhões de linhas e ~130 MB, e cerca de 1,5 min de processamento sem cache.
+
+**Série mensal feita em 10/11/2026**, a pedido do usuário: jun/2020 a set/2026,
+76 meses, a mesma cobertura da base por combustível. A conciliação passou a ter
+75 meses (falta dez/2021, excluído da base por combustível) e fecha o total em
+todos eles. As razões por classe andam devagar, sem degrau de um mês para o
+outro. O único salto, jul/2024 (+27,8 mil eletrificados contra ~13 mil nos meses
+vizinhos), aparece igual no campo combustível (+29,5 mil): vem da fonte, e parte
+dele cai no grupo sem UF. A validação contra a ABVE não muda: segue por ano.
 
 ## 3. Tipo de veículo — feito
 

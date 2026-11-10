@@ -222,6 +222,9 @@ def leiame(tabelas: dict[str, pd.DataFrame], gerado_em: pd.Timestamp) -> str:
         linhas.append(texto + ".")
     if "modelo_tipo_brasil" in tabelas:
         br = tabelas["modelo_tipo_brasil"]
+        # Com a série mensal, um item por mês afoga o LEIAME: só os dezembros e o último mês.
+        ultimo = br["ano"] * 100 + br["mes"] == (br["ano"] * 100 + br["mes"]).max()
+        br = br[(br["mes"] == 12) | ultimo]
         for (ano, mes), mes_br in br.groupby(["ano", "mes"]):
             total = mes_br["frota_eletrificada"].sum()
             sem = mes_br.loc[mes_br["tipo"].isna(), "frota_eletrificada"].sum()

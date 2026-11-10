@@ -10,7 +10,7 @@ produto são as tabelas de [`resultados/`](resultados/LEIAME.md).
 | Fonte | O que entra | Como é usada |
 |---|---|---|
 | SENATRAN, frota por UF, município e **combustível** (`D_`, mensal, [gov.br](https://www.gov.br/transportes/pt-br/assuntos/transito/conteudo-Senatran/frota-de-veiculos-2026)) | Contagem por rótulo de combustível do RENAVAM | Base por combustível: a série mensal, jun/2020 a set/2026 |
-| SENATRAN, frota por UF, município, **marca/modelo** e ano de fabricação (`I_`, [CKAN](https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907)) | Texto "Marca Modelo", sem combustível | Base por modelo: tecnologia inferida do nome; dezembro de 2020 a 2025 e set/2026 |
+| SENATRAN, frota por UF, município, **marca/modelo** e ano de fabricação (`I_`, [CKAN](https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907)) | Texto "Marca Modelo", sem combustível | Base por modelo: tecnologia inferida do nome; a série mensal, jun/2020 a set/2026 |
 | IBGE, [API de localidades](https://servicodados.ibge.gov.br/api/docs/localidades) | Código e nome oficial dos 5.571 municípios | Identidade do município |
 | IBGE, Estimativas de População ([SIDRA 6579](https://sidra.ibge.gov.br/tabela/6579)) | População de 1º de julho, por município | Eletrificados por mil habitantes |
 | Inmetro, PBE Veicular (PDF do ciclo) | Propulsão declarada pelo fabricante, versão por versão | Auditoria da classificação por modelo e tipo de veículo leve |
@@ -74,9 +74,11 @@ uma linha de CSV com nota, cada armadilha é um caso de teste, e o que não casa
 vai para fila de revisão, não para palpite.
 
 **A série começa em jan/2020.** O arquivo por combustível falta de jan a
-mai/2020, então ela começa de fato em jun/2020. A base por modelo tem os
-dezembros de 2020 a 2025 e set/2026: série anual, que é o que a validação contra
-vendas pede. A série mensal por modelo custaria ~9 GB e ~2 h por rodada.
+mai/2020, então ela começa de fato em jun/2020. A base por modelo tem a mesma série
+mensal, jun/2020 a set/2026 (76 meses, desde 10/11/2026). A rodada completa lê
+~8,5 GB de arquivos de marca/modelo e leva ~2 h sem cache; com o cache em
+`data/interim`, ~20 min. A validação contra a ABVE segue por ano, porque os
+períodos de venda dela são anuais.
 
 ## Resultados
 
