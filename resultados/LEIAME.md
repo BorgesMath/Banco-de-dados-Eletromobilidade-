@@ -1,12 +1,12 @@
 # Resultados
 
-Gerado por `eletromobilidade publicar` a partir de `data/processed` em 2026-11-09 22:56 UTC (código no commit `6e3759f`). Não edite à mão: rode `processar` e `publicar` de novo.
+Gerado por `eletromobilidade publicar` a partir de `data/processed` em 2026-11-10 19:48 UTC (código no commit `e9069bf`). Não edite à mão: rode `processar` e `publicar` de novo.
 
 ## Cobertura
 
 - **Base por combustível:** jun/2020 a set/2026, 75 meses; faltam dez/2021.
-- **Base por modelo:** dez/2020 a set/2026, 7 meses; faltam 63 meses no intervalo.
-- **Conciliação:** 6 meses (dez/2020, dez/2022, dez/2023, dez/2024, dez/2025, set/2026).
+- **Base por modelo:** jun/2020 a set/2026, 76 meses.
+- **Conciliação:** jun/2020 a set/2026, 75 meses; faltam dez/2021.
 - **Municípios:** 5.571 com código IBGE, 7 deles publicados pela SENATRAN com mais de uma grafia na série; sem código: NAO IDENTIFICADO, NAO SE APLICA, SEM INFORMACAO.
 - **População:** estimativas do IBGE de 2020, 2021, 2024, 2025 e 2026; 2022 e 2023, sem estimativa, usam a de 2024.
 - **Tipo de veículo, dez/2020:** leve 90,8%, moto 8,8%, onibus 0,2%, caminhao 0,2% da frota eletrificada da base por modelo; sem tipo: 0,00%.
@@ -57,7 +57,7 @@ A ABVE muda o rótulo de alguns modelos com o tempo e não reescreve o históric
 
 **O quanto a comparação depende da ABVE.** As regras da base por modelo seguem o rótulo atual da ABVE onde as vendas e o crescimento da frota do mesmo texto batem. A contagem continua independente: o crescimento de cada texto sai do RENAVAM. O que se tomou da ABVE foi a classe, e o peso disso está quase todo no híbrido leve, em que o nome do modelo não diz que o motor é de 48 V: lá, a diferença pequena no rótulo atual é em boa parte construída. Em elétrico, plug-in e híbrido, os textos que mudaram de classe pesam 0,4% das vendas. A validação independente da classe é a do PBE Veicular do Inmetro, abaixo.
 
-Modelo a modelo (01/2022 a 09/2026): 848 de 856 textos de modelo da ABVE casam com a base, 100,0% das vendas; nos eletrificados, 98,9% das vendas têm a mesma classe nas duas fontes. Pelo rótulo atual de cada modelo, 99,8%.
+Modelo a modelo (01/2022 a 09/2026): 849 de 856 textos de modelo da ABVE casam com a base, 100,0% das vendas; nos eletrificados, 98,9% das vendas têm a mesma classe nas duas fontes. Pelo rótulo atual de cada modelo, 99,8%.
 
 Contra o PBE Veicular do Inmetro (set/2026): 78,9% da frota eletrificada casa com o PBE; 18 modelos e 6.867 veículos com classe que o PBE não registra (ver `validacao_pbe`).
 
@@ -70,26 +70,26 @@ Contra o PBE Veicular do Inmetro (set/2026): 78,9% da frota eletrificada casa co
 | `combustivel_municipio.parquet` | 417.997 | Idem, por município. |
 | `combustivel_eletrificados.parquet` | 725.874 | Base por combustível: rótulos eletrificados por município e mês. |
 | `combustiveis_classificados.csv` | 30 | Auditoria: rótulos de combustível, classe atribuída e total de veículos. |
-| `modelo_brasil.csv` | 7 | Base por modelo: frota por classe (inclui plug-in x convencional e híbrido leve), Brasil, por mês. |
-| `modelo_uf.csv` | 189 | Idem, por UF. |
-| `modelo_municipio.parquet` | 39.014 | Idem, por município. |
-| `modelo_eletrificados.parquet` | 558.184 | Base por modelo: eletrificados e híbridos leves por município, modelo e ano de fabricação. |
-| `modelo_tipo_brasil.csv` | 37 | Base por modelo: eletrificados e híbridos leves por tipo de veículo (leve, moto, ônibus, caminhão, outros), Brasil, por mês. Use participacao_tipo; a contagem absoluta herda a diferença para a base por combustível. |
-| `modelo_tipo_uf.csv` | 556 | Idem, por UF. |
-| `modelos_classificados.parquet` | 248.086 | Auditoria: cada modelo, classe, regra aplicada, total, marca, marcação 'revisar' e confronto com a tabela PBE Veicular do Inmetro. |
-| `modelos_dimensao.parquet` | 1.235 | Dimensão de marca e modelo: grafia do RENAVAM, marca canônica e origem, por modelo distinto. |
+| `modelo_brasil.csv` | 76 | Base por modelo: frota por classe (inclui plug-in x convencional e híbrido leve), Brasil, por mês. |
+| `modelo_uf.csv` | 2.052 | Idem, por UF. |
+| `modelo_municipio.parquet` | 423.570 | Idem, por município. |
+| `modelo_eletrificados.parquet` | 4.984.585 | Base por modelo: eletrificados e híbridos leves por município, modelo e ano de fabricação. |
+| `modelo_tipo_brasil.csv` | 399 | Base por modelo: eletrificados e híbridos leves por tipo de veículo (leve, moto, ônibus, caminhão, outros), Brasil, por mês. Use participacao_tipo; a contagem absoluta herda a diferença para a base por combustível. |
+| `modelo_tipo_uf.csv` | 5.982 | Idem, por UF. |
+| `modelos_classificados.parquet` | 2.646.634 | Auditoria: cada modelo, classe, regra aplicada, total, marca, marcação 'revisar' e confronto com a tabela PBE Veicular do Inmetro. |
+| `modelos_dimensao.parquet` | 1.236 | Dimensão de marca e modelo: grafia do RENAVAM, marca canônica e origem, por modelo distinto. |
 | `municipios_dimensao.parquet` | 5.574 | Dimensão de município: código IBGE, nome oficial, UF e as grafias com que a SENATRAN publicou o município na série. |
-| `conciliacao_brasil.csv` | 6 | Comparação combustível x modelo, Brasil, nos meses presentes nas duas bases. |
-| `conciliacao_uf.csv` | 162 | Idem, por UF. |
-| `conciliacao_municipio.parquet` | 33.441 | Idem, por município. |
-| `modelo_sem_uf.csv` | 54 | Base por modelo: o grupo sem UF ('Sem Informação') por mês e classe, que o painel do Brasil inclui e o de UF não. Nos eletrificados, tem perfil de estoque ainda não emplacado. |
+| `conciliacao_brasil.csv` | 75 | Comparação combustível x modelo, Brasil, nos meses presentes nas duas bases. |
+| `conciliacao_uf.csv` | 2.025 | Idem, por UF. |
+| `conciliacao_municipio.parquet` | 417.997 | Idem, por município. |
+| `modelo_sem_uf.csv` | 584 | Base por modelo: o grupo sem UF ('Sem Informação') por mês e classe, que o painel do Brasil inclui e o de UF não. Nos eletrificados, tem perfil de estoque ainda não emplacado. |
 | `validacao_abve_tecnologia.csv` | 41 | Validação externa: vendas da ABVE x crescimento da frota da base por modelo, por período e classe (leves, UFs válidas). 2021 vem da série histórica da ABVE; de 2022 em diante, da base de vendas. A classe 'eletrificada' soma elétrico, plug-in e híbrido. |
 | `validacao_abve_uf.csv` | 814 | Idem, por UF (de 2022 em diante). |
 | `validacao_abve_marca.csv` | 1.103 | Idem, por marca. |
 | `validacao_abve_modelo.parquet` | 3.019 | Idem, modelo a modelo: classe pela ABVE, classe pela base, classes do PBE Veicular e vendas x crescimento. É o teste externo da classificação. |
-| `validacao_pbe.csv` | 54 | Validação contra o PBE Veicular do Inmetro, por mês e classe: modelos e frota que casam com o PBE e as duas divergências. |
+| `validacao_pbe.csv` | 584 | Validação contra o PBE Veicular do Inmetro, por mês e classe: modelos e frota que casam com o PBE e as duas divergências. |
 | `qualidade_combustivel.csv` | 76 | Arquivos mensais da base por combustível: linhas, total, ajustes e inclusão na série. |
-| `qualidade_modelo.csv` | 7 | Idem para a base por modelo. |
+| `qualidade_modelo.csv` | 76 | Idem para a base por modelo. |
 
 CSV: separador `;`, decimal `,`, UTF-8 com BOM (abre direto no Excel pt-BR). Parquet: ler com `pandas.read_parquet` ou no Power BI/R/DuckDB.
 Colunas, tipos, fontes e classes: [DICIONARIO.md](DICIONARIO.md). Limitações: README do repositório. Método de conciliação: [src/eletromobilidade/README.md](../src/eletromobilidade/README.md#conciliação).
