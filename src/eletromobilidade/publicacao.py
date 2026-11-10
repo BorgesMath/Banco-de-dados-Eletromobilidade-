@@ -151,11 +151,13 @@ def validacao_leiame(tabelas: dict[str, pd.DataFrame]) -> list[str]:
                    "mesma conta sai também com todo o histórico no rótulo mais recente de cada modelo (2021 não muda: "
                    "a série histórica não tem modelo):", ""]
         linhas += _tabela_validacao(t, "vendas_abve_rotulo_atual", "razao_rotulo_atual")
-        linhas += ["", "**Esta comparação não é validação independente da classificação.** As regras da base por "
-                   "modelo seguem o rótulo atual da ABVE onde as vendas e o crescimento da frota do mesmo texto "
-                   "batem, então a diferença pequena no rótulo atual é, em boa parte, construída. Ela segue servindo "
-                   "para achar regra faltando e erro de contagem. A validação independente é a do PBE Veicular do "
-                   "Inmetro, abaixo."]
+        linhas += ["", "**O quanto a comparação depende da ABVE.** As regras da base por modelo seguem o rótulo atual "
+                   "da ABVE onde as vendas e o crescimento da frota do mesmo texto batem. A contagem continua "
+                   "independente: o crescimento de cada texto sai do RENAVAM. O que se tomou da ABVE foi a classe, e "
+                   "o peso disso está quase todo no híbrido leve, em que o nome do modelo não diz que o motor é de "
+                   "48 V: lá, a diferença pequena no rótulo atual é em boa parte construída. Em elétrico, plug-in e "
+                   "híbrido, os textos que mudaram de classe pesam 0,4% das vendas. A validação independente da "
+                   "classe é a do PBE Veicular do Inmetro, abaixo."]
     m = tabelas.get("validacao_abve_modelo")
     if m is not None and not m.empty:
         a = m[(m["fonte_vendas"] == "acumulado") & (m["vendas_abve"] > 0)]

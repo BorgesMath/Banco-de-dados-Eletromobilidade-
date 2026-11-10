@@ -132,14 +132,20 @@ têm a mesma classe nas duas fontes (99,8% pelo rótulo atual). Contra a ABVE
 publicada, 6.253 dos 6.321 híbridos a menos são os Caoa Chery "H"/"HA", híbridos
 leves aqui e no rótulo atual dela.
 
-**Essa comparação não é validação independente da classificação.** Desde
-09/11/2026 as regras de modelo seguem o rótulo atual da ABVE onde as vendas e o
-crescimento da frota do mesmo texto batem, então o −0,2% no rótulo atual é, em boa
-parte, construído. Ela continua servindo para achar regra faltando e erro de
-contagem. A validação independente é a do PBE do Inmetro, logo abaixo, e a do
-próprio RENAVAM: os híbridos do campo combustível, que incluem os híbridos leves,
-fecham com os híbridos e híbridos leves da base por modelo (tabela de
-conciliação acima).
+**O quanto a comparação depende da ABVE.** Desde 09/11/2026 as regras de modelo
+seguem o rótulo atual da ABVE onde as vendas e o crescimento da frota do mesmo
+texto batem. A contagem continua independente: o crescimento de cada texto sai do
+RENAVAM e só é comparado com as vendas dela. O que se tomou dela foi a classe de
+257 textos, e o peso disso muda com a classe. Em elétrico, plug-in e híbrido, os
+textos que mudaram somam 3,5 mil vendas, 0,4% das vendas desses três, e a maior
+parte é regra que o nome já justificava (Renault, Ferrari, Nextem, Tangjun). Em
+híbrido leve, são 48,6 mil, 31% das vendas da classe: o nome não diz que o motor é
+de 48 V (`M.BENZ C200 AMG LINE`, `BMW X3 30 XDRIVE`, `FIAT FASTBACK IMPETUS HY`),
+e a classe veio da ABVE. Para híbrido leve, então, a diferença pequena no rótulo
+atual é em boa parte construída. A validação independente da classe é a do PBE do
+Inmetro, logo abaixo, e a do próprio RENAVAM: os híbridos do campo combustível, que
+incluem os híbridos leves, fecham com os híbridos e híbridos leves da base por
+modelo (tabela de conciliação acima).
 
 O que isso decide: **o rótulo HIBRIDO PLUG-IN do campo combustível pega só 22%
 dos plug-ins vendidos**; o resto entra como híbrido. A divisão PHEV × HEV vale

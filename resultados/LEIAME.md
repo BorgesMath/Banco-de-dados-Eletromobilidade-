@@ -55,7 +55,7 @@ A ABVE muda o rótulo de alguns modelos com o tempo e não reescreve o históric
 | 01/2026 a 09/2026 | 381.425 / 381.603 (−0,0%) | 165.540 / 165.820 (−0,2%) | 137.640 / 137.633 (+0,0%) | 78.245 / 78.150 (+0,1%) | 50.964 / 51.698 (−1,4%) |
 | 01/2021 a 09/2026 (acumulado) | 913.893 / 916.087 (−0,2%) | 337.518 / 338.240 (−0,2%) | 351.022 / 352.621 (−0,5%) | 225.349 / 225.226 (+0,1%) | 160.862 / 157.984 (+1,8%) |
 
-**Esta comparação não é validação independente da classificação.** As regras da base por modelo seguem o rótulo atual da ABVE onde as vendas e o crescimento da frota do mesmo texto batem, então a diferença pequena no rótulo atual é, em boa parte, construída. Ela segue servindo para achar regra faltando e erro de contagem. A validação independente é a do PBE Veicular do Inmetro, abaixo.
+**O quanto a comparação depende da ABVE.** As regras da base por modelo seguem o rótulo atual da ABVE onde as vendas e o crescimento da frota do mesmo texto batem. A contagem continua independente: o crescimento de cada texto sai do RENAVAM. O que se tomou da ABVE foi a classe, e o peso disso está quase todo no híbrido leve, em que o nome do modelo não diz que o motor é de 48 V: lá, a diferença pequena no rótulo atual é em boa parte construída. Em elétrico, plug-in e híbrido, os textos que mudaram de classe pesam 0,4% das vendas. A validação independente da classe é a do PBE Veicular do Inmetro, abaixo.
 
 Modelo a modelo (01/2022 a 09/2026): 848 de 856 textos de modelo da ABVE casam com a base, 100,0% das vendas; nos eletrificados, 98,9% das vendas têm a mesma classe nas duas fontes. Pelo rótulo atual de cada modelo, 99,8%.
 
