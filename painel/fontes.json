@@ -1,0 +1,1294 @@
+[
+ {
+  "mes": "2020-06",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_junho_2020.zip",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2020/junho/i_frota_por_uf_municipio_marca_e_modelo_ano_junho_2020.zip/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "d_frota_por_uf_municipio_combustivel_junho_2020.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2020/junho/d_frota_por_uf_municipio_combustivel_junho_2020.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2020-07",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_julho_2020.zip",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2020/julho/i_frota_por_uf_municipio_marca_e_modelo_ano_julho_2020.zip/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "d_frota_por_uf_municipio_combustivel_julho_2020.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2020/julho/d_frota_por_uf_municipio_combustivel_julho_2020.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2020-08",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_agosto_2020.zip",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2020/agosto/i_frota_por_uf_municipio_marca_e_modelo_ano_agosto_2020.zip/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "d_frota_por_uf_municipio_combustivel_agosto_2020.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2020/agosto/d_frota_por_uf_municipio_combustivel_agosto_2020.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2020-09",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_setembro_2020.zip",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2020/setembro/i_frota_por_uf_municipio_marca_e_modelo_ano_setembro_2020.zip/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "d_frota_por_uf_municipio_combustivel_setembro_2020.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2020/setembro/d_frota_por_uf_municipio_combustivel_setembro_2020.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2020-10",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_outubro_2020.zip",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2020/outubro/i_frota_por_uf_municipio_marca_e_modelo_ano_outubro_2020.zip/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "d_frota_por_uf_municipio_combustivel_outubro_2020.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2020/outubro/d_frota_por_uf_municipio_combustivel_outubro_2020.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2020-11",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_novembro_2020.zip",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2020/novembro/i_frota_por_uf_municipio_marca_e_modelo_ano_novembro_2020.zip/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "d_frota_por_uf_municipio_combustivel_novembro_2020.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2020/novembro/d_frota_por_uf_municipio_combustivel_novembro_2020.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2020-12",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_dezembro_2020.zip",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2020/dezembro/i_frota_por_uf_municipio_marca_e_modelo_ano_dezembro_2020.zip/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "d_frota_por_uf_municipio_combustivel_dezembro_2020.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2020/dezembro/d_frota_por_uf_municipio_combustivel_dezembro_2020.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2021-01",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_janeiro_2021.zip",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2021/janeiro/i_frota_por_uf_municipio_marca_e_modelo_ano_janeiro_2021.zip/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "d_frota_por_uf_municipio_combustivel_janeiro_2021.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2021/janeiro/d_frota_por_uf_municipio_combustivel_janeiro_2021.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2021-02",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_fevereiro_2021.zip",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2021/fevereiro/i_frota_por_uf_municipio_marca_e_modelo_ano_fevereiro_2021.zip/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "d_frota_por_uf_municipio_combustivel_fevereiro_2021.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2021/fevereiro/d_frota_por_uf_municipio_combustivel_fevereiro_2021.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2021-03",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_marco_2021.zip",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2021/marco/i_frota_por_uf_municipio_marca_e_modelo_ano_marco_2021.zip/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "d_frota_por_uf_municipio_combustivel_marco_2021.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2021/marco/d_frota_por_uf_municipio_combustivel_marco_2021.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2021-04",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_abril_2021.zip",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2021/abril/i_frota_por_uf_municipio_marca_e_modelo_ano_abril_2021.zip/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "d_frota_por_uf_municipio_combustivel_abril_2021.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2021/abril/d_frota_por_uf_municipio_combustivel_abril_2021.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2021-05",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_maio_2021.zip",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2021/maio/i_frota_por_uf_municipio_marca_e_modelo_ano_maio_2021.zip/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "d_frota_por_uf_municipio_combustivel_maio_2021.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2021/maio/d_frota_por_uf_municipio_combustivel_maio_2021.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2021-06",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_junho_2021.zip",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2021/junho/i_frota_por_uf_municipio_marca_e_modelo_ano_junho_2021.zip/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "d_frota_por_uf_municipio_combustivel_junho_2021.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2021/junho/d_frota_por_uf_municipio_combustivel_junho_2021.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2021-07",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_julho_2021.zip",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2021/julho/i_frota_por_uf_municipio_marca_e_modelo_ano_julho_2021.zip/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "d_frota_por_uf_municipio_combustivel_julho_2021.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2021/julho/d_frota_por_uf_municipio_combustivel_julho_2021.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2021-08",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_agosto_2021.zip",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2021/agosto/i_frota_por_uf_municipio_marca_e_modelo_ano_agosto_2021.zip/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "d_frota_por_uf_municipio_combustivel_agosto_2021.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2021/agosto/d_frota_por_uf_municipio_combustivel_agosto_2021.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2021-09",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_setembro_2021.zip",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2021/setembro/i_frota_por_uf_municipio_marca_e_modelo_ano_setembro_2021.zip/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "d_frota_por_uf_municipio_combustivel_setembro_2021.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2021/setembro/d_frota_por_uf_municipio_combustivel_setembro_2021.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2021-10",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_outubro_2021.zip",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2021/outubro/i_frota_por_uf_municipio_marca_e_modelo_ano_outubro_2021.zip/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "d_frota_por_uf_municipio_combustivel_outubro_2021.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2021/outubro/d_frota_por_uf_municipio_combustivel_outubro_2021.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2021-11",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_novembro_2021.zip",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2021/novembro/i_frota_por_uf_municipio_marca_e_modelo_ano_novembro_2021.zip/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "d_frota_por_uf_municipio_combustivel_novembro_2021.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2021/novembro/d_frota_por_uf_municipio_combustivel_novembro_2021.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": "contagens divididas por 10 (todas eram múltiplas de 10 no arquivo publicado)"
+  }
+ },
+ {
+  "mes": "2021-12",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_dezembro_2021.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/4869946e-9df5-4ffb-a543-498dd3ede6bb/download/i_frota_por_uf_municipio_marca_e_modelo_ano_dezembro_2021.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "d_frota_por_uf_municipio_combustivel_dezembro_2021.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2021/dezembro/d_frota_por_uf_municipio_combustivel_dezembro_2021.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": false,
+   "ajuste": "idêntico a 2022-01; excluído da série"
+  }
+ },
+ {
+  "mes": "2022-01",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_janeiro_2022.zip",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2022/janeiro/i_frota_por_uf_municipio_marca_e_modelo_ano_janeiro_2022.zip/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "d_frota_por_uf_municipio_combustivel_janeiro_2022.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2022/janeiro/d_frota_por_uf_municipio_combustivel_janeiro_2022.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2022-02",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_fevereiro_2022.zip",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2022/fevereiro/i_frota_por_uf_municipio_marca_e_modelo_ano_fevereiro_2022.zip/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "d_frota_por_uf_municipio_combustivel_fevereiro_2022.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2022/fevereiro/d_frota_por_uf_municipio_combustivel_fevereiro_2022.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2022-03",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_marco_2022.zip",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2022/marco/i_frota_por_uf_municipio_marca_e_modelo_ano_marco_2022.zip/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "d_frota_por_uf_municipio_combustivel_marco_2022.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2022/marco/d_frota_por_uf_municipio_combustivel_marco_2022.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2022-04",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_abril_2022.zip",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2022/abril/i_frota_por_uf_municipio_marca_e_modelo_ano_abril_2022.zip/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "d_frota_por_uf_municipio_combustivel_abril_2022.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2022/abril/d_frota_por_uf_municipio_combustivel_abril_2022.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": "frota_hibrido_plug_in: classe sem registro até 2022-04; antes disso os veículos dela estão em outra classe"
+  }
+ },
+ {
+  "mes": "2022-05",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_maio_2022.zip",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2022/maio/i_frota_por_uf_municipio_marca_e_modelo_ano_maio_2022.zip/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "d_frota_por_uf_municipio_combustivel_maio_2022.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2022/maio/d_frota_por_uf_municipio_combustivel_maio_2022.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2022-06",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_junho_2022.zip",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2022/junho/i_frota_por_uf_municipio_marca_e_modelo_ano_junho_2022.zip/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "d_frota_por_uf_municipio_combustivel_junho_2022.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2022/junho/d_frota_por_uf_municipio_combustivel_junho_2022.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2022-07",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_julho_2022.zip",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2022/julho/i_frota_por_uf_municipio_marca_e_modelo_ano_julho_2022.zip/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "d_frota_por_uf_municipio_combustivel_julho_2022.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2022/julho/d_frota_por_uf_municipio_combustivel_julho_2022.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2022-08",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_agosto_2022.zip",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2022/agosto/i_frota_por_uf_municipio_marca_e_modelo_ano_agosto_2022.zip/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "d_frota_por_uf_municipio_combustivel_agosto_2022.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2022/agosto/d_frota_por_uf_municipio_combustivel_agosto_2022.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2022-09",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_setembro_2022.zip",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2022/setembro/i_frota_por_uf_municipio_marca_e_modelo_ano_setembro_2022.zip/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "d_frota_por_uf_municipio_combustivel_setembro_2022.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2022/setembro/d_frota_por_uf_municipio_combustivel_setembro_2022.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2022-10",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_outubro_2022.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/3a892673-5111-4fc6-8b91-6d00a569bd65/download/i_frota_por_uf_municipio_marca_e_modelo_ano_outubro_2022.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "d_frota_por_uf_municipio_combustivel_outubro_2022.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2022/outubro/d_frota_por_uf_municipio_combustivel_outubro_2022.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2022-11",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_novembro_2022.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/91f4dc66-e495-40be-9c65-202ec90b9e9b/download/i_frota_por_uf_municipio_marca_e_modelo_ano_novembro_2022.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "d_frota_por_uf_municipio_combustivel_novembro_2022.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2022/novembro/d_frota_por_uf_municipio_combustivel_novembro_2022.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": "frota_celula_combustivel: classe sem registro até 2022-11; antes disso os veículos dela estão em outra classe"
+  }
+ },
+ {
+  "mes": "2022-12",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_dezembro_2022.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/57d4644e-fe02-441b-93dd-71550e24df9b/download/i_frota_por_uf_municipio_marca_e_modelo_ano_dezembro_2022.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "d_frota_por_uf_municipio_combustivel_dezembro_2022.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2022/dezembro/d_frota_por_uf_municipio_combustivel_dezembro_2022.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2023-01",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_janeiro_2023.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/4f6b4c22-ba2d-4e06-8f40-387bf9391824/download/i_frota_por_uf_municipio_marca_e_modelo_ano_janeiro_2023.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "d_frota_por_uf_municipio_combustivel_janeiro_2023.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2023/janeiro/d_frota_por_uf_municipio_combustivel_janeiro_2023.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2023-02",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_fevereiro_2023.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/20d194de-c047-48db-811e-eb35ab9a3eb9/download/i_frota_por_uf_municipio_marca_e_modelo_ano_fevereiro_2023.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "d_frota_por_uf_municipio_combustivel_fevereiro_2023.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2023/fevereiro/d_frota_por_uf_municipio_combustivel_fevereiro_2023.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2023-03",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_marco_2023.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/20ed6189-6732-4b04-8bb5-34633d7f33b5/download/i_frota_por_uf_municipio_marca_e_modelo_ano_marco_2023.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "d_frota_por_uf_municipio_combustivel_marco_2023.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2023/marco/d_frota_por_uf_municipio_combustivel_marco_2023.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2023-04",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_abril_2023.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/041a3465-8ece-44e8-9577-9154f8f94564/download/i_frota_por_uf_municipio_marca_e_modelo_ano_abril_2023.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "d_frota_por_uf_municipio_combustivel_abril_2023.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2023/abril/d_frota_por_uf_municipio_combustivel_abril_2023.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2023-05",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_maio_2023.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/88fa4439-a19f-4e03-8e8b-a5010711ba4c/download/i_frota_por_uf_municipio_marca_e_modelo_ano_maio_2023.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "d_frota_por_uf_municipio_combustivel_maio_2023.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2023/maio/d_frota_por_uf_municipio_combustivel_maio_2023.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2023-06",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_junho_2023.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/a828304e-ade2-43bd-9841-d0a691f2dc34/download/i_frota_por_uf_municipio_marca_e_modelo_ano_junho_2023.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "d_frota_por_uf_municipio_combustivel_junho_2023.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2023/junho/d_frota_por_uf_municipio_combustivel_junho_2023.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2023-07",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_julho_2023.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/ac39ebfb-9920-47b4-8a47-60a96b355b3f/download/i_frota_por_uf_municipio_marca_e_modelo_ano_julho_2023.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "d_frota_por_uf_municipio_combustivel_julho_2023.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2023/julho/d_frota_por_uf_municipio_combustivel_julho_2023.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2023-08",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_agosto_2023.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/3c7f83ef-785b-4d4f-94f2-a33fd99ec24e/download/i_frota_por_uf_municipio_marca_e_modelo_ano_agosto_2023.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "d_frota_por_uf_municipio_combustivel_agosto_2023.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2023/agosto/d_frota_por_uf_municipio_combustivel_agosto_2023.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2023-09",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_setembro_2023.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/0e630abc-1728-4b52-82fd-b576242bad75/download/i_frota_por_uf_municipio_marca_e_modelo_ano_setembro_2023.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "d_frota_por_uf_municipio_combustivel_setembro_2023.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2023/setembro/d_frota_por_uf_municipio_combustivel_setembro_2023.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2023-10",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_outubro_2023.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/e5ca029e-ffb0-4f2f-8768-e360b5d16c89/download/i_frota_por_uf_municipio_marca_e_modelo_ano_outubro_2023.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "d_frota_por_uf_municipio_combustivel_outubro_2023.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2023/Outubro/d_frota_por_uf_municipio_combustivel_outubro_2023.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2023-11",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_novembro_2023.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/c338b00f-98e2-4d12-8d4c-00c3bb9eab1a/download/i_frota_por_uf_municipio_marca_e_modelo_ano_novembro_2023.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "d_frota_por_uf_municipio_combustivel_novembro_2023.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2023/Novembro/d_frota_por_uf_municipio_combustivel_novembro_2023.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2023-12",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_dezembro_2023.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/023bf4a1-89b9-4947-9b2b-864fc097338f/download/i_frota_por_uf_municipio_marca_e_modelo_ano_dezembro_2023.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "d_frota_por_uf_municipio_combustivel_dezembro_2023.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/arquivos-senatran/estatisticas/renavam/2023/Dezembro/d_frota_por_uf_municipio_combustivel_dezembro_2023.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2024-01",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_janeiro_2024.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/2427ca95-ccb4-4711-be8f-369e8a4f3178/download/i_frota_por_uf_municipio_marca_e_modelo_ano_janeiro_2024.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "D_Frota_por_UF_Municipio_COMBUSTIVEL_Janeiro_2024.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/conteudo-Senatran/D_Frota_por_UF_Municipio_COMBUSTIVEL_Janeiro_2024.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2024-02",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_fevereiro_2024.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/d33173dd-48b1-42aa-b42b-be4ced118a8e/download/i_frota_por_uf_municipio_marca_e_modelo_ano_fevereiro_2024.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "D_Frota_por_UF_Municipio_COMBUSTIVEL_Fevereiro_20241.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/conteudo-Senatran/D_Frota_por_UF_Municipio_COMBUSTIVEL_Fevereiro_20241.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2024-03",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_marco_2024.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/6dd78090-aab1-4005-9dcf-0e045beaf5dc/download/i_frota_por_uf_municipio_marca_e_modelo_ano_marco_2024.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "D_Frota_por_UF_Municipio_COMBUSTIVEL_Maro_2024.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/conteudo-Senatran/D_Frota_por_UF_Municipio_COMBUSTIVEL_Maro_2024.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2024-04",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_abril_2024.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/37e79e91-6db2-47ce-8a7f-b1ab1a465add/download/i_frota_por_uf_municipio_marca_e_modelo_ano_abril_2024.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "D_Frota_por_UF_Municipio_COMBUSTIVEL_Abril_2024.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/conteudo-Senatran/D_Frota_por_UF_Municipio_COMBUSTIVEL_Abril_2024.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2024-05",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_maio_2024.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/cd5817d2-c8db-4c21-8282-1f31f944f34d/download/i_frota_por_uf_municipio_marca_e_modelo_ano_maio_2024.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "D_Frota_por_UF_Municipio_COMBUSTIVEL_Maio_2024.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/conteudo-Senatran/D_Frota_por_UF_Municipio_COMBUSTIVEL_Maio_2024.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2024-06",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_junho_2024.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/29df629f-a955-4427-a819-097334df9c84/download/i_frota_por_uf_municipio_marca_e_modelo_ano_junho_2024.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "D_Frota_por_UF_Municipio_COMBUSTIVEL_Junho_2024.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/conteudo-Senatran/D_Frota_por_UF_Municipio_COMBUSTIVEL_Junho_2024.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2024-07",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_julho_2024.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/49963e10-546a-4d72-8269-1489f4e5f349/download/i_frota_por_uf_municipio_marca_e_modelo_ano_julho_2024.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "D_Frota_por_UF_Municipio_COMBUSTIVEL_Julho_2024.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/conteudo-Senatran/D_Frota_por_UF_Municipio_COMBUSTIVEL_Julho_2024.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2024-08",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_agosto_2024.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/bddfba35-789f-4afa-8d5e-9707ebcef241/download/i_frota_por_uf_municipio_marca_e_modelo_ano_agosto_2024.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "D_Frota_por_UF_Municipio_COMBUSTIVEL_Agosto_2024.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/conteudo-Senatran/D_Frota_por_UF_Municipio_COMBUSTIVEL_Agosto_2024.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2024-09",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_setembro_2024.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/40744050-dc2a-4165-bbfb-3e4f624f58c0/download/i_frota_por_uf_municipio_marca_e_modelo_ano_setembro_2024.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "D_Frota_por_UF_Municipio_COMBUSTIVEL_Setembro_2024.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/conteudo-Senatran/D_Frota_por_UF_Municipio_COMBUSTIVEL_Setembro_2024.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2024-10",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_outubro_2024.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/37094b43-2c8f-4fc7-91c6-3775115a0a1a/download/i_frota_por_uf_municipio_marca_e_modelo_ano_outubro_2024.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "D_Frota_por_UF_Municipio_COMBUSTIVEL_Outubro_2024.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/conteudo-Senatran/D_Frota_por_UF_Municipio_COMBUSTIVEL_Outubro_2024.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2024-11",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_novembro_2024.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/276afdab-2f9e-47e4-8590-a12c81ce2fcd/download/i_frota_por_uf_municipio_marca_e_modelo_ano_novembro_2024.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "D_Frota_por_UF_Municipio_COMBUSTIVEL_Novembro_2024.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/conteudo-Senatran/D_Frota_por_UF_Municipio_COMBUSTIVEL_Novembro_2024.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2024-12",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_dezembro_2024.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/fac336c0-c30c-44b6-bd12-666eee01cce5/download/i_frota_por_uf_municipio_marca_e_modelo_ano_dezembro_2024.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "D_Frota_por_UF_Municipio_COMBUSTIVEL_Dezembro_20241.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/conteudo-Senatran/D_Frota_por_UF_Municipio_COMBUSTIVEL_Dezembro_20241.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2025-01",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_janeiro_2025.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/36c0562e-1fc1-49c9-9a8d-c805d29e87cd/download/i_frota_por_uf_municipio_marca_e_modelo_ano_janeiro_2025.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "D_Frota_por_UF_Municipio_COMBUSTIVEL_Janeiro_2025.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/conteudo-Senatran/D_Frota_por_UF_Municipio_COMBUSTIVEL_Janeiro_2025.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2025-02",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_fevereiro_2025.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/c95e5965-3501-4712-8788-a96c768cf81f/download/i_frota_por_uf_municipio_marca_e_modelo_ano_fevereiro_2025.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "copy2_of_D_Frota_por_UF_Municipio_COMBUSTIVEL_Fevereiro_2025.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/conteudo-Senatran/copy2_of_D_Frota_por_UF_Municipio_COMBUSTIVEL_Fevereiro_2025.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2025-03",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_marco_2025.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/61b71526-aff6-4517-9b65-43e251832b34/download/i_frota_por_uf_municipio_marca_e_modelo_ano_marco_2025.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "copy_of_D_Frota_por_UF_Municipio_COMBUSTIVEL_Maro_2025.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/conteudo-Senatran/copy_of_D_Frota_por_UF_Municipio_COMBUSTIVEL_Maro_2025.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2025-04",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_abril_2025.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/22164b81-af61-440b-b02f-dc6bb7452002/download/i_frota_por_uf_municipio_marca_e_modelo_ano_abril_2025.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "D_Frota_por_UF_Municipio_COMBUSTIVEL_Abril_2025.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/conteudo-Senatran/D_Frota_por_UF_Municipio_COMBUSTIVEL_Abril_2025.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2025-05",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_maio_2025.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/94f84f90-4a96-4c47-93c8-22239245f4a0/download/i_frota_por_uf_municipio_marca_e_modelo_ano_maio_2025.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "copy_of_D_Frota_por_UF_Municipio_COMBUSTIVEL_Maio_2025.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/conteudo-Senatran/copy_of_D_Frota_por_UF_Municipio_COMBUSTIVEL_Maio_2025.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2025-06",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_junho_2025.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/3e69682d-2982-4911-88f4-51f00f92ae24/download/i_frota_por_uf_municipio_marca_e_modelo_ano_junho_2025.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "D_Frota_por_UF_Municipio_COMBUSTIVEL_Junho_2025.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/conteudo-Senatran/D_Frota_por_UF_Municipio_COMBUSTIVEL_Junho_2025.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2025-07",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_julho_2025.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/5ded62d3-668f-4cb3-b203-d04f225f33dc/download/i_frota_por_uf_municipio_marca_e_modelo_ano_julho_2025.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "D_Frota_por_UF_Municipio_COMBUSTIVEL_Julho_2025.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/conteudo-Senatran/D_Frota_por_UF_Municipio_COMBUSTIVEL_Julho_2025.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2025-08",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_agosto_2025.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/985adf0d-dc15-44bd-97dc-14a0fd586fea/download/i_frota_por_uf_municipio_marca_e_modelo_ano_agosto_2025.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "d_frota_por_uf_municipio_combustivel_agosto_2025-1.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/conteudo-Senatran/arquivos-renavam-2025/d_frota_por_uf_municipio_combustivel_agosto_2025-1.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2025-09",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_setembro_2025.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/87118ffe-fa43-49f8-94c5-9f5e13e3d7d8/download/i_frota_por_uf_municipio_marca_e_modelo_ano_setembro_2025.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "D_Frota_por_UF_Municipio_COMBUSTIVEL_setembro_2025.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/conteudo-Senatran/D_Frota_por_UF_Municipio_COMBUSTIVEL_setembro_2025.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2025-10",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_outubro_2025.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/d8c6912c-8cb0-4c9e-9efb-1965438c0983/download/i_frota_por_uf_municipio_marca_e_modelo_ano_outubro_2025.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "D_Frota_por_UF_Municipio_COMBUSTIVEL_Outubro_2025.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/conteudo-Senatran/D_Frota_por_UF_Municipio_COMBUSTIVEL_Outubro_2025.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2025-11",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_novembro_2025.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/9798ce89-735b-42a5-abbf-05758c8e14e3/download/i_frota_por_uf_municipio_marca_e_modelo_ano_novembro_2025.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "D_Frota_por_UF_Municipio_COMBUSTIVEL_Novembro_2025.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/conteudo-Senatran/arquivos-renavam-2025/D_Frota_por_UF_Municipio_COMBUSTIVEL_Novembro_2025.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2025-12",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_dezembro_2025.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/37055ff5-4aa3-4b73-a7b3-e0e9d5955279/download/i_frota_por_uf_municipio_marca_e_modelo_ano_dezembro_2025.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "D_Frota_por_UF_Municipio_COMBUSTIVEL_Dezembro_2025.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/conteudo-Senatran/arquivos-renavam-2025/D_Frota_por_UF_Municipio_COMBUSTIVEL_Dezembro_2025.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2026-01",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_janeiro_2026.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/136ccb72-00b8-4001-9fbc-628c521d9e1a/download/i_frota_por_uf_municipio_marca_e_modelo_ano_janeiro_2026.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "D_Frota_por_UF_Municipio_COMBUSTIVEL_Janeiro_2026.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/conteudo-Senatran/frota-de-veiculos-2026-2/D_Frota_por_UF_Municipio_COMBUSTIVEL_Janeiro_2026.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2026-02",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_fevereiro_2026.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/fd981cba-c884-4e2e-a7af-c4968f578cb7/download/i_frota_por_uf_municipio_marca_e_modelo_ano_fevereiro_2026.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "D_Frota_por_UF_Municipio_COMBUSTIVEL_Fevereiro_2026.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/conteudo-Senatran/frota-de-veiculos-2026-2/D_Frota_por_UF_Municipio_COMBUSTIVEL_Fevereiro_2026.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2026-03",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_marco_2026.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/7b6d4c89-c097-4d92-8874-7f286eeb3b77/download/i_frota_por_uf_municipio_marca_e_modelo_ano_marco_2026.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "D_Frota_por_UF_Municipio_COMBUSTIVEL_Maro_2026.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/conteudo-Senatran/frota-de-veiculos-2026-2/D_Frota_por_UF_Municipio_COMBUSTIVEL_Maro_2026.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2026-04",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_abril_2026.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/b5b6a2ee-ae63-4b45-84ad-f2f46dca047f/download/i_frota_por_uf_municipio_marca_e_modelo_ano_abril_2026.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "D_Frota_por_UF_Municipio_COMBUSTIVEL_Abril_2026.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/conteudo-Senatran/D_Frota_por_UF_Municipio_COMBUSTIVEL_Abril_2026.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2026-05",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_maio_2026.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/9ebe9c59-02ae-4a0d-973d-76a3b266665a/download/i_frota_por_uf_municipio_marca_e_modelo_ano_maio_2026.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "D_Frota_por_UF_Municipio_COMBUSTIVEL_Maio_2026.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/conteudo-Senatran/frota-de-veiculos-2026-2/D_Frota_por_UF_Municipio_COMBUSTIVEL_Maio_2026.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2026-06",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_junho_2026.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/c3ea6833-046b-46ed-afce-1ceaecb8b5cb/download/i_frota_por_uf_municipio_marca_e_modelo_ano_junho_2026.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "D_Frota_por_UF_Municipio_COMBUSTIVEL_Junho_2026.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/conteudo-Senatran/frota-de-veiculos-2026-2/D_Frota_por_UF_Municipio_COMBUSTIVEL_Junho_2026.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2026-07",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_julho_2026.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/85150148-6a47-4600-8b6a-061871c980f7/download/i_frota_por_uf_municipio_marca_e_modelo_ano_julho_2026.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "copy_of_D_Frota_por_UF_Municipio_COMBUSTIVEL_Julho_2026.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/conteudo-Senatran/frota-de-veiculos-2026-2/copy_of_D_Frota_por_UF_Municipio_COMBUSTIVEL_Julho_2026.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2026-08",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_agosto_2026.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/40d2c242-36a2-44fd-aa7c-aca69bb821bb/download/i_frota_por_uf_municipio_marca_e_modelo_ano_agosto_2026.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "D_Frota_por_UF_Municipio_COMBUSTIVEL_Agosto_2026.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/conteudo-Senatran/frota-de-veiculos-2026-2/D_Frota_por_UF_Municipio_COMBUSTIVEL_Agosto_2026.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ },
+ {
+  "mes": "2026-09",
+  "modelo": {
+   "arquivo": "i_frota_por_uf_municipio_marca_e_modelo_ano_setembro_2026.zip",
+   "url": "https://dados.transportes.gov.br/dataset/12686da0-3d71-4499-b432-d270f785c907/resource/4408da67-7821-4abf-96db-58acdf1497da/download/i_frota_por_uf_municipio_marca_e_modelo_ano_setembro_2026.zip",
+   "origem": "dados abertos",
+   "incluido": true,
+   "ajuste": ""
+  },
+  "combustivel": {
+   "arquivo": "D_Frota_por_UF_Municipio_COMBUSTIVEL_Setembro_2026.xlsx",
+   "url": "https://www.gov.br/transportes/pt-br/assuntos/transito/conteudo-Senatran/frota-de-veiculos-2026-2/D_Frota_por_UF_Municipio_COMBUSTIVEL_Setembro_2026.xlsx/@@download/file",
+   "origem": "gov.br",
+   "incluido": true,
+   "ajuste": ""
+  }
+ }
+]
