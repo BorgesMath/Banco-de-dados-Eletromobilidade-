@@ -14,6 +14,10 @@ Recortes embutidos (a página tem de abrir rápido):
 Os links dos arquivos originais vêm do portal de dados abertos e do gov.br
 (``coleta.listar``) e ficam guardados em ``painel/fontes.json``, para que gerar
 a página não dependa da rede; ``--atualizar-fontes`` refaz a lista.
+
+Os mapas usam a malha municipal do IBGE em qualidade mínima, em TopoJSON
+(``painel_web/malha_municipios.json``, 5.570 municípios); os estados saem da
+união dos municípios, na própria página. ``--atualizar-malha`` baixa de novo.
 """
 
 from __future__ import annotations
@@ -33,6 +37,8 @@ log = logging.getLogger(__name__)
 MODELO = Path(__file__).with_name("painel_web")
 REPOSITORIO = "https://github.com/BorgesMath/Banco-de-dados-Eletromobilidade-"
 BRUTO = f"{REPOSITORIO}/raw/main/resultados"
+URL_MALHA = ("https://servicodados.ibge.gov.br/api/v3/malhas/paises/BR"
+             "?formato=application/json&qualidade=minima&intrarregiao=municipio")
 
 CLASSES = ["eletrico", "hibrido_plug_in", "hibrido", "hibrido_leve", "celula_combustivel"]
 TIPOS = ["leve", "moto", "onibus", "caminhao", "outros", "sem_tipo"]
@@ -50,6 +56,9 @@ UFS = {  # sigla: (nome, região), na ordem do código IBGE
     "GO": ("Goiás", "Centro-Oeste"), "DF": ("Distrito Federal", "Centro-Oeste"),
 }
 SIGLAS = list(UFS) + [SEM_UF]
+COD_UF = {"RO": 11, "AC": 12, "AM": 13, "RR": 14, "PA": 15, "AP": 16, "TO": 17, "MA": 21, "PI": 22, "CE": 23,
+          "RN": 24, "PB": 25, "PE": 26, "AL": 27, "SE": 28, "BA": 29, "MG": 31, "ES": 32, "RJ": 33, "SP": 35,
+          "PR": 41, "SC": 42, "RS": 43, "MS": 50, "MT": 51, "GO": 52, "DF": 53}
 
 
 def _ler(resultados: Path, nome: str, colunas: list[str] | None = None) -> pd.DataFrame:
@@ -108,7 +117,6 @@ def dados_painel(resultados: str | Path, fontes: list[dict] | None = None) -> di
     pop_mun = pop_mun.groupby("cod_municipio_ibge")["populacao"].sum()
     dimensao = _ler(resultados, "municipios_dimensao", ["cod_municipio_ibge", "municipio_ibge", "uf_sigla"])
     dimensao = dimensao.dropna(subset=["cod_municipio_ibge"]).astype({"cod_municipio_ibge": "int64"})
-    dimensao = dimensao[dimensao["cod_municipio_ibge"].isin(municipios["cod_municipio_ibge"])]
     dimensao = dimensao.sort_values("cod_municipio_ibge").reset_index(drop=True)
     dimensao["frota_total"] = dimensao["cod_municipio_ibge"].map(frota_mun).fillna(0).astype("int64")
     dimensao["populacao"] = dimensao["cod_municipio_ibge"].map(pop_mun)
@@ -123,7 +131,7 @@ def dados_painel(resultados: str | Path, fontes: list[dict] | None = None) -> di
         "meta": {
             "gerado": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
             "meses": meses,
-            "ufs": [[s, *UFS[s]] for s in UFS] + [[SEM_UF, "Sem UF informada", "—"]],
+            "ufs": [[s, *UFS[s], COD_UF[s]] for s in UFS] + [[SEM_UF, "Sem UF informada", "—", None]],
             "tipos": TIPOS,
             "classes": CLASSES,
             "repositorio": REPOSITORIO,
@@ -234,6 +242,8 @@ def montar_html(dados: dict, modelo: Path = MODELO) -> str:
     trocas = {
         "/*__ESTILO__*/": (modelo / "painel.css").read_text(encoding="utf-8"),
         "/*__D3__*/": (modelo / "d3.min.js").read_text(encoding="utf-8"),
+        "/*__TOPOJSON__*/": (modelo / "topojson-client.min.js").read_text(encoding="utf-8"),
+        "/*__MALHA__*/": f"window.DEMOB_MALHA = {(modelo / 'malha_municipios.json').read_text(encoding='utf-8')};",
         "/*__DADOS__*/": f"window.DEMOB = {_json_seguro(dados)};",
         "/*__APP__*/": (modelo / "painel.js").read_text(encoding="utf-8"),
     }
@@ -243,10 +253,24 @@ def montar_html(dados: dict, modelo: Path = MODELO) -> str:
     return pagina
 
 
+def baixar_malha(destino: Path = MODELO / "malha_municipios.json", sessao=None) -> Path:
+    """Malha municipal do IBGE (TopoJSON, qualidade mínima), conferida antes de gravar."""
+    resposta = (sessao or coleta.criar_sessao()).get(URL_MALHA, timeout=120)
+    resposta.raise_for_status()
+    malha = resposta.json()
+    geometrias = next(iter(malha["objects"].values()))["geometries"]
+    if malha.get("type") != "Topology" or len(geometrias) < 5500:
+        raise ValueError(f"Malha do IBGE inesperada: {len(geometrias)} geometrias")
+    destino.write_text(json.dumps(malha, separators=(",", ":")), encoding="utf-8")
+    return destino
+
+
 def gerar_painel(resultados: str | Path, saida: str | Path, atualizar_fontes: bool = False,
-                 cache_ckan: Path | None = None) -> Path:
+                 cache_ckan: Path | None = None, atualizar_malha: bool = False) -> Path:
     """Escreve o HTML do painel; a lista de fontes fica ao lado, em ``fontes.json``."""
     saida = Path(saida)
+    if atualizar_malha:
+        baixar_malha()
     saida.parent.mkdir(parents=True, exist_ok=True)
     arquivo_fontes = saida.with_name("fontes.json")
     if atualizar_fontes or not arquivo_fontes.exists():

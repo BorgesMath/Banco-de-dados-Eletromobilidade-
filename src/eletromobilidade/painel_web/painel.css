@@ -18,6 +18,7 @@
   --s-celula_combustivel: #e87ba4;
   --seq-0: #cde2fb;
   --seq-1: #104281;
+  --zero: #ebeae4;
   --sombra: 0 1px 2px rgba(11, 11, 11, 0.06);
 }
 @media (prefers-color-scheme: dark) {
@@ -41,6 +42,7 @@
     --s-celula_combustivel: #d55181;
     --seq-0: #1d2a38;
     --seq-1: #86b6ef;
+    --zero: #262624;
     --sombra: none;
   }
 }
@@ -64,6 +66,7 @@
   --s-celula_combustivel: #d55181;
   --seq-0: #1d2a38;
   --seq-1: #86b6ef;
+  --zero: #262624;
   --sombra: none;
 }
 
@@ -223,7 +226,7 @@ tr:hover td { background: var(--lavagem); }
 .tooltip b { display: block; margin-bottom: 4px; }
 .tooltip .l { display: grid; grid-template-columns: 10px 1fr auto; gap: 6px; align-items: center; }
 .tooltip .l .v { text-align: right; font-variant-numeric: tabular-nums; }
-.tooltip .tot { border-top: 1px solid var(--grade); margin-top: 4px; padding-top: 4px; display: flex; justify-content: space-between; font-weight: 600; }
+.tooltip .tot { border-top: 1px solid var(--grade); margin-top: 4px; padding-top: 4px; display: flex; justify-content: space-between; gap: 12px; font-weight: 600; }
 
 .rodape { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 20px; margin-top: 16px; font-size: 12px; color: var(--tinta-3); }
 
@@ -237,3 +240,22 @@ tr:hover td { background: var(--lavagem); }
   .barra-linha { grid-template-columns: 90px minmax(0, 1fr) 64px; }
   .menu-bt { min-width: 0; }
 }
+
+/* mapas geográficos */
+.mapa.geo { height: 540px; position: relative; }
+.mapa.geo svg { height: 100%; cursor: grab; }
+.mapa.geo svg:active { cursor: grabbing; }
+.mapa .mun { stroke: var(--superficie); stroke-width: 0.15; vector-effect: non-scaling-stroke; }
+.mapa .mun:hover, .mapa .uf:hover { stroke: var(--tinta); stroke-width: 1.5; }
+.mapa .uf { stroke: var(--superficie); stroke-width: 1; vector-effect: non-scaling-stroke; cursor: pointer; }
+.mapa .uf.sel { stroke: var(--tinta); stroke-width: 2; }
+.mapa .fronteira { fill: none; stroke: var(--tinta-2); stroke-width: 0.8; vector-effect: non-scaling-stroke; pointer-events: none; }
+.mapa .rotulo-uf { font-size: 11px; font-weight: 700; pointer-events: none; text-anchor: middle; paint-order: stroke; stroke-width: 3px; }
+.zoom-bts { position: absolute; right: 0; top: 0; display: flex; flex-direction: column; gap: 4px; }
+.zoom-bts button { width: 30px; height: 30px; font: inherit; font-weight: 700; color: var(--tinta); background: var(--superficie); border: 1px solid var(--borda); border-radius: 6px; cursor: pointer; }
+.classes { display: grid; gap: 4px; margin: 10px 0 4px; font-size: 12px; color: var(--tinta-2); }
+.classes div { display: flex; align-items: center; gap: 8px; font-variant-numeric: tabular-nums; }
+.classes i { width: 22px; height: 12px; border-radius: 2px; flex: none; }
+.destaques { margin-top: 16px; }
+.acoes .dica-fixa { margin: 4px 0 0; flex: 1; }
+.classes.linha { display: flex; flex-wrap: wrap; gap: 4px 14px; }

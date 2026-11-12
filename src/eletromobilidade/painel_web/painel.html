@@ -74,8 +74,9 @@
               <button data-v="frota" aria-pressed="false">% da frota</button>
             </div>
           </header>
-          <div id="uf-mapa" class="mapa"></div>
-          <p class="dica-fixa">Clique numa UF para filtrar as outras abas; clique de novo para tirar.</p>
+          <div id="uf-mapa" class="mapa geo"></div>
+          <div class="classes linha" id="uf-escala"></div>
+          <p class="dica-fixa">Clique numa UF para filtrar as outras abas; clique de novo para tirar. Arraste para mover; Ctrl + roda ou os botões para o zoom.</p>
         </article>
         <article class="painel">
           <header class="painel-cab"><h2>Ranking</h2><p id="uf-rank-sub"></p></header>
@@ -87,6 +88,27 @@
 
     <section class="aba" id="aba-municipios" role="tabpanel" hidden>
       <div class="cartoes" id="mun-cartoes"></div>
+      <div class="grade-2">
+        <article class="painel">
+          <header class="painel-cab linha">
+            <div><h2 id="mun-mapa-titulo">Mapa por município</h2><p id="mun-mapa-sub"></p></div>
+            <div class="segmentado" id="mun-metrica" role="radiogroup" aria-label="Medida">
+              <button data-v="hab" aria-pressed="true">Por mil hab.</button>
+              <button data-v="frota" aria-pressed="false">% da frota</button>
+              <button data-v="abs" aria-pressed="false">Veículos</button>
+            </div>
+          </header>
+          <div id="mun-mapa" class="mapa geo"></div>
+          <div class="acoes"><p class="dica-fixa" id="mun-mapa-dica"></p><button class="botao-link" id="mun-voltar" hidden>Voltar ao Brasil</button></div>
+        </article>
+        <article class="painel">
+          <header class="painel-cab"><h2>Escala</h2><p id="mun-escala-sub"></p></header>
+          <div id="mun-escala" class="classes"></div>
+          <header class="painel-cab destaques"><h2>Maiores valores</h2><p id="mun-top-sub"></p></header>
+          <div class="legenda" id="mun-legenda"></div>
+          <div id="mun-top"></div>
+        </article>
+      </div>
       <article class="painel">
         <header class="painel-cab linha">
           <div><h2>Municípios</h2><p id="mun-sub"></p></div>
@@ -160,6 +182,8 @@
 </div>
 <div class="tooltip" id="tooltip" role="status" hidden></div>
 <script>/*__D3__*/</script>
+<script>/*__TOPOJSON__*/</script>
+<script>/*__MALHA__*/</script>
 <script>/*__DADOS__*/</script>
 <script>/*__APP__*/</script>
 </body>

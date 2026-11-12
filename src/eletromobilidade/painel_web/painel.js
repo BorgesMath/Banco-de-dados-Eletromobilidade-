@@ -40,7 +40,7 @@
   // ---------- estado ----------
   const PADRAO = () => ({ de: 0, ate: ULTIMO, ufs: new Set(), tipos: new Set(TP.map((_, i) => i)),
     classes: new Set(ELETRIFICADAS), semUF: false });
-  const S = Object.assign(PADRAO(), { aba: "inicio", modoEvo: "abs", metricaUF: "abs", limiteMun: 50, limiteMod: 50,
+  const S = Object.assign(PADRAO(), { aba: "inicio", modoEvo: "abs", metricaUF: "abs", metricaMun: "hab", limiteMun: 50, limiteMod: 50,
     buscaMun: "", buscaMod: "", ordMun: ["v", -1], ordMod: ["v", -1], tabelaEvo: false });
   const ABAS = ["inicio", "evolucao", "estados", "municipios", "modelos", "validacao", "dados"];
   const FILTROS = { inicio: [], evolucao: ["periodo", "uf", "tipo", "classe", "semuf"], estados: ["mes", "tipo", "classe", "semuf-nota"],
@@ -285,7 +285,8 @@
     S.aba = aba;
     document.querySelectorAll(".abas button").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.aba === aba)));
     ABAS.forEach((a) => { document.getElementById("aba-" + a).hidden = a !== aba; });
-    if (location.hash.slice(1) !== aba) history.replaceState(null, "", "#" + aba);
+    // num quadro isolado (prévia do OneDrive, e-mail) o endereço não pode mudar; a aba funciona igual
+    try { if (location.hash.slice(1) !== aba) history.replaceState(null, "", "#" + aba); } catch (_) { /* sem endereço */ }
     atualizar();
   }
   const DESENHOS = {
@@ -364,15 +365,87 @@
       ms.map((m) => [MESES[m], descricao(), ...classes.map((c) => serie[c][m]), tot(m)]));
   }
 
+  // ---------- geografia: malha municipal do IBGE; os estados são a união dos municípios ----------
+  const GEO = (() => {
+    const malha = window.DEMOB_MALHA;
+    if (!malha || !window.topojson) return null;
+    const obj = malha.objects[Object.keys(malha.objects)[0]];
+    const ufPorCod = Object.fromEntries(UFS.slice(0, SU).map((u, i) => [String(u[3]), i]));
+    const ufDe = (g) => ufPorCod[String(g.properties.codarea).slice(0, 2)];
+    const idxMun = new Map(D.municipios.cod.map((c, i) => [c, i]));
+    const municipios = topojson.feature(malha, obj).features;
+    municipios.forEach((f) => { f.cod = +f.properties.codarea; f.u = ufDe(f); f.i = idxMun.get(f.cod); });
+    const estados = UFS.slice(0, SU).map((_, u) => ({ type: "Feature", u,
+      geometry: topojson.merge(malha, obj.geometries.filter((g) => ufDe(g) === u)) }));
+    return { municipios, estados };
+  })();
+
+  function corEscura(cor) { const c = d3.lab(cor); return c && c.l < 58; }
+  function rampa(n) { return d3.quantize(d3.interpolateLab(css("--seq-0"), css("--seq-1")), n); }
+  // faixas por quantis dos valores positivos, com cortes de dois algarismos significativos
+  function faixas(valores, n = 6) {
+    const positivos = valores.filter((v) => v > 0).sort(d3.ascending);
+    if (!positivos.length) return null;
+    const cortes = [...new Set(d3.range(1, n).map((k) => +d3.quantileSorted(positivos, k / n).toPrecision(2)))]
+      .filter((c) => c > 0);
+    return d3.scaleThreshold().domain(cortes).range(rampa(cortes.length + 1));
+  }
+  function legendaFaixas(el, escala, fmt, semDado) {
+    if (!escala) { el.innerHTML = '<div class="vazio">Nada na seleção.</div>'; return; }
+    const d = escala.domain(), cores = escala.range();
+    const linhas = ['<div><i style="background:var(--zero)"></i>Nenhum veículo</div>'];
+    cores.forEach((c, k) => {
+      const txt = k === 0 ? `até ${fmt(d[0])}` : k === cores.length - 1 ? `${fmt(d[k - 1])} ou mais` : `${fmt(d[k - 1])} a ${fmt(d[k])}`;
+      linhas.push(`<div><i style="background:${c}"></i>${txt}</div>`);
+    });
+    if (semDado) linhas.push(`<div><i style="background:var(--grade)"></i>${semDado}</div>`);
+    el.innerHTML = linhas.join("");
+  }
+  // zoom com arraste, Ctrl + roda e botões; o estado do zoom sobrevive à troca de cores
+  function comZoom(el, svg, g) {
+    const zoom = d3.zoom().scaleExtent([1, 16]).filter((ev) => (ev.type === "wheel" ? ev.ctrlKey : !ev.button))
+      .on("zoom", (ev) => g.attr("transform", ev.transform));
+    svg.call(zoom).on("dblclick.zoom", null);
+    const bts = document.createElement("div");
+    bts.className = "zoom-bts";
+    bts.innerHTML = '<button aria-label="Aproximar">+</button><button aria-label="Afastar">\u2212</button><button aria-label="Enquadrar" title="Enquadrar">\u27f2</button>';
+    const [mais, menos, zero] = bts.querySelectorAll("button");
+    mais.onclick = () => svg.transition().call(zoom.scaleBy, 1.6);
+    menos.onclick = () => svg.transition().call(zoom.scaleBy, 1 / 1.6);
+    zero.onclick = () => svg.transition().call(zoom.transform, d3.zoomIdentity);
+    el.appendChild(bts);
+  }
+  function semMalha(el) { el.innerHTML = '<div class="vazio">Malha do IBGE não embutida na página.</div>'; }
+
   // ---------- Estados ----------
-  const TILES = { RR: [2, 0], AP: [4, 0], AM: [1, 1], PA: [3, 1], MA: [4, 1], CE: [5, 1], RN: [6, 1], AC: [0, 2], RO: [1, 2],
-    MT: [2, 2], TO: [3, 2], PI: [4, 2], PE: [5, 2], PB: [6, 2], MS: [2, 3], GO: [3, 3], DF: [4, 3], BA: [5, 3], AL: [6, 3],
-    PR: [2, 4], SP: [3, 4], MG: [4, 4], ES: [5, 4], SE: [6, 4], SC: [2, 5], RJ: [4, 5], RS: [2, 6] };
   function metricaUf(partesUf, u, classes) {
     const v = soma(classes.map((c) => partesUf[u][c]));
     if (S.metricaUF === "abs") return v;
     if (S.metricaUF === "hab") { const p = POP[S.ate][u]; return p ? (v / p) * 1000 : null; }
     return todosTipos() && TOTAL[S.ate][u] ? v / TOTAL[S.ate][u] : null;
+  }
+  function mapaEstados(el, valores, escala, aoPassar, aoClicar) {
+    if (!GEO) return semMalha(el);
+    const w = el.clientWidth, h = el.clientHeight;
+    if (el._chave !== `${w}x${h}`) {
+      el._chave = `${w}x${h}`; el.innerHTML = "";
+      const proj = d3.geoMercator().fitExtent([[6, 6], [w - 40, h - 6]], { type: "FeatureCollection", features: GEO.estados });
+      const caminho = d3.geoPath(proj);
+      const svg = d3.select(el).append("svg").attr("viewBox", `0 0 ${w} ${h}`).attr("role", "img").attr("aria-label", "Mapa das UFs");
+      const g = svg.append("g");
+      g.selectAll("path").data(GEO.estados).join("path").attr("class", "uf").attr("d", caminho);
+      g.selectAll("text").data(GEO.estados.filter((f) => UFS[f.u][0] !== "DF")).join("text").attr("class", "rotulo-uf")
+        .attr("transform", (f) => `translate(${caminho.centroid(f)})`).attr("dy", "0.35em").text((f) => UFS[f.u][0]);
+      comZoom(el, svg, g);
+    }
+    const svg = d3.select(el).select("svg");
+    svg.selectAll("path.uf").classed("sel", (f) => S.ufs.has(f.u))
+      .style("fill", (f) => (valores[f.u] == null ? "var(--grade)" : valores[f.u] > 0 ? escala(valores[f.u]) : "var(--zero)"))
+      .on("pointermove", (ev, f) => aoPassar(ev, f.u)).on("pointerleave", esconderDica).on("click", (_, f) => aoClicar(f.u));
+    svg.selectAll("text.rotulo-uf").each(function (f) {
+      const escura = valores[f.u] > 0 && corEscura(escala(valores[f.u]));
+      d3.select(this).style("fill", escura ? "#fff" : "var(--tinta)").style("stroke", escura ? "rgba(0,0,0,.25)" : "var(--superficie)");
+    });
   }
   function desenharEstados() {
     const classes = classesOrdenadas();
@@ -384,47 +457,48 @@
     document.getElementById("uf-rank-sub").textContent = S.metricaUF === "frota" && !todosTipos() ? "% da frota só com todos os tipos de veículo" : sub;
     legenda(document.getElementById("uf-legenda"), classes);
 
-    const valores = UFS.slice(0, SU).map((u, i) => ({ sigla: u[0], nome: u[1], u: i, v: metricaUf(partes, i, classes) }));
-    const max = d3.max(valores, (d) => d.v) || 1;
-    const escala = (S.metricaUF === "abs" ? d3.scaleSequentialSqrt() : d3.scaleSequential())
-      .domain([0, max]).interpolator(d3.interpolateLab(css("--seq-0"), css("--seq-1")));
-    const el = document.getElementById("uf-mapa");
-    el.innerHTML = "";
-    const lado = 60, alto = 50;
-    const svg = d3.select(el).append("svg").attr("viewBox", `0 0 ${7 * lado} ${7 * alto + 4}`).attr("role", "img")
-      .attr("aria-label", "Mapa das UFs em grade").style("max-height", "460px");
-    const g = svg.selectAll("g").data(valores).join("g")
-      .attr("class", (d) => "tile" + (S.ufs.has(d.u) ? " sel" : ""))
-      .attr("transform", (d) => `translate(${TILES[d.sigla][0] * lado},${TILES[d.sigla][1] * alto})`)
-      .on("pointermove", (ev, d) => mostrarDica(ev, `<b>${d.nome}</b>${linhasDica(classes.map((c) => ({ c, v: partes[d.u][c] })))}<div class="tot"><span>${nomeMetrica}</span><span>${d.v == null ? "—" : fmt(d.v)}</span></div>`))
-      .on("pointerleave", esconderDica)
-      .on("click", (_, d) => { S.ufs.has(d.u) ? S.ufs.delete(d.u) : S.ufs.add(d.u); atualizar(); });
-    g.append("rect").attr("x", 2).attr("y", 2).attr("width", lado - 4).attr("height", alto - 4).attr("rx", 5)
-      .style("fill", (d) => (d.v == null ? "var(--grade)" : escala(d.v)));
-    const clara = (d) => d.v != null && (S.metricaUF === "abs" ? Math.sqrt(d.v / max) : d.v / max) > 0.55;
-    g.append("text").attr("x", lado / 2).attr("y", alto / 2 - 2).attr("text-anchor", "middle")
-      .style("fill", (d) => (clara(d) ? "#fff" : "var(--tinta)")).text((d) => d.sigla);
-    g.append("text").attr("class", "v").attr("x", lado / 2).attr("y", alto / 2 + 12).attr("text-anchor", "middle")
-      .style("fill", (d) => (clara(d) ? "#fff" : "var(--tinta-2)"))
-      .text((d) => (d.v == null ? "—" : S.metricaUF === "abs" ? fCurto(d.v) : S.metricaUF === "hab" ? f1(d.v) : L.format(".1%")(d.v)));
-    const escalaEl = document.createElement("div");
-    escalaEl.className = "escala";
-    escalaEl.innerHTML = `<span>0</span><i></i><span>${fmt(max)}</span>`;
-    el.appendChild(escalaEl);
+    const valores = UFS.slice(0, SU).map((_, u) => metricaUf(partes, u, classes));
+    const escala = faixas(valores.filter((v) => v != null), 5) || d3.scaleThreshold().domain([1]).range(rampa(2));
+    const fmtCorte = S.metricaUF === "abs" ? fInt : S.metricaUF === "hab" ? (x) => L.format(",~r")(x) : (x) => L.format(".2~%")(x);
+    const alternar = (u) => { S.ufs.has(u) ? S.ufs.delete(u) : S.ufs.add(u); atualizar(); };
+    mapaEstados(document.getElementById("uf-mapa"), valores, escala,
+      (ev, u) => mostrarDica(ev, `<b>${UFS[u][1]}</b>${linhasDica(classes.map((c) => ({ c, v: partes[u][c] })))}<div class="tot"><span>${nomeMetrica}</span><span>${valores[u] == null ? "—" : fmt(valores[u])}</span></div>`),
+      alternar);
+    legendaFaixas(document.getElementById("uf-escala"), escala, fmtCorte, valores.some((v) => v == null) ? "Sem dado" : null);
 
-    const linhas = valores.filter((d) => d.v != null).sort((a, b) => b.v - a.v).map((d) => {
+    const linhas = valores.map((v, u) => ({ v, u })).filter((d) => d.v != null).sort((a, b) => b.v - a.v).map(({ u }) => {
       const p = new Float64Array(CL.length);
       classes.forEach((c) => {
-        const x = partes[d.u][c];
-        p[c] = S.metricaUF === "abs" ? x : S.metricaUF === "hab" ? (x / POP[S.ate][d.u]) * 1000 : x / TOTAL[S.ate][d.u];
+        const x = partes[u][c];
+        p[c] = S.metricaUF === "abs" ? x : S.metricaUF === "hab" ? (x / POP[S.ate][u]) * 1000 : x / TOTAL[S.ate][u];
       });
-      return { nome: d.nome, titulo: `${d.nome} (${nomeMetrica})`, partes: p, sel: S.ufs.has(d.u), u: d.u };
+      return { nome: UFS[u][1], titulo: `${UFS[u][1]} (${nomeMetrica})`, partes: p, sel: S.ufs.has(u), u };
     });
     if (S.semUF && S.metricaUF === "abs") {
       linhas.push({ nome: "Sem UF informada", titulo: "Sem UF informada (estoque ainda não emplacado)", partes: partes[SU] });
     }
-    barras(document.getElementById("uf-ranking"), linhas, classes, fmt, {
-      clique: (l) => { if (l.u == null) return; S.ufs.has(l.u) ? S.ufs.delete(l.u) : S.ufs.add(l.u); atualizar(); } });
+    barras(document.getElementById("uf-ranking"), linhas, classes, fmt, { clique: (l) => { if (l.u != null) alternar(l.u); } });
+  }
+
+  // ---------- mapa por município ----------
+  function mapaMunicipios(el, valores, escala, aoPassar, aoClicar) {
+    if (!GEO) return semMalha(el);
+    const w = el.clientWidth, h = el.clientHeight, chave = `${w}x${h}|${[...S.ufs].sort().join(",")}`;
+    if (el._chave !== chave) {
+      el._chave = chave; el.innerHTML = "";
+      const mun = S.ufs.size ? GEO.municipios.filter((f) => S.ufs.has(f.u)) : GEO.municipios;
+      const est = S.ufs.size ? GEO.estados.filter((f) => S.ufs.has(f.u)) : GEO.estados;
+      const proj = d3.geoMercator().fitExtent([[6, 6], [w - 40, h - 6]], { type: "FeatureCollection", features: est });
+      const caminho = d3.geoPath(proj);
+      const svg = d3.select(el).append("svg").attr("viewBox", `0 0 ${w} ${h}`).attr("role", "img").attr("aria-label", "Mapa dos municípios");
+      const g = svg.append("g");
+      g.append("g").selectAll("path").data(mun).join("path").attr("class", "mun").attr("d", caminho);
+      g.append("g").selectAll("path").data(est).join("path").attr("class", "fronteira").attr("d", caminho);
+      comZoom(el, svg, g);
+    }
+    d3.select(el).selectAll("path.mun")
+      .style("fill", (f) => { const v = f.i == null ? 0 : valores[f.i]; return v == null ? "var(--grade)" : v > 0 ? escala(v) : "var(--zero)"; })
+      .on("pointermove", (ev, f) => aoPassar(ev, f)).on("pointerleave", esconderDica).on("click", (_, f) => aoClicar(f));
   }
 
   // ---------- Municípios ----------
@@ -441,11 +515,12 @@
       return { cod, nome: M.nome[i], uf: UFS[M.u[i]][0], u: M.u[i], v, partes: partes[i],
         hab: M.pop[i] ? (v / M.pop[i]) * 1000 : null, frota: todosTipos() && M.total[i] ? v / M.total[i] : null };
     }).filter((l) => l.v > 0 && ufAtiva(l.u));
+    desenharMapaMunicipios(linhas, partes, classes);
     const comFrota = linhas.length, totalSel = soma(linhas.map((l) => l.v));
     const topo = linhas.slice().sort((a, b) => b.v - a.v);
     const top10 = soma(topo.slice(0, 10).map((l) => l.v));
     cartoes(document.getElementById("mun-cartoes"), [
-      { rotulo: "Municípios com ao menos um veículo", valor: fInt(comFrota), det: `de ${fInt(M.cod.length)} com algum eletrificado ou MHEV` },
+      { rotulo: "Municípios com ao menos um veículo", valor: fInt(comFrota), det: `de ${fInt(M.u.filter(ufAtiva).length)} municípios na seleção` },
       { rotulo: "Frota na seleção", valor: fInt(totalSel), det: rotMes(MESES[ULTIMO]) },
       { rotulo: "Os 10 maiores municípios", valor: fPct(totalSel ? top10 / totalSel : null), det: "da frota da seleção" },
       { rotulo: "Maior frota", valor: topo[0] ? esc(topo[0].nome) : "—", det: topo[0] ? `${topo[0].uf} · ${fInt(topo[0].v)} veículos` : "" },
@@ -466,6 +541,58 @@
     document.getElementById("mun-csv").onclick = () => baixarCSV("municipios_selecao.csv",
       ["cod_municipio_ibge", "municipio", "uf", ...classes.map((c) => CL[c]), "total", "por_mil_habitantes", "participacao_frota"],
       linhas.sort((a, b) => b.v - a.v).map((l) => [l.cod, l.nome, l.uf, ...classes.map((c) => l.partes[c]), l.v, l.hab ?? "", l.frota ?? ""]));
+  }
+
+  function desenharMapaMunicipios(linhas, partes, classes) {
+    const M = D.municipios, metrica = S.metricaMun;
+    const fmt = metrica === "abs" ? fInt : metrica === "hab" ? f2 : (x) => L.format(".2%")(x);
+    const fmtCorte = metrica === "abs" ? fInt : metrica === "hab" ? (x) => L.format(",~r")(x) : (x) => L.format(".2~%")(x);
+    const nomeMetrica = { abs: "veículos", hab: "veículos por mil habitantes", frota: "% da frota total do município" }[metrica];
+    const semFrota = metrica === "frota" && !todosTipos();
+    const valor = (i) => {
+      const v = soma(classes.map((c) => partes[i][c]));
+      if (metrica === "abs") return v;
+      if (metrica === "hab") return M.pop[i] ? (v / M.pop[i]) * 1000 : null;
+      return semFrota ? null : M.total[i] ? v / M.total[i] : null;
+    };
+    const valores = M.cod.map((_, i) => (ufAtiva(M.u[i]) ? valor(i) : 0));
+    const escala = faixas(valores.filter((v, i) => v != null && ufAtiva(M.u[i])));
+    const onde = S.ufs.size ? rotuloUfs() : "Brasil";
+    document.getElementById("mun-mapa-titulo").textContent = S.ufs.size === 1 ? `Municípios de ${onde}` : "Mapa por município";
+    document.getElementById("mun-mapa-sub").textContent = `${rotMes(MESES[ULTIMO])} · ${descricao({ uf: false })} · ${nomeMetrica}`;
+    document.getElementById("mun-escala-sub").textContent = semFrota ? "% da frota só com todos os tipos de veículo" : `${nomeMetrica}, em seis faixas com o mesmo número de municípios`;
+    legendaFaixas(document.getElementById("mun-escala"), escala, fmtCorte,
+      valores.some((v, i) => v == null && ufAtiva(M.u[i])) ? (semFrota ? "Sem dado" : "Sem população ou frota") : null);
+    document.getElementById("mun-mapa-dica").textContent = S.ufs.size
+      ? "Clique num município para buscá-lo na tabela. Arraste para mover; Ctrl + roda ou os botões para o zoom."
+      : "Clique num município para abrir o mapa do estado dele. Arraste para mover; Ctrl + roda ou os botões para o zoom.";
+    document.getElementById("mun-voltar").hidden = !S.ufs.size;
+    if (escala) mapaMunicipios(document.getElementById("mun-mapa"), valores, escala, (ev, f) => {
+      const i = f.i, nome = i == null ? `Município ${f.cod}` : M.nome[i];
+      const corpo = i == null ? "<div>Nenhum veículo na seleção</div>"
+        : linhasDica(classes.map((c) => ({ c, v: partes[i][c] }))) + `<div class="tot"><span>${nomeMetrica}</span><span>${valores[i] == null ? "—" : fmt(valores[i])}</span></div>`;
+      mostrarDica(ev, `<b>${esc(nome)} (${UFS[f.u][0]})</b>${corpo}`);
+    }, (f) => {
+      if (!S.ufs.size) { S.ufs = new Set([f.u]); atualizar(); return; }
+      if (f.i == null) return;
+      S.buscaMun = M.nome[f.i]; document.getElementById("mun-busca").value = S.buscaMun; desenharMunicipios();
+      document.getElementById("mun-tabela").scrollIntoView({ behavior: "smooth", block: "nearest" });
+    });
+    else { document.getElementById("mun-mapa").innerHTML = '<div class="vazio">Nada na seleção.</div>'; document.getElementById("mun-mapa")._chave = null; }
+
+    // destaques: por habitante e % da frota, só municípios com 20 mil habitantes ou mais (senão vence o minúsculo)
+    const minimo = metrica === "abs" ? 0 : 20000;
+    const idx = new Map(M.cod.map((c, i) => [c, i]));
+    const top = linhas.map((l) => ({ l, i: idx.get(l.cod) }))
+      .filter(({ i }) => valores[i] != null && (M.pop[i] || 0) >= minimo)
+      .sort((a, b) => valores[b.i] - valores[a.i]).slice(0, 10);
+    document.getElementById("mun-top-sub").textContent = minimo ? `${nomeMetrica}; municípios com 20 mil habitantes ou mais` : nomeMetrica;
+    legenda(document.getElementById("mun-legenda"), classes);
+    barras(document.getElementById("mun-top"), top.map(({ l, i }) => {
+      const p = new Float64Array(CL.length);
+      classes.forEach((c) => { p[c] = metrica === "abs" ? partes[i][c] : metrica === "hab" ? (partes[i][c] / M.pop[i]) * 1000 : partes[i][c] / M.total[i]; });
+      return { nome: `${l.nome} (${l.uf})`, partes: p };
+    }), classes, fmt);
   }
 
   // ---------- Marcas e modelos ----------
@@ -588,6 +715,10 @@
   montarFiltros();
   segmentado("evo-modo", "modoEvo", desenharEvolucao);
   segmentado("uf-metrica", "metricaUF", desenharEstados);
+  segmentado("mun-metrica", "metricaMun", desenharMunicipios);
+  document.getElementById("mun-voltar").addEventListener("click", () => {
+    S.ufs.clear(); S.buscaMun = ""; document.getElementById("mun-busca").value = ""; atualizar();
+  });
   document.getElementById("evo-tabela-bt").addEventListener("click", () => { S.tabelaEvo = !S.tabelaEvo; desenharEvolucao(); });
   document.getElementById("mun-busca").addEventListener("input", (ev) => { S.buscaMun = ev.target.value; S.limiteMun = 50; desenharMunicipios(); });
   document.getElementById("modelo-busca").addEventListener("input", (ev) => { S.buscaMod = ev.target.value; S.limiteMod = 50; desenharModelos(); });

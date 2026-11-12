@@ -7,7 +7,8 @@ import pytest
 
 from eletromobilidade import coleta
 from eletromobilidade.coleta import Link
-from eletromobilidade.painel import CLASSES, SEM_UF, SIGLAS, TIPOS, dados_painel, listar_fontes, montar_html
+from eletromobilidade.painel import (CLASSES, MODELO, SEM_UF, SIGLAS, TIPOS, dados_painel, listar_fontes,
+                                     montar_html)
 
 RESULTADOS = Path(__file__).resolve().parent.parent / "resultados"
 
@@ -83,3 +84,12 @@ def test_listar_fontes_casa_o_arquivo_lido_com_o_link(monkeypatch, tmp_path):
     assert [f["mes"] for f in fontes] == ["2026-09"]  # mês sem arquivo fica de fora
     assert fontes[0]["modelo"]["url"] == links[0].url and fontes[0]["modelo"]["origem"] == "dados abertos"
     assert fontes[0]["combustivel"]["url"] == links[1].url_arquivo  # sem nome igual, vale o mesmo mês
+
+
+def test_malha_cobre_os_municipios_da_base(dados):
+    malha = json.loads((MODELO / "malha_municipios.json").read_text(encoding="utf-8"))
+    codigos = {int(g["properties"]["codarea"]) for g in next(iter(malha["objects"].values()))["geometries"]}
+    fora = set(dados["municipios"]["cod"]) - codigos
+    # só Boa Esperança do Norte (MT), criado em 2023 e ainda fora da malha de qualidade mínima
+    assert fora <= {5101837}
+    assert {str(u[3])[:2] for u in dados["meta"]["ufs"][:-1]} == {str(c)[:2] for c in codigos}

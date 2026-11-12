@@ -24,7 +24,7 @@ tabelas de referência que o pacote lê estão em [`dados/`](dados/README.md).
 | `abve.py` | Cliente da API pública do BI Frotas da ABVE: vendas por período, UF, modelo e tecnologia |
 | `validacao.py` | Base por modelo contra a ABVE (tecnologia, UF, marca, modelo), contra o PBE e o grupo sem UF |
 | `publicacao.py` | Cópia para `resultados/` e geração do `LEIAME.md` e do `DICIONARIO.md` |
-| `painel.py` | Painel web (`painel/index.html`): HTML único com os dados de `resultados/` embutidos; página, estilo e D3 em `painel_web/` |
+| `painel.py` | Painel web (`painel/index.html`): HTML único com os dados de `resultados/` embutidos; página, estilo, D3 e a malha municipal do IBGE (TopoJSON, qualidade mínima; `painel --atualizar-malha` baixa de novo) em `painel_web/` |
 | `texto.py`, `ufs.py` | Normalização de texto e tabela de UFs |
 
 ## Linha de comando

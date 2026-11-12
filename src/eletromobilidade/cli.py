@@ -181,7 +181,8 @@ def _publicar(args) -> None:
 
 
 def _painel(args) -> None:
-    print(gerar_painel(args.entrada, args.saida, args.atualizar_fontes, cache_ckan=RAW / coleta.ARQUIVO_CACHE_CKAN))
+    print(gerar_painel(args.entrada, args.saida, args.atualizar_fontes, cache_ckan=RAW / coleta.ARQUIVO_CACHE_CKAN,
+                       atualizar_malha=args.atualizar_malha))
 
 
 def main(argv: list[str] | None = None) -> None:
@@ -260,6 +261,8 @@ def main(argv: list[str] | None = None) -> None:
     p.add_argument("--saida", type=Path, default=PAINEL)
     p.add_argument("--atualizar-fontes", action="store_true",
                    help="refaz a lista de arquivos da SENATRAN (painel/fontes.json); exige rede")
+    p.add_argument("--atualizar-malha", action="store_true",
+                   help="baixa de novo a malha municipal do IBGE usada nos mapas; exige rede")
     p.set_defaults(func=_painel)
 
     args = parser.parse_args(argv)
