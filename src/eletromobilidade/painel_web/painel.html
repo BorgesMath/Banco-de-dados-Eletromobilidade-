@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Painel da Eletromobilidade</title>
+<meta name="description" content="Frota de veículos elétricos e híbridos no Brasil, a partir do RENAVAM (SENATRAN), por UF, município, tipo de veículo e tecnologia.">
+<style>/*__ESTILO__*/</style>
+</head>
+<body>
+<div class="app">
+  <header class="topo">
+    <div class="olho">db-demob · Base de dados de eletromobilidade</div>
+    <h1>Frota eletrificada no Brasil</h1>
+    <p class="sub">Veículos elétricos e híbridos registrados no RENAVAM, tratados modelo a modelo · <span id="cobertura"></span></p>
+  </header>
+
+  <nav class="abas" role="tablist" aria-label="Seções do painel">
+    <button role="tab" data-aba="inicio">Início</button>
+    <button role="tab" data-aba="evolucao">Evolução</button>
+    <button role="tab" data-aba="estados">Estados</button>
+    <button role="tab" data-aba="municipios">Municípios</button>
+    <button role="tab" data-aba="modelos">Marcas e modelos</button>
+    <button role="tab" data-aba="validacao">Validação</button>
+    <button role="tab" data-aba="dados">Dados</button>
+  </nav>
+
+  <section class="filtros" id="filtros" aria-label="Filtros"></section>
+
+  <main>
+    <section class="aba" id="aba-inicio" role="tabpanel">
+      <div class="cartoes" id="inicio-cartoes"></div>
+      <div class="grade-2">
+        <article class="painel largo">
+          <header class="painel-cab"><h2>Frota eletrificada por tecnologia</h2><p>Brasil, UFs informadas, todos os tipos de veículo, em veículos</p></header>
+          <div class="grafico" id="inicio-grafico"></div>
+        </article>
+        <article class="painel">
+          <header class="painel-cab"><h2>Composição no último mês</h2><p id="inicio-comp-sub"></p></header>
+          <div id="inicio-composicao"></div>
+          <div class="notas">
+            <p><b>Eletrificada</b> soma elétricos (BEV), híbridos plug-in (PHEV), híbridos (HEV) e célula de combustível. O <b>híbrido leve</b> (MHEV, 12/48 V) aparece à parte e não entra na soma.</p>
+            <p>Use as abas para filtrar por UF, tipo de veículo e tecnologia. Os dados tratados e os arquivos originais da SENATRAN estão em <a href="#dados" data-ir="dados">Dados</a>.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="aba" id="aba-evolucao" role="tabpanel" hidden>
+      <div class="cartoes" id="evo-cartoes"></div>
+      <article class="painel">
+        <header class="painel-cab linha">
+          <div><h2 id="evo-titulo">Frota por tecnologia</h2><p id="evo-sub"></p></div>
+          <div class="segmentado" id="evo-modo" role="radiogroup" aria-label="Unidade">
+            <button data-v="abs" aria-pressed="true">Veículos</button>
+            <button data-v="pct" aria-pressed="false">Composição %</button>
+          </div>
+        </header>
+        <div class="legenda" id="evo-legenda"></div>
+        <div class="grafico alto" id="evo-grafico"></div>
+        <div class="acoes"><button class="botao-link" id="evo-tabela-bt">Ver tabela</button><button class="botao-link" id="evo-csv">Baixar CSV da seleção</button></div>
+        <div class="tabela-wrap" id="evo-tabela" hidden></div>
+      </article>
+    </section>
+
+    <section class="aba" id="aba-estados" role="tabpanel" hidden>
+      <div class="grade-2">
+        <article class="painel">
+          <header class="painel-cab linha">
+            <div><h2>Mapa por UF</h2><p id="uf-sub"></p></div>
+            <div class="segmentado" id="uf-metrica" role="radiogroup" aria-label="Medida">
+              <button data-v="abs" aria-pressed="true">Veículos</button>
+              <button data-v="hab" aria-pressed="false">Por mil hab.</button>
+              <button data-v="frota" aria-pressed="false">% da frota</button>
+            </div>
+          </header>
+          <div id="uf-mapa" class="mapa"></div>
+          <p class="dica-fixa">Clique numa UF para filtrar as outras abas; clique de novo para tirar.</p>
+        </article>
+        <article class="painel">
+          <header class="painel-cab"><h2>Ranking</h2><p id="uf-rank-sub"></p></header>
+          <div class="legenda" id="uf-legenda"></div>
+          <div id="uf-ranking"></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="aba" id="aba-municipios" role="tabpanel" hidden>
+      <div class="cartoes" id="mun-cartoes"></div>
+      <article class="painel">
+        <header class="painel-cab linha">
+          <div><h2>Municípios</h2><p id="mun-sub"></p></div>
+          <input type="search" id="mun-busca" class="busca" placeholder="Buscar município" aria-label="Buscar município">
+        </header>
+        <div class="tabela-wrap" id="mun-tabela"></div>
+        <div class="acoes"><button class="botao-link" id="mun-mais">Mostrar mais</button><button class="botao-link" id="mun-csv">Baixar CSV</button></div>
+      </article>
+    </section>
+
+    <section class="aba" id="aba-modelos" role="tabpanel" hidden>
+      <div class="grade-2">
+        <article class="painel">
+          <header class="painel-cab"><h2>Marcas</h2><p id="marca-sub"></p></header>
+          <div class="legenda" id="marca-legenda"></div>
+          <div id="marca-grafico"></div>
+        </article>
+        <article class="painel">
+          <header class="painel-cab linha">
+            <div><h2>Modelos</h2><p id="modelo-sub"></p></div>
+            <input type="search" id="modelo-busca" class="busca" placeholder="Buscar modelo ou marca" aria-label="Buscar modelo ou marca">
+          </header>
+          <div class="tabela-wrap" id="modelo-tabela"></div>
+          <div class="acoes"><button class="botao-link" id="modelo-mais">Mostrar mais</button><button class="botao-link" id="modelo-csv">Baixar CSV</button></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="aba" id="aba-validacao" role="tabpanel" hidden>
+      <div class="cartoes" id="val-cartoes"></div>
+      <div class="grade-2">
+        <article class="painel">
+          <header class="painel-cab"><h2>Vendas da ABVE × crescimento da frota</h2><p>Carros leves, UFs informadas, por período e tecnologia</p></header>
+          <div class="tabela-wrap" id="val-tabela"></div>
+        </article>
+        <article class="painel">
+          <header class="painel-cab"><h2>Por UF</h2><p id="val-uf-sub"></p></header>
+          <div class="tabela-wrap rolagem" id="val-uf"></div>
+        </article>
+      </div>
+      <article class="painel notas">
+        <p>A ABVE publica <b>emplacamentos</b>; a base mede a <b>frota registrada</b>. Como a baixa de eletrificados quase não aparece no RENAVAM, o crescimento da frota num período deve ficar perto das vendas. A coluna <b>rótulo atual</b> refaz as vendas da ABVE com todo o histórico na classificação mais recente de cada modelo: a ABVE muda o rótulo de alguns modelos (por exemplo, de híbrido para híbrido leve 48 V) sem reescrever os anos anteriores.</p>
+      </article>
+    </section>
+
+    <section class="aba" id="aba-dados" role="tabpanel" hidden>
+      <div class="grade-2">
+        <article class="painel">
+          <header class="painel-cab"><h2>Dados tratados</h2><p>Tabelas publicadas em <code>resultados/</code>; CSV com <code>;</code> e vírgula decimal (abre no Excel), Parquet para Power BI, R ou Python</p></header>
+          <div class="tabela-wrap rolagem" id="dados-tratados"></div>
+        </article>
+        <article class="painel">
+          <header class="painel-cab"><h2>Arquivos originais da SENATRAN</h2><p>O arquivo mensal lido em cada base, com link para a fonte</p></header>
+          <div class="tabela-wrap rolagem" id="dados-brutos"></div>
+        </article>
+      </div>
+      <article class="painel notas">
+        <h2>Como a base é feita</h2>
+        <p><b>Fonte.</b> Dois arquivos mensais da SENATRAN, extraídos do RENAVAM: frota por UF, município e combustível; e frota por UF, município, marca/modelo e ano de fabricação (~22 milhões de linhas por mês). Ambos contam a frota <b>registrada</b>, que inclui veículos que já não circulam e não foram baixados.</p>
+        <p><b>Tecnologia.</b> O painel usa a base por modelo: cada texto de marca/modelo do RENAVAM recebe uma classe por regra, conferida contra a tabela PBE Veicular do Inmetro e contra os emplacamentos da ABVE. O tipo de veículo (leve, moto, ônibus, caminhão) vem do PBE ou de regras próprias.</p>
+        <p><b>Sem UF.</b> Parte da frota vem sem UF ("Sem Informação"). Nos eletrificados, esse grupo tem perfil de estoque ainda não emplacado (quase todo sem ano de fabricação e concentrado em lançamentos), e por isso fica fora por padrão. O filtro "Incluir sem UF" o soma de volta.</p>
+        <p>Documentação completa: <a id="link-leiame" href="#">LEIAME</a>, <a id="link-dicionario" href="#">dicionário de dados</a> e <a id="link-repo" href="#">repositório</a>.</p>
+      </article>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <span>Fonte: SENATRAN (RENAVAM), tratado no db-demob. ABVE: BI Frotas. Inmetro: PBE Veicular. IBGE: estimativas de população.</span>
+    <span id="gerado"></span>
+  </footer>
+</div>
+<div class="tooltip" id="tooltip" role="status" hidden></div>
+<script>/*__D3__*/</script>
+<script>/*__DADOS__*/</script>
+<script>/*__APP__*/</script>
+</body>
+</html>

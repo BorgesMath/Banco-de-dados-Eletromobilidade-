@@ -3,7 +3,9 @@
 Base de eletromobilidade construída a partir da frota de veículos da SENATRAN
 (RENAVAM): quantos veículos elétricos, híbridos plug-in e híbridos há em cada
 município, UF e no Brasil, mês a mês, tratada, conferida e documentada. O
-produto são as tabelas de [`resultados/`](resultados/LEIAME.md).
+produto são as tabelas de [`resultados/`](resultados/LEIAME.md), que o
+[painel web](https://borgesmath.github.io/Banco-de-dados-Eletromobilidade-/) apresenta com filtros por UF, município, tipo de veículo
+e tecnologia.
 
 ## Fontes
 
@@ -33,6 +35,9 @@ data/processed/   todas as tabelas, Parquet e CSV            (fora do git)
    │  eletromobilidade publicar
    ▼
 resultados/       painéis, auditorias, LEIAME e DICIONARIO   (versionado)
+   │  eletromobilidade painel
+   ▼
+painel/           painel web, HTML único com os dados        (versionado; GitHub Pages)
 ```
 
 | Pasta | O que tem | Leia |
@@ -40,6 +45,7 @@ resultados/       painéis, auditorias, LEIAME e DICIONARIO   (versionado)
 | [`src/eletromobilidade/`](src/eletromobilidade/README.md) | O pacote Python: CLI, pipeline, qualidade dos arquivos, conciliação | Uso, módulos, saídas |
 | [`src/eletromobilidade/dados/`](src/eletromobilidade/dados/README.md) | Regras e tabelas de referência: combustível, modelo, tipo, marca, município, população, PBE | Como cada coisa é classificada e por quê |
 | [`resultados/`](resultados/LEIAME.md) | O que o projeto publica. `LEIAME.md` e `DICIONARIO.md` são gerados por `publicar` | Cobertura e colunas |
+| [`painel/`](https://borgesmath.github.io/Banco-de-dados-Eletromobilidade-/) | O painel web, gerado de `resultados/` por `painel`, e a lista dos arquivos da SENATRAN usados em cada mês | Abra no navegador |
 | [`tests/`](tests/README.md) | Testes do pacote e das tabelas publicadas | Como rodar |
 | [`docs/`](docs/README.md) | Roteiro e apresentações | O que falta e o que a base sustenta |
 | [`data/`](data/README.md) | Arquivos brutos, cache e saídas locais | Layout |
@@ -207,6 +213,7 @@ eletromobilidade baixar --tabela marca_modelo --anos 2026 --meses 9
 eletromobilidade abve              # vendas da ABVE até o último mês da base por modelo
 eletromobilidade -v processar      # data/raw -> data/processed, com a validação
 eletromobilidade publicar          # data/processed -> resultados/
+eletromobilidade painel            # resultados/ -> painel/index.html
 pytest
 ```
 

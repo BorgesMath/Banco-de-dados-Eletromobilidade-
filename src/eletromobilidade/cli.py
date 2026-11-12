@@ -9,6 +9,7 @@ Exemplos::
     eletromobilidade abve
     eletromobilidade validar
     eletromobilidade publicar
+    eletromobilidade painel
     eletromobilidade pbev tabela-pbev-2026.pdf --ciclo 2026
     eletromobilidade municipios
     eletromobilidade populacao
@@ -31,6 +32,7 @@ from .leitura import identificar_tabela, inferir_periodo
 from .modelos import carregar_regras, marcas_suspeitas
 from .municipios import baixar_municipios_ibge, dimensao_municipio, gravar_municipios, sem_codigo
 from .populacao import baixar_estimativas, gravar_populacao
+from .painel import gerar_painel
 from .publicacao import publicar
 from .validacao import validar
 
@@ -39,6 +41,7 @@ ABVE = RAW / "abve"
 PROCESSED = Path("data/processed")
 CACHE = Path("data/interim/marca_modelo")
 RESULTADOS = Path("resultados")
+PAINEL = Path("painel/index.html")
 INICIO_SERIE = "2020-01"
 
 
@@ -177,6 +180,10 @@ def _publicar(args) -> None:
         print(caminho)
 
 
+def _painel(args) -> None:
+    print(gerar_painel(args.entrada, args.saida, args.atualizar_fontes, cache_ckan=RAW / coleta.ARQUIVO_CACHE_CKAN))
+
+
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(prog="eletromobilidade", description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -247,6 +254,13 @@ def main(argv: list[str] | None = None) -> None:
     p.add_argument("--entrada", type=Path, default=PROCESSED)
     p.add_argument("--saida", type=Path, default=RESULTADOS)
     p.set_defaults(func=_publicar)
+
+    p = sub.add_parser("painel", help="gera o painel web (painel/index.html) a partir de resultados/")
+    p.add_argument("--entrada", type=Path, default=RESULTADOS)
+    p.add_argument("--saida", type=Path, default=PAINEL)
+    p.add_argument("--atualizar-fontes", action="store_true",
+                   help="refaz a lista de arquivos da SENATRAN (painel/fontes.json); exige rede")
+    p.set_defaults(func=_painel)
 
     args = parser.parse_args(argv)
     logging.basicConfig(level=logging.INFO if args.verbose else logging.WARNING,

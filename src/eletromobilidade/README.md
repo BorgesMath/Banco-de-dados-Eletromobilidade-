@@ -24,6 +24,7 @@ tabelas de referência que o pacote lê estão em [`dados/`](dados/README.md).
 | `abve.py` | Cliente da API pública do BI Frotas da ABVE: vendas por período, UF, modelo e tecnologia |
 | `validacao.py` | Base por modelo contra a ABVE (tecnologia, UF, marca, modelo), contra o PBE e o grupo sem UF |
 | `publicacao.py` | Cópia para `resultados/` e geração do `LEIAME.md` e do `DICIONARIO.md` |
+| `painel.py` | Painel web (`painel/index.html`): HTML único com os dados de `resultados/` embutidos; página, estilo e D3 em `painel_web/` |
 | `texto.py`, `ufs.py` | Normalização de texto e tabela de UFs |
 
 ## Linha de comando
@@ -47,6 +48,10 @@ eletromobilidade validar
 
 # 5. publicar painéis, conciliação, validação e auditorias em resultados/ (versionado)
 eletromobilidade publicar
+
+# 6. gerar o painel web a partir de resultados/ (painel/index.html, publicado no GitHub Pages);
+#    --atualizar-fontes refaz a lista de links da SENATRAN (painel/fontes.json), que exige rede
+eletromobilidade painel --atualizar-fontes
 
 # extrair a tabela PBE Veicular do Inmetro de um PDF de ciclo (só quando sai ciclo novo)
 eletromobilidade pbev tabela-pbev-2026.pdf --ciclo 2026
