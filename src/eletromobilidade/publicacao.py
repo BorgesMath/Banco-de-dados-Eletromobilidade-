@@ -32,6 +32,7 @@ PUBLICADAS = {
     "modelo_eletrificados": ("parquet", "Base por modelo: eletrificados e híbridos leves por município, modelo e ano de fabricação."),
     "modelo_tipo_brasil": ("csv", "Base por modelo: eletrificados e híbridos leves por tipo de veículo (leve, moto, ônibus, caminhão, outros), Brasil, por mês. Use participacao_tipo; a contagem absoluta herda a diferença para a base por combustível."),
     "modelo_tipo_uf": ("csv", "Idem, por UF."),
+    "modelo_tipo_classe_ufs_validas": ("csv", "Base por modelo: frota por mês, tipo de veículo e classe, Brasil só com as UFs válidas (sem o grupo 'Sem Informação', que nos eletrificados é estoque ainda não emplacado). Uma linha por classe; participacao_classe dá a composição por tecnologia de cada tipo."),
     "modelos_classificados": ("parquet", "Auditoria: cada modelo, classe, regra aplicada, total, marca, marcação 'revisar' e confronto com a tabela PBE Veicular do Inmetro."),
     "modelos_dimensao": ("parquet", "Dimensão de marca e modelo: grafia do RENAVAM, marca canônica e origem, por modelo distinto."),
     "municipios_dimensao": ("parquet", "Dimensão de município: código IBGE, nome oficial, UF e as grafias com que a SENATRAN publicou o município na série."),
@@ -353,6 +354,8 @@ _COLUNAS = {
     "tipo_aviso": "'pbe_diverge' quando a regra dá tipo não leve a um modelo que está no PBE Veicular. Vazio "
                   "quando não há divergência.",
     "participacao_tipo": "Parte do tipo na frota eletrificada do recorte no mês (fração entre 0 e 1).",
+    "participacao_classe": "Parte da classe na frota eletrificada do tipo no mês (fração entre 0 e 1). Nula no "
+                           "híbrido leve, que não é eletrificado.",
     "primeiro_mes": "Primeiro mês em que o rótulo aparece na série.",
     "ultimo_mes": "Último mês em que o rótulo aparece na série.",
     "frota_total": "Frota total do recorte (todas as classes).",

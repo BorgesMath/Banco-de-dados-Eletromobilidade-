@@ -3,6 +3,7 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
+from conftest import LINHAS_MARCA_MODELO_JAN, escrever_marca_modelo_zip
 from eletromobilidade.base_modelo import CLASSES_DETALHE, processar_arquivos_modelo
 from eletromobilidade.tipos import carregar_regras_tipo, classificar_tipo
 
@@ -124,3 +125,19 @@ def test_resultados_paineis_por_tipo_fecham_com_o_detalhe():
     colunas = [c for c in brasil.columns if c.startswith("frota_") and c != "frota_eletrificada"]
     assert (brasil.groupby(["ano", "mes"])[colunas].sum().sum(axis=1) == soma).all()
     assert brasil.groupby(["ano", "mes"])["participacao_tipo"].sum().values == pytest.approx(1.0)
+
+
+def test_tipo_classe_ufs_validas_deixa_o_grupo_sem_uf_de_fora(tmp_path):
+    linhas = LINHAS_MARCA_MODELO_JAN + [("Sem Informação", "Sem Informação", "I/BYD DOLPHIN GS 180EV",
+                                         "Sem Informação", 40)]
+    caminho = escrever_marca_modelo_zip(tmp_path / "I_Frota_por_UF_Municipio_Marca_e_Modelo_Ano_Janeiro_2026.zip",
+                                        linhas)
+    tabelas = processar_arquivos_modelo([caminho])
+    tabela = tabelas["modelo_tipo_classe_ufs_validas"].set_index("classe")
+    assert set(tabela.index) == set(CLASSES_DETALHE) and tabela["tipo"].eq("leve").all()
+    # Dolphin 90 + Tesla 8 + E-Kwid 10; os 40 sem UF ficam só no painel do Brasil
+    assert tabela.loc["eletrico", "frota"] == 108
+    assert tabelas["modelo_tipo_brasil"]["frota_eletrico"].item() == 148
+    assert tabela.loc["eletrico", "participacao_classe"] == pytest.approx(108 / 183)
+    assert tabela["participacao_classe"].sum() == pytest.approx(1.0)
+    assert pd.isna(tabela.loc["hibrido_leve", "participacao_classe"]) and tabela.loc["hibrido_leve", "frota"] == 12

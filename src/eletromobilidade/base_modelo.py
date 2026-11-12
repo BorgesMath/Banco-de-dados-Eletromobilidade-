@@ -10,7 +10,8 @@ guardam-se apenas agregados:
 
 Produtos: ``modelo_eletrificados``, ``modelo_{municipio,uf,brasil}``,
 ``modelo_tipo_{uf,brasil}`` (frota do detalhe por tipo de veículo, ver
-``tipos.py``) e ``modelos_classificados``.
+``tipos.py``), ``modelo_tipo_classe_ufs_validas`` (idem por classe, sem o grupo
+sem UF) e ``modelos_classificados``.
 
 Os agregados de cada arquivo podem ser guardados num diretório de cache: um mês
 já processado com as mesmas regras não é relido (útil para séries longas, em
@@ -184,6 +185,7 @@ def processar_arquivos_modelo(caminhos: list[Path], regras: pd.DataFrame | None 
         "modelo_eletrificados": eletrificados,
         **paineis(totais, "modelo", CLASSES_MODELO, CLASSES_ELETRIFICADAS_MODELO),
         **paineis_tipo(eletrificados),
+        "modelo_tipo_classe_ufs_validas": tipo_classe_ufs_validas(eletrificados),
         "modelos_classificados": modelos.sort_values(
             ["ano", "mes", "classe", "qtd_veiculos"], ascending=[True, True, True, False]
         ).reset_index(drop=True),
@@ -215,3 +217,24 @@ def paineis_tipo(eletrificados: pd.DataFrame) -> dict[str, pd.DataFrame]:
         tabela["participacao_tipo"] = tabela["frota_eletrificada"] / total.where(total > 0)
         resultado[f"modelo_tipo_{nivel}"] = tabela
     return resultado
+
+
+def tipo_classe_ufs_validas(eletrificados: pd.DataFrame) -> pd.DataFrame:
+    """Frota do detalhe por mês, tipo de veículo e classe, Brasil só com as UFs válidas.
+
+    Uma linha por classe, para filtrar e comparar tecnologias. O grupo sem UF
+    ('Sem Informação') fica de fora: nos eletrificados é estoque ainda não
+    emplacado, e o painel do Brasil o inclui. ``participacao_classe`` é a parte da
+    classe na frota eletrificada do tipo no mês; nula no híbrido leve, que não é
+    eletrificado.
+    """
+    chave = CHAVE_TEMPO + ["tipo"]
+    tabela = (eletrificados.dropna(subset=["uf_sigla"])
+              .groupby(chave + ["classe"], dropna=False, observed=True)["qtd_veiculos"].sum()
+              .unstack("classe", fill_value=0)
+              .reindex(columns=list(CLASSES_DETALHE), fill_value=0)
+              .stack().rename("frota").astype("int64").reset_index())
+    eletrificada = tabela["classe"].isin(CLASSES_ELETRIFICADAS_MODELO)
+    total = tabela["frota"].where(eletrificada, 0).groupby([tabela[c] for c in chave], dropna=False).transform("sum")
+    tabela["participacao_classe"] = (tabela["frota"] / total.where(total > 0)).where(eletrificada)
+    return tabela

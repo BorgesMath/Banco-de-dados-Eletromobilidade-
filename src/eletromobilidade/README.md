@@ -172,6 +172,7 @@ Parquet. `publicar` copia para `resultados/` as que vão para o repositório.
 | `modelo_eletrificados` | mês × município × modelo × ano de fabricação | Modelos eletrificados e híbridos leves |
 | `modelo_{municipio,uf,brasil}` | mês × recorte | Painel da base por modelo |
 | `modelo_tipo_{uf,brasil}` | mês × recorte × tipo de veículo | Eletrificados e híbridos leves por tipo, com a parte de cada tipo |
+| `modelo_tipo_classe_ufs_validas` | mês × tipo de veículo × classe | Idem, uma linha por classe, Brasil só com as UFs válidas, com a parte de cada classe no tipo |
 | `modelos_classificados` | mês × modelo | Auditoria: classe, regra aplicada, total, `revisar`, marca, PBE, tipo |
 | `modelos_dimensao` | modelo | Dimensão de modelo: grafia do RENAVAM, marca canônica, origem |
 | `conciliacao_{municipio,uf,brasil}` | mês × recorte | Comparação entre as duas bases |
