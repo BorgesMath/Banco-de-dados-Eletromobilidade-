@@ -299,6 +299,20 @@ Idem, por UF.
 | `frota_eletrificada` | inteiro | Soma de eletrico, hibrido_plug_in, hibrido e celula_combustivel (sem hibrido_leve). |
 | `participacao_tipo` | decimal | Parte do tipo na frota eletrificada do recorte no mês (fração entre 0 e 1). |
 
+### `modelo_tipo_classe_ufs_validas.csv`
+
+Base por modelo: frota por mês, tipo de veículo e classe, Brasil só com as UFs válidas (sem o grupo 'Sem Informação', que nos eletrificados é estoque ainda não emplacado). Uma linha por classe; participacao_classe dá a composição por tecnologia de cada tipo.
+
+| Coluna | Tipo | Descrição |
+|---|---|---|
+| `ano` | inteiro | Ano do mês de referência do arquivo mensal. |
+| `mes` | inteiro | Mês de referência (1 a 12). |
+| `data_referencia` | data | Primeiro dia do mês de referência (para eixos de tempo). |
+| `tipo` | texto | Tipo de veículo do modelo: leve (automóvel, SUV, picape, van), moto (inclui motoneta, ciclomotor e triciclo), onibus, caminhao ou outros. Só para eletrificados e híbridos leves; nulo quando o modelo não tem regra em dados/tipos.csv nem está no PBE Veicular. |
+| `classe` | texto | Classe de tecnologia atribuída (ver a tabela de classes). |
+| `frota` | inteiro | Frota da classe no mês. |
+| `participacao_classe` | decimal | Parte da classe na frota eletrificada do tipo no mês (fração entre 0 e 1). Nula no híbrido leve, que não é eletrificado. |
+
 ### `modelos_classificados.parquet`
 
 Auditoria: cada modelo, classe, regra aplicada, total, marca, marcação 'revisar' e confronto com a tabela PBE Veicular do Inmetro.

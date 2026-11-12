@@ -1,6 +1,6 @@
 # Resultados
 
-Gerado por `eletromobilidade publicar` a partir de `data/processed` em 2026-11-10 19:48 UTC (código no commit `e9069bf`). Não edite à mão: rode `processar` e `publicar` de novo.
+Gerado por `eletromobilidade publicar` a partir de `data/processed` em 2026-11-12 17:29 UTC (código no commit `095a737`). Não edite à mão: rode `processar` e `publicar` de novo.
 
 ## Cobertura
 
@@ -76,6 +76,7 @@ Contra o PBE Veicular do Inmetro (set/2026): 78,9% da frota eletrificada casa co
 | `modelo_eletrificados.parquet` | 4.984.585 | Base por modelo: eletrificados e híbridos leves por município, modelo e ano de fabricação. |
 | `modelo_tipo_brasil.csv` | 399 | Base por modelo: eletrificados e híbridos leves por tipo de veículo (leve, moto, ônibus, caminhão, outros), Brasil, por mês. Use participacao_tipo; a contagem absoluta herda a diferença para a base por combustível. |
 | `modelo_tipo_uf.csv` | 5.982 | Idem, por UF. |
+| `modelo_tipo_classe_ufs_validas.csv` | 1.995 | Base por modelo: frota por mês, tipo de veículo e classe, Brasil só com as UFs válidas (sem o grupo 'Sem Informação', que nos eletrificados é estoque ainda não emplacado). Uma linha por classe; participacao_classe dá a composição por tecnologia de cada tipo. |
 | `modelos_classificados.parquet` | 2.646.634 | Auditoria: cada modelo, classe, regra aplicada, total, marca, marcação 'revisar' e confronto com a tabela PBE Veicular do Inmetro. |
 | `modelos_dimensao.parquet` | 1.236 | Dimensão de marca e modelo: grafia do RENAVAM, marca canônica e origem, por modelo distinto. |
 | `municipios_dimensao.parquet` | 5.574 | Dimensão de município: código IBGE, nome oficial, UF e as grafias com que a SENATRAN publicou o município na série. |
