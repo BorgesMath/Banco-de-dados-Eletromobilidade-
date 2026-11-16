@@ -42,9 +42,9 @@
     classes: new Set(ELETRIFICADAS), semUF: false });
   const S = Object.assign(PADRAO(), { aba: "inicio", modoEvo: "abs", metricaUF: "abs", metricaMun: "hab", limiteMun: 50, limiteMod: 50,
     buscaMun: "", buscaMod: "", ordMun: ["v", -1], ordMod: ["v", -1], tabelaEvo: false });
-  const ABAS = ["inicio", "evolucao", "estados", "municipios", "modelos", "validacao", "dados"];
+  const ABAS = ["inicio", "evolucao", "estados", "municipios", "modelos", "validacao", "dados", "faq"];
   const FILTROS = { inicio: [], evolucao: ["periodo", "uf", "tipo", "classe", "semuf"], estados: ["mes", "tipo", "classe", "semuf-nota"],
-    municipios: ["uf", "tipo", "classe"], modelos: ["uf", "tipo", "classe", "semuf"], validacao: [], dados: [] };
+    municipios: ["uf", "tipo", "classe"], modelos: ["uf", "tipo", "classe", "semuf"], validacao: [], dados: [], faq: [] };
 
   // o grupo sem UF não pertence a UF nem a região: só entra com o Brasil inteiro
   const ufAtiva = (u) => (u === SU ? S.semUF && S.ufs.size === 0 : S.ufs.size === 0 || S.ufs.has(u));
@@ -291,7 +291,7 @@
   }
   const DESENHOS = {
     inicio: desenharInicio, evolucao: desenharEvolucao, estados: desenharEstados, municipios: desenharMunicipios,
-    modelos: desenharModelos, validacao: desenharValidacao, dados: desenharDados,
+    modelos: desenharModelos, validacao: desenharValidacao, dados: desenharDados, faq: () => {},
   };
   function atualizar() { esconderDica(); sincronizarFiltros(); DESENHOS[S.aba](); }
 
@@ -708,6 +708,30 @@
     document.getElementById("link-dicionario").href = doc("DICIONARIO.md");
     document.getElementById("link-repo").href = D.meta.repositorio;
   }
+
+  // ---------- dúvidas ----------
+  const CONTATO = "demob@mme.gov.br";
+  document.getElementById("faq-lista").href = `${D.meta.repositorio}/issues`;
+  document.getElementById("duvida-texto").addEventListener("input", () => { document.getElementById("duvida-aviso").hidden = true; });
+  document.querySelector("#duvida-form .envio").addEventListener("click", (ev) => {
+    const b = ev.target.closest("button[data-via]");
+    if (!b) return;
+    const campo = (id) => document.getElementById(id).value.trim();
+    const texto = campo("duvida-texto"), contexto = campo("duvida-contexto");
+    document.getElementById("duvida-aviso").hidden = Boolean(texto);
+    if (!texto) { document.getElementById("duvida-texto").focus(); return; }
+    const titulo = "Dúvida sobre o painel: " + texto.split("\n")[0].slice(0, 60);
+    if (b.dataset.via === "github") {
+      // issue é pública: nome e e-mail ficam de fora
+      const corpo = (contexto ? `**Aba e filtros:** ${contexto}\n\n` : "") + texto;
+      window.open(`${D.meta.repositorio}/issues/new?title=${encodeURIComponent(titulo)}&body=${encodeURIComponent(corpo)}`, "_blank", "noopener");
+    } else {
+      const dados = [["Aba e filtros", contexto], ["Nome", campo("duvida-nome")], ["E-mail", campo("duvida-email")]]
+        .filter(([, v]) => v).map(([k, v]) => `${k}: ${v}`);
+      const corpo = dados.length ? `${texto}\n\n${dados.join("\n")}` : texto;
+      location.href = `mailto:${CONTATO}?subject=${encodeURIComponent(titulo)}&body=${encodeURIComponent(corpo)}`;
+    }
+  });
 
   // ---------- início ----------
   document.getElementById("cobertura").textContent = `${rotMes(MESES[0])} a ${rotMes(MESES[ULTIMO])}`;

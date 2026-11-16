@@ -21,8 +21,9 @@
     <button role="tab" data-aba="estados">Estados</button>
     <button role="tab" data-aba="municipios">Municípios</button>
     <button role="tab" data-aba="modelos">Marcas e modelos</button>
-    <button role="tab" data-aba="validacao">Validação</button>
+    <button role="tab" data-aba="validacao" class="interna">Validação (interna)</button>
     <button role="tab" data-aba="dados">Dados</button>
+    <button role="tab" data-aba="faq">Dúvidas</button>
   </nav>
 
   <section class="filtros" id="filtros" aria-label="Filtros"></section>
@@ -172,6 +173,34 @@
         <p><b>Sem UF.</b> Parte da frota vem sem UF ("Sem Informação"). Nos eletrificados, esse grupo tem perfil de estoque ainda não emplacado (quase todo sem ano de fabricação e concentrado em lançamentos), e por isso fica fora por padrão. O filtro "Incluir sem UF" o soma de volta.</p>
         <p>Documentação completa: <a id="link-leiame" href="#">LEIAME</a>, <a id="link-dicionario" href="#">dicionário de dados</a> e <a id="link-repo" href="#">repositório</a>.</p>
       </article>
+    </section>
+
+    <section class="aba" id="aba-faq" role="tabpanel" hidden>
+      <div class="grade-2">
+        <article class="painel">
+          <header class="painel-cab"><h2>Envie sua dúvida</h2><p>Perguntas, erros nos dados e sugestões sobre o painel</p></header>
+          <form class="formulario" id="duvida-form">
+            <label class="campo"><span>Nome</span><input type="text" id="duvida-nome" autocomplete="name"></label>
+            <label class="campo"><span>E-mail para resposta</span><input type="email" id="duvida-email" autocomplete="email"></label>
+            <label class="campo"><span>Aba e filtros (se for sobre um número)</span><input type="text" id="duvida-contexto" placeholder="Ex.: Municípios, UF = DF, só elétricos"></label>
+            <label class="campo"><span>Mensagem</span><textarea id="duvida-texto" rows="7" required></textarea></label>
+            <p class="aviso" id="duvida-aviso" hidden>Escreva a mensagem antes de enviar.</p>
+            <div class="acoes envio">
+              <button type="button" class="botao" data-via="email">Enviar por e-mail</button>
+              <button type="button" class="botao secundario" data-via="github">Enviar pelo GitHub</button>
+            </div>
+            <p class="dica-fixa">"Enviar por e-mail" abre o seu programa de e-mail com a mensagem pronta para demob@mme.gov.br. "Enviar pelo GitHub" registra a mensagem como <i>issue</i> pública no repositório e exige conta no GitHub.</p>
+          </form>
+        </article>
+        <article class="painel">
+          <header class="painel-cab"><h2>Contato</h2><p>DEMOB / Ministério de Minas e Energia</p></header>
+          <dl class="contato">
+            <dt>E-mail</dt><dd><a href="mailto:demob@mme.gov.br">demob@mme.gov.br</a></dd>
+            <dt>Telefone</dt><dd><a href="tel:+556120325688">(61) 2032-5688</a></dd>
+            <dt>GitHub</dt><dd><a id="faq-lista" href="#" target="_blank" rel="noopener">Dúvidas já enviadas</a></dd>
+          </dl>
+        </article>
+      </div>
     </section>
   </main>
 

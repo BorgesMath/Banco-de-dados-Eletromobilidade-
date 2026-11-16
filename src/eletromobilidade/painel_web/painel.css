@@ -10,6 +10,8 @@
   --borda: rgba(11, 11, 11, 0.10);
   --destaque: #1f4e79;
   --destaque-suave: #e3ecf5;
+  --alerta: #b42318;
+  --alerta-suave: #fbe7e5;
   --lavagem: rgba(11, 11, 11, 0.04);
   --s-eletrico: #2a78d6;
   --s-hibrido_plug_in: #eb6834;
@@ -34,6 +36,10 @@
     --borda: rgba(255, 255, 255, 0.10);
     --destaque: #7fb2e5;
     --destaque-suave: #1d2a38;
+  --alerta: #f97066;
+  --alerta-suave: #3a1d1b;
+    --alerta: #f97066;
+    --alerta-suave: #3a1d1b;
     --lavagem: rgba(255, 255, 255, 0.05);
     --s-eletrico: #3987e5;
     --s-hibrido_plug_in: #d95926;
@@ -94,6 +100,9 @@ code { font-size: 0.92em; }
 }
 .abas button:hover { background: var(--destaque-suave); }
 .abas button[aria-selected="true"] { background: var(--destaque); color: var(--superficie); }
+.abas button.interna { color: var(--alerta); }
+.abas button.interna:hover { background: var(--alerta-suave); }
+.abas button.interna[aria-selected="true"] { background: var(--alerta); color: var(--superficie); }
 
 /* filtros */
 .filtros {
@@ -259,3 +268,21 @@ tr:hover td { background: var(--lavagem); }
 .destaques { margin-top: 16px; }
 .acoes .dica-fixa { margin: 4px 0 0; flex: 1; }
 .classes.linha { display: flex; flex-wrap: wrap; gap: 4px 14px; }
+.envio { align-items: center; margin-top: 16px; }
+.botao { display: inline-block; font-weight: 600; text-decoration: none; background: var(--destaque); color: var(--superficie); border-radius: 6px; padding: 8px 16px; }
+.botao:hover { opacity: 0.9; }
+.botao { font: inherit; font-weight: 600; border: 0; cursor: pointer; }
+.botao.secundario { background: var(--superficie); color: var(--destaque); border: 1px solid var(--destaque); }
+.formulario { display: grid; gap: 12px; margin-top: 12px; }
+.formulario input, .formulario textarea {
+  font: inherit; color: var(--tinta); background: var(--superficie);
+  border: 1px solid var(--borda); border-radius: 6px; padding: 7px 10px; width: 100%;
+}
+.formulario textarea { resize: vertical; }
+.formulario input:focus, .formulario textarea:focus { outline: 2px solid var(--destaque); outline-offset: 1px; }
+.formulario .envio { margin-top: 0; flex-wrap: wrap; }
+.aviso { margin: 0; color: var(--alerta); font-size: 13px; }
+.aviso[hidden] { display: none; }
+.contato { display: grid; grid-template-columns: max-content 1fr; gap: 8px 16px; margin: 14px 0 0; }
+.contato dt { font-size: 12px; font-weight: 600; color: var(--tinta-2); align-self: center; }
+.contato dd { margin: 0; font-size: 15px; }
